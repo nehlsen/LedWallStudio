@@ -5,6 +5,8 @@
 #include <QtWidgets/QGraphicsView>
 #include "BitmapEditorCanvas.h"
 
+class UdpConnector;
+
 /**
  * widget to edit one bitmap / not a stream of bitmaps / animations
  * display grid, provide color chooser, click to set color, etc
@@ -28,6 +30,8 @@ protected slots:
 protected:
     QGraphicsView *m_view;
     BitmapEditorCanvas *m_scene;
+
+    UdpConnector *m_connector;
 };
 
 #endif //LEDWALLSTUDIO_BITMAPEDITORWIDGET_H
