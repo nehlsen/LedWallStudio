@@ -8,6 +8,7 @@ add_executable(LedWallStudio
         SettingsDialog.cpp
         HttpConnector/HttpConnector.cpp
         HttpConnector/Config.cpp
+        LedWallConfigWidget.cpp
         )
 
 target_link_libraries(LedWallStudio Qt5::Widgets Qt5::Network)

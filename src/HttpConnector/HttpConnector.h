@@ -18,6 +18,7 @@ public:
     bool isConnected() const;
 
     LedWall::Config getConfig() const;
+    void setConfig(const LedWall::Config& config);
 
 public slots:
     void connectToWall();

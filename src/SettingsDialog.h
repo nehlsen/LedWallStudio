@@ -7,6 +7,7 @@ class QLineEdit;
 class QCheckBox;
 class QSpinBox;
 
+// configure local settings, like the host to connect to
 class SettingsDialog : public QDialog
 {
 Q_OBJECT

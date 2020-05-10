@@ -20,7 +20,7 @@ public:
     quint8 Brightness = 0;
 
     quint8 PowerOnResetMode = 0;
-    quint8 LedModeAutoRestore = 0;
+    qint8 LedModeAutoRestore = 0;
 
     QString MqttBroker;
     QString MqttDeviceTopic;

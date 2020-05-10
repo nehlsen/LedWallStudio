@@ -26,9 +26,17 @@ LedWall::Config LedWall::Config::fromJson(const QJsonDocument &jsonDocument)
 
 QJsonDocument LedWall::Config::toJson() const
 {
-    qDebug("TODO LedWall::Config::toJson");
-    // TODO
-    return QJsonDocument();
+    QJsonObject config;
+    config.insert("MatrixWidth", MatrixWidth);
+    config.insert("MatrixHeight", MatrixHeight);
+    config.insert("Brightness", Brightness);
+    config.insert("PowerOnResetMode", PowerOnResetMode);
+    config.insert("LedModeAutoRestore", LedModeAutoRestore);
+    config.insert("MqttBroker", MqttBroker);
+    config.insert("MqttDeviceTopic", MqttDeviceTopic);
+    config.insert("MqttGroupTopic", MqttGroupTopic);
+
+    return QJsonDocument(config);
 }
 
 bool LedWall::Config::isValid() const

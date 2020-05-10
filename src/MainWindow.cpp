@@ -3,9 +3,11 @@
 #include "UdpConnector.h"
 #include "HttpConnector/HttpConnector.h"
 #include "SettingsDialog.h"
+#include "LedWallConfigWidget.h"
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QColorDialog>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QDockWidget>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QSettings>
 
@@ -22,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     createMenu();
     createToolbars();
     setCentralWidget(m_view);
+    createConfigDock();
 
     QSettings settings;
     settings.beginGroup("MainWindow");
@@ -141,6 +144,16 @@ void MainWindow::createToolbars()
 
     addToolBar(colorsToolbar);
     addToolBar(connectionToolbar);
+}
+
+void MainWindow::createConfigDock()
+{
+    m_configWidget = new LedWallConfigWidget(m_httpConnector, this);
+
+    auto *configDock = new QDockWidget(tr("Config"), this);
+    configDock->setObjectName("configDock");
+    configDock->setWidget(m_configWidget);
+    addDockWidget(Qt::RightDockWidgetArea, configDock);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

@@ -23,6 +23,19 @@ LedWall::Config HttpConnector::getConfig() const
     return m_config;
 }
 
+void HttpConnector::setConfig(const LedWall::Config& config)
+{
+    QNetworkRequest request;
+    request.setUrl(QUrl("http://" + getHost() + LEDWALL_API_GET_CONFIG));
+    request.setRawHeader("User-Agent", "LedWallStudio 1.0");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    showProgressDialog();
+    QNetworkReply *reply = m_networkAccessManager->post(request, config.toJson().toJson());
+    connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
+            this, &HttpConnector::onHttpRequestError);
+}
+
 void HttpConnector::connectToWall()
 {
     requestConfig();

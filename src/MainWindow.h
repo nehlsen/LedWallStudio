@@ -7,6 +7,7 @@
 class BitmapEditorCanvas;
 class UdpConnector;
 class HttpConnector;
+class LedWallConfigWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -36,6 +37,9 @@ protected:
     void createToolbars();
     QAction *m_actionInstantUpdate;
     QAction *m_actionManualUpdate;
+
+    void createConfigDock();
+    LedWallConfigWidget *m_configWidget;
 
     void closeEvent(QCloseEvent *event) override;
 };
