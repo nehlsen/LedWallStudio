@@ -1,7 +1,6 @@
 #ifndef LEDWALLSTUDIO_UDPCONNECTOR_H
 #define LEDWALLSTUDIO_UDPCONNECTOR_H
 
-#include <QtCore/QObject>
 #include <QtNetwork/QUdpSocket>
 #include "Bitmap.h"
 

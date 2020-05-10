@@ -6,6 +6,7 @@
 
 class BitmapEditorCanvas;
 class UdpConnector;
+class HttpConnector;
 
 class MainWindow : public QMainWindow
 {
@@ -15,18 +16,26 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
 
 protected slots:
+    void onHttpConnectorConnectionChanged(bool isConnected);
+
     void onBitmapChanged();
     void onPickPrimaryColorTriggered();
     void onPickSecondaryColorTriggered();
     void showSettings();
+    void sendBitmap() const;
 
 protected:
+    void createCanvas();
     QGraphicsView *m_view;
     BitmapEditorCanvas *m_canvas;
-    UdpConnector *m_connector;
+
+    UdpConnector *m_udpConnector;
+    HttpConnector *m_httpConnector;
 
     void createMenu();
-    void createToolbar();
+    void createToolbars();
+    QAction *m_actionInstantUpdate;
+    QAction *m_actionManualUpdate;
 
     void closeEvent(QCloseEvent *event) override;
 };

@@ -10,6 +10,10 @@ BitmapEditorCanvas::BitmapEditorCanvas(QObject *parent) : QGraphicsScene(parent)
 
 void BitmapEditorCanvas::setSize(quint32 width, quint32 height)
 {
+    if (m_width == width && m_height == height) {
+        return;
+    }
+
     m_width = width;
     m_height = height;
     clearCanvas();
@@ -26,7 +30,7 @@ Bitmap BitmapEditorCanvas::getBitmap() const
             if (itemsAtPos.size() == 1) {
                 QGraphicsItem *itm = itemsAtPos.first();
                 auto *rect = qgraphicsitem_cast<QGraphicsRectItem *>(itm);
-                bitmap.insert(QPoint(x, y), rect->brush().color());
+                bitmap.insert(QPoint(x, m_height - 1 - y), rect->brush().color());
             }
         }
     }
