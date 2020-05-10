@@ -63,12 +63,15 @@ void BitmapEditorCanvas::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         return;
     }
 
-    rect->setBrush(QBrush(event->button() == Qt::LeftButton ? m_primaryColor : m_secondaryColor));
-    rect->update();
-
-    emit bitmapChanged();
-
-//    QGraphicsScene::mouseReleaseEvent(event);
+    if (event->button() == Qt::LeftButton && rect->brush() != m_primaryColor) {
+        rect->setBrush(QBrush(m_primaryColor));
+        rect->update();
+        emit bitmapChanged();
+    } else if (event->button() == Qt::RightButton && rect->brush() != m_secondaryColor) {
+        rect->setBrush(QBrush(m_secondaryColor));
+        rect->update();
+        emit bitmapChanged();
+    }
 }
 
 const QColor &BitmapEditorCanvas::getPrimaryColor() const

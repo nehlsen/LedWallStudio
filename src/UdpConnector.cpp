@@ -1,5 +1,8 @@
 #include "UdpConnector.h"
-#include <QtCore/QDebug>
+#include <QtCore/QSettings>
+//#include <QtCore/QDebug>
+
+#define UDP_CHUNK_SIZE 128
 
 UdpConnector::UdpConnector(QObject *parent) : QObject(parent)
 {
@@ -8,33 +11,19 @@ UdpConnector::UdpConnector(QObject *parent) : QObject(parent)
     connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onSocketError(QAbstractSocket::SocketError)));
     connect(m_socket, &QUdpSocket::connected, this, &UdpConnector::onSocketConnected);
 
-    m_socket->connectToHost("10.13.37.222", 47011);
+    auto host = QSettings().value("Settings/host", "ledwall.local").toString();
+    auto port = QSettings().value("Settings/udp_port", 47011).toInt();
+    m_socket->connectToHost(host, port);
 }
 
 void UdpConnector::sendBitmap(const Bitmap &bitmap)
 {
-    qDebug() << "sendBitmap";
-//    qDebug() << "socket state" << m_socket->state();
-
-    QColor aPixelsColor = bitmap[QPoint(0, 0)];
-
-    QByteArray pkt;
-    pkt.resize(7);
-    pkt[0] = 0x10; // protocol
-    pkt[1] = 0x00; // settings
-
-    pkt[2] = 0x00; // x
-    pkt[3] = 0x00; // y
-
-//    pkt[4] = 0xff; // r
-//    pkt[5] = 0x00; // g
-//    pkt[6] = 0xff; // b
-
-    pkt[4] = aPixelsColor.red();
-    pkt[5] = aPixelsColor.green();
-    pkt[6] = aPixelsColor.blue();
-
-    m_socket->write(pkt);
+    QByteArrayList chunks = bitmap.toPixelStreamChunked(UDP_CHUNK_SIZE);
+//    qDebug() << "sendBitmap," << chunks.size() << "chunks";
+    for (QByteArray chunk : chunks) {
+//        qDebug() << "CHUNK" << chunk;
+        m_socket->write(chunk); // TODO error handling ?!
+    }
 }
 
 void UdpConnector::onSocketConnected()
