@@ -10,10 +10,9 @@ BitmapEditorCanvas::BitmapEditorCanvas(QObject *parent) : QGraphicsScene(parent)
 
 void BitmapEditorCanvas::setSize(quint32 width, quint32 height)
 {
-    // FIXME reset current canvas
     m_width = width;
     m_height = height;
-    drawGrid();
+    clearCanvas();
 }
 
 Bitmap BitmapEditorCanvas::getBitmap() const
@@ -86,4 +85,12 @@ const QColor &BitmapEditorCanvas::getSecondaryColor() const
 void BitmapEditorCanvas::setSecondaryColor(const QColor &secondaryColor)
 {
     m_secondaryColor = secondaryColor;
+}
+
+void BitmapEditorCanvas::clearCanvas()
+{
+    clear();
+    drawGrid();
+
+    emit bitmapChanged();
 }

@@ -13,8 +13,8 @@ UdpConnector::UdpConnector(QObject *parent) : QObject(parent)
 
 void UdpConnector::sendBitmap(const Bitmap &bitmap)
 {
-    qDebug() << "sendBitmap";
-    qDebug() << "socket state" << m_socket->state();
+//    qDebug() << "sendBitmap";
+//    qDebug() << "socket state" << m_socket->state();
 
     QColor aPixelsColor = bitmap[QPoint(0, 0)];
 

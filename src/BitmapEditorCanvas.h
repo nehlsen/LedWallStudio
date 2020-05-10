@@ -23,14 +23,17 @@ public:
     Bitmap getBitmap() const;
 //    void setBitmap(const Bitmap& bitmap);
 
+public slots:
+    void clearCanvas();
+
 signals:
     void bitmapChanged();
     // TODO void bitmapChanged(x, y);
 
 protected:
     const qreal m_gridSize = 20;
-    quint32 m_width;
-    quint32 m_height;
+    quint32 m_width = 1;
+    quint32 m_height = 1;
 
     void drawGrid();
 

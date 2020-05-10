@@ -1,8 +1,12 @@
 #include "MainWindow.h"
 #include "BitmapEditorCanvas.h"
 #include "UdpConnector.h"
+#include "SettingsDialog.h"
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QColorDialog>
+#include <QtWidgets/QMenuBar>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QSettings>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -15,11 +19,41 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     m_connector = new UdpConnector(this);
 
+    createMenu();
     createToolbar();
-
     setCentralWidget(m_view);
 
-    // TODO restoreState
+    QSettings settings;
+    settings.beginGroup("MainWindow");
+    restoreState(settings.value("State").toByteArray());
+    restoreGeometry(settings.value("Geometry").toByteArray());
+}
+
+void MainWindow::createMenu()
+{
+    auto *clearCanvasAction = new QAction(tr("Clear Canvas"), this);
+    connect(clearCanvasAction, SIGNAL(triggered()), m_canvas, SLOT(clearCanvas()));
+
+    auto *settingsAction = new QAction(tr("&Settings"), this);
+    connect(settingsAction, SIGNAL(triggered()), this, SLOT(showSettings()));
+
+    auto *exitAction = new QAction(tr("E&xit"), this);
+    exitAction->setShortcuts(QKeySequence::Quit);
+    connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
+
+    auto *fileMenu = new QMenu(tr("&File"), this);
+    fileMenu->addAction(clearCanvasAction);
+    fileMenu->addAction(settingsAction);
+    fileMenu->addSeparator();
+    fileMenu->addAction(exitAction);
+    menuBar()->addMenu(fileMenu);
+
+    auto *aboutQtAction = new QAction(tr("About &Qt"), this);
+    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+
+    auto *helpMenu = new QMenu(tr("&Help"), this);
+    helpMenu->addAction(aboutQtAction);
+    menuBar()->addMenu(helpMenu);
 }
 
 void MainWindow::createToolbar()
@@ -54,4 +88,22 @@ void MainWindow::onPickSecondaryColorTriggered()
     if (color.isValid()) {
         m_canvas->setSecondaryColor(color);
     }
+}
+
+void MainWindow::showSettings()
+{
+    auto *settingsDlg = new SettingsDialog(this);
+    if (settingsDlg->exec() == QDialog::Accepted) {
+        // TODO react to changed settings
+    }
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    QSettings settings;
+    settings.beginGroup("MainWindow");
+    settings.setValue("State", saveState());
+    settings.setValue("Geometry", saveGeometry());
+
+    QWidget::closeEvent(event);
 }

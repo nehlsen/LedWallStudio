@@ -18,13 +18,17 @@ protected slots:
     void onBitmapChanged();
     void onPickPrimaryColorTriggered();
     void onPickSecondaryColorTriggered();
+    void showSettings();
 
 protected:
     QGraphicsView *m_view;
     BitmapEditorCanvas *m_canvas;
     UdpConnector *m_connector;
 
+    void createMenu();
     void createToolbar();
+
+    void closeEvent(QCloseEvent *event) override;
 };
 
 #endif //LEDWALLSTUDIO_MAINWINDOW_H

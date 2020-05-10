@@ -5,6 +5,7 @@ add_executable(LedWallStudio
         Bitmap.cpp
         UdpConnector.cpp
         MainWindow.cpp
+        SettingsDialog.cpp
         )
 
 target_link_libraries(LedWallStudio Qt5::Widgets Qt5::Network)
