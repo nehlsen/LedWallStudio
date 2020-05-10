@@ -1,6 +1,6 @@
 #include <QtWidgets/QApplication>
 #include <QtCore/QSettings>
-#include "BitmapEditorWidget.h"
+#include "MainWindow.h"
 
 int main(int argc, char* argv[])
 {
@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
 //     if (!settings.contains("mqtt/host")) settings.setValue("mqtt/host", "10.13.37.39");
 //     settings.sync();
 
-     auto *main = new BitmapEditorWidget();
+     auto *main = new MainWindow();
      main->resize(250, 250);
      main->show();
 

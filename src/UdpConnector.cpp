@@ -6,7 +6,6 @@ UdpConnector::UdpConnector(QObject *parent) : QObject(parent)
     m_socket = new QUdpSocket(this);
 
     connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onSocketError(QAbstractSocket::SocketError)));
-//    connect(m_socket, SIGNAL(connected()), this, SLOT(onSocketConnected()));
     connect(m_socket, &QUdpSocket::connected, this, &UdpConnector::onSocketConnected);
 
     m_socket->connectToHost("10.13.37.222", 47011);
