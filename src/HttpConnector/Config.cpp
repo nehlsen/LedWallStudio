@@ -14,7 +14,7 @@ LedWall::Config LedWall::Config::fromJson(const QJsonDocument &jsonDocument)
     config.MatrixHeight = jsonConfig.value("MatrixHeight").toInt();
     config.Brightness = jsonConfig.value("Brightness").toInt();
 
-    config.PowerOnResetMode = jsonConfig.value("PowerOnResetMode").toInt();
+    config.PowerOnResetMode = (AutoPowerOn)jsonConfig.value("PowerOnResetMode").toInt();
     config.LedModeAutoRestore = jsonConfig.value("LedModeAutoRestore").toInt();
 
     config.MqttBroker = jsonConfig.value("MqttBroker").toString();

@@ -19,7 +19,12 @@ public:
     quint8 MatrixHeight = 0;
     quint8 Brightness = 0;
 
-    quint8 PowerOnResetMode = 0;
+    enum AutoPowerOn {
+        ALWAYS_OFF = 0,
+        ALWAYS_ON = 1,
+        RECOVER_LAST = 2,
+    };
+    AutoPowerOn PowerOnResetMode = RECOVER_LAST;
     qint8 LedModeAutoRestore = 0;
 
     QString MqttBroker;

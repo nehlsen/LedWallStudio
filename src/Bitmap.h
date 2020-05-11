@@ -10,8 +10,6 @@ bool operator<(const QPoint &left, const QPoint &right);
 class Bitmap : public QMap<QPoint, QColor>
 {
 public:
-    // TODO size(QSize)
-
     // detect protocol itself
     static Bitmap fromRawData(const QByteArray &data);
     // protocol 0x10

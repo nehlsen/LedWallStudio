@@ -25,6 +25,8 @@ LedWall::Config HttpConnector::getConfig() const
 
 void HttpConnector::setConfig(const LedWall::Config& config)
 {
+    // TODO determine what config values have changed and send only those
+
     QNetworkRequest request;
     request.setUrl(QUrl("http://" + getHost() + LEDWALL_API_GET_CONFIG));
     request.setRawHeader("User-Agent", "LedWallStudio 1.0");
@@ -88,9 +90,13 @@ void HttpConnector::setIsConnected(bool isConnected)
 void HttpConnector::initProgressDialog()
 {
     m_progressDialog = new QProgressDialog(qobject_cast<QWidget*>(parent()));
+    m_progressDialog->setWindowModality(Qt::WindowModal);
     m_progressDialog->setMinimum(0);
     m_progressDialog->setMaximum(0);
+    m_progressDialog->setWindowTitle(tr("Connecting..."));
     m_progressDialog->setLabelText(tr("Connecting LedWall..."));
+
+    // FIXME cancel button is displayed and closes the dialog but has no meaningful function
 }
 
 void HttpConnector::showProgressDialog()
