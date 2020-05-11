@@ -28,7 +28,7 @@ public slots:
 
 signals:
     void bitmapChanged();
-    // TODO void bitmapChanged(x, y);
+    void bitmapChanged(const QPoint &gridCoordinates);
 
 protected:
     const qreal m_gridSize = 20;
@@ -39,6 +39,8 @@ protected:
 
     QColor m_primaryColor = Qt::red;
     QColor m_secondaryColor = Qt::black;
+
+    QPoint sceneToGridCoordinates(const QPointF sceneCoordinates) const;
 
     // TODO click and hold to colorize multiple pixels / draw...
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;

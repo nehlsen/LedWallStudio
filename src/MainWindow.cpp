@@ -89,7 +89,7 @@ void MainWindow::createCanvas()
     m_view = new QGraphicsView(this);
     m_canvas = new BitmapEditorCanvas(this);
     m_view->setScene(m_canvas);
-    connect(m_canvas, &BitmapEditorCanvas::bitmapChanged, this, &MainWindow::onBitmapChanged);
+    connect(m_canvas, SIGNAL(bitmapChanged()), this, SLOT(onBitmapChanged()));
 }
 
 void MainWindow::createMenu()

@@ -14,8 +14,9 @@ HttpConnector::HttpConnector(QWidget *parent): QObject(parent)
 
     initProgressDialog();
 
-    // TODO if auto-connect = true
-    QTimer::singleShot(0, this, &HttpConnector::connectToWall);
+    if (QSettings().value("Settings/auto_connect", true).toBool()) {
+        QTimer::singleShot(0, this, &HttpConnector::connectToWall);
+    }
 }
 
 LedWall::Config HttpConnector::getConfig() const
@@ -25,7 +26,9 @@ LedWall::Config HttpConnector::getConfig() const
 
 void HttpConnector::setConfig(const LedWall::Config& config)
 {
-    // TODO determine what config values have changed and send only those
+    if (m_config == config) {
+        return;
+    }
 
     QNetworkRequest request;
     request.setUrl(QUrl("http://" + getHost() + LEDWALL_API_GET_CONFIG));
@@ -33,7 +36,8 @@ void HttpConnector::setConfig(const LedWall::Config& config)
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     showProgressDialog();
-    QNetworkReply *reply = m_networkAccessManager->post(request, config.toJson().toJson());
+    qDebug() << "POST" << m_config.deltaAsJson(config).toJson();
+    QNetworkReply *reply = m_networkAccessManager->post(request, m_config.deltaAsJson(config).toJson());
     connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
             this, &HttpConnector::onHttpRequestError);
 }
@@ -50,7 +54,7 @@ bool HttpConnector::isConnected() const
 
 void HttpConnector::onHttpRequestFinished(QNetworkReply *reply)
 {
-    qDebug() << "onHttpRequestFinished" << reply->request().url();
+    qDebug() << "onHttpRequestFinished" << reply->error() << reply->request().url();
 
     if (reply->request().url().toString().endsWith(QString() + LEDWALL_API_GET_CONFIG)) {
         m_config = LedWall::Config::fromJson(QJsonDocument::fromJson(reply->readAll()));

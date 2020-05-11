@@ -17,13 +17,41 @@ LedWallConfigWidget::LedWallConfigWidget(HttpConnector *httpConnector, QWidget *
 
 void LedWallConfigWidget::loadConfig()
 {
-    m_editBrightness->setValue(m_httpConnector->getConfig().Brightness);
+    const LedWall::Config &cfg = m_httpConnector->getConfig();
+    m_editMatrixWidth->setValue(cfg.MatrixWidth);
+    m_editMatrixHeight->setValue(cfg.MatrixHeight);
+    m_editBrightness->setValue(cfg.Brightness);
+
+    m_comboPowerOnResetMode->setCurrentIndex(cfg.PowerOnResetMode); // FIXME to improve! index and PowerOnResetMode match by coincidence
+    if (cfg.LedModeAutoRestore == -1) {
+        m_checkRecoverLastMode->setChecked(true);
+    } else {
+        m_checkRecoverLastMode->setChecked(false);
+        // TODO select proper mode in m_comboModeToBootInto
+    }
+
+    m_editMqttBroker->setText(cfg.MqttBroker);
+    m_editMqttDeviceTopic->setText(cfg.MqttDeviceTopic);
+    m_editMqttGroupTopic->setText(cfg.MqttGroupTopic);
 }
 
 void LedWallConfigWidget::saveConfig()
 {
-    auto cfg = m_httpConnector->getConfig();
+    LedWall::Config cfg = m_httpConnector->getConfig();
+    cfg.MatrixWidth = m_editMatrixWidth->value();
+    cfg.MatrixHeight = m_editMatrixHeight->value();
     cfg.Brightness = m_editBrightness->value();
+
+    cfg.PowerOnResetMode = (LedWall::Config::AutoPowerOn)m_comboPowerOnResetMode->currentData().toInt();
+    if (m_checkRecoverLastMode->isChecked()) {
+        cfg.LedModeAutoRestore = -1;
+    } else {
+        // TODO get proper mode from m_comboModeToBootInto
+    }
+
+    cfg.MqttBroker = m_editMqttBroker->text();
+    cfg.MqttDeviceTopic = m_editMqttDeviceTopic->text();
+    cfg.MqttGroupTopic = m_editMqttGroupTopic->text();
 
     m_httpConnector->setConfig(cfg);
 }
@@ -71,6 +99,8 @@ void LedWallConfigWidget::createUi()
     btnSave->setText(tr("Save"));
     connect(btnSave, &QPushButton::clicked, this, &LedWallConfigWidget::saveConfig);
     layout->addRow(btnSave);
+
+    // TODO add reboot button
 
     setLayout(layout);
 }

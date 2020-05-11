@@ -67,10 +67,12 @@ void BitmapEditorCanvas::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         rect->setBrush(QBrush(m_primaryColor));
         rect->update();
         emit bitmapChanged();
+        emit bitmapChanged(sceneToGridCoordinates(event->scenePos()));
     } else if (event->button() == Qt::RightButton && rect->brush() != m_secondaryColor) {
         rect->setBrush(QBrush(m_secondaryColor));
         rect->update();
         emit bitmapChanged();
+        emit bitmapChanged(sceneToGridCoordinates(event->scenePos()));
     }
 }
 
@@ -92,6 +94,11 @@ const QColor &BitmapEditorCanvas::getSecondaryColor() const
 void BitmapEditorCanvas::setSecondaryColor(const QColor &secondaryColor)
 {
     m_secondaryColor = secondaryColor;
+}
+
+QPoint BitmapEditorCanvas::sceneToGridCoordinates(QPointF sceneCoordinates) const
+{
+    return {(int)(sceneCoordinates.x() / m_gridSize), (int)(sceneCoordinates.y() / m_gridSize)};
 }
 
 void BitmapEditorCanvas::clearCanvas()

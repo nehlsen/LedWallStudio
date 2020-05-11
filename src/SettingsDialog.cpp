@@ -8,6 +8,7 @@
 
 SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent)
 {
+    setWindowTitle(tr("Settings"));
     createUi();
     loadSettings();
 }

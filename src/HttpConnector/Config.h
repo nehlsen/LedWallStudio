@@ -10,8 +10,11 @@ namespace LedWall
 class Config
 {
 public:
+    bool operator==(const Config &other) const;
+
     static Config fromJson(const QJsonDocument &jsonDocument);
     QJsonDocument toJson() const;
+    QJsonDocument deltaAsJson(const Config &updatedConfig) const;
 
     bool isValid() const;
 
