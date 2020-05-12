@@ -24,5 +24,6 @@ void ModeConfigWidget::createUi()
 
     auto *layout = new QVBoxLayout;
     layout->addWidget(m_selectMode);
+    layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
 }

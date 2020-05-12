@@ -60,6 +60,7 @@ void LedWallConfigWidget::saveConfig()
 void LedWallConfigWidget::createUi()
 {
     auto *layout = new QFormLayout;
+    layout->setContentsMargins(0, 0, 0, 0);
 
     m_editMatrixWidth = new QSpinBox;
     m_editMatrixWidth->setRange(0, 255);
