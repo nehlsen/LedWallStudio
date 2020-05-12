@@ -5,6 +5,16 @@ bool operator<(const QPoint &left, const QPoint &right)
     return left.x() < right.x() ? true : left.y() < right.y();
 }
 
+QByteArray Bitmap::toPixelStream() const
+{
+    const QByteArrayList &chunkedStream = toPixelStreamChunked(count() * 5 + 2);
+    if (chunkedStream.length() != 1) {
+        return QByteArray();
+    }
+
+    return chunkedStream.first();
+}
+
 QByteArrayList Bitmap::toPixelStreamChunked(quint16 chunkSize) const
 {
     QList<QByteArray> chunks;
