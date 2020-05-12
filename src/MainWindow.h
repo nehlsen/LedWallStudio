@@ -8,6 +8,7 @@ class BitmapEditorCanvas;
 class UdpConnector;
 class HttpConnector;
 class LedWallConfigWidget;
+class ModeConfigWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -18,6 +19,7 @@ public:
 
 protected slots:
     void onHttpConnectorConnectionChanged(bool isConnected);
+    void onHttpConnectorConfigChanged();
 
     void onBitmapChanged();
     void onPickPrimaryColorTriggered();
@@ -38,7 +40,8 @@ protected:
     QAction *m_actionInstantUpdate;
     QAction *m_actionManualUpdate;
 
-    void createConfigDock();
+    void createDocks();
+    ModeConfigWidget *m_modeWidget;
     LedWallConfigWidget *m_configWidget;
 
     void closeEvent(QCloseEvent *event) override;

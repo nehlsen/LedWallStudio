@@ -4,6 +4,7 @@
 #include "HttpConnector/HttpConnector.h"
 #include "SettingsDialog.h"
 #include "LedWallConfigWidget.h"
+#include "LedWallModes/ModeConfigWidget.h"
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QColorDialog>
 #include <QtWidgets/QMenuBar>
@@ -20,11 +21,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     m_udpConnector = new UdpConnector(this);
     m_httpConnector = new HttpConnector(this);
     connect(m_httpConnector, &HttpConnector::connectionStatusChanged, this, &MainWindow::onHttpConnectorConnectionChanged);
+    connect(m_httpConnector, &HttpConnector::configChanged, this, &MainWindow::onHttpConnectorConfigChanged);
 
     createMenu();
     createToolbars();
     setCentralWidget(m_view);
-    createConfigDock();
+    createDocks();
 
     QSettings settings;
     settings.beginGroup("MainWindow");
@@ -37,9 +39,12 @@ void MainWindow::onHttpConnectorConnectionChanged(bool isConnected)
 {
     m_actionInstantUpdate->setEnabled(isConnected);
     m_actionManualUpdate->setEnabled(isConnected);
+}
 
+void MainWindow::onHttpConnectorConfigChanged()
+{
     QSettings settings;
-    if (isConnected && settings.value("Settings/autodetect_size", false).toBool()) {
+    if (settings.value("Settings/autodetect_size", false).toBool()) {
         m_canvas->setSize(m_httpConnector->getConfig().MatrixWidth, m_httpConnector->getConfig().MatrixHeight);
         settings.setValue("Settings/width", m_httpConnector->getConfig().MatrixWidth);
         settings.setValue("Settings/height", m_httpConnector->getConfig().MatrixHeight);
@@ -146,8 +151,15 @@ void MainWindow::createToolbars()
     addToolBar(connectionToolbar);
 }
 
-void MainWindow::createConfigDock()
+void MainWindow::createDocks()
 {
+    m_modeWidget = new ModeConfigWidget(m_httpConnector, this);
+
+    auto *modeDock = new QDockWidget(tr("Mode"), this);
+    modeDock->setObjectName("modeDock");
+    modeDock->setWidget(m_modeWidget);
+    addDockWidget(Qt::RightDockWidgetArea, modeDock);
+
     m_configWidget = new LedWallConfigWidget(m_httpConnector, this);
 
     auto *configDock = new QDockWidget(tr("Config"), this);

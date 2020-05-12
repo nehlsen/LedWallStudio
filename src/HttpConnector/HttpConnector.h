@@ -6,6 +6,7 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtWidgets/QProgressDialog>
 #include "Config.h"
+#include "Mode.h"
 
 class HttpConnector : public QObject
 {
@@ -20,6 +21,8 @@ public:
     LedWall::Config getConfig() const;
     void setConfig(const LedWall::Config& config);
 
+    LedWall::ModeList getModes() const;
+
 public slots:
     void connectToWall();
 
@@ -28,10 +31,15 @@ signals:
     void disconnected();
     void connectionStatusChanged(bool isConnected);
 
+    void configChanged();
+    void modesChanged();
+    void activeModeChanged(); // TODO emit this!
+
 protected slots:
     void onHttpRequestFinished(QNetworkReply *reply);
     void onHttpRequestError(QNetworkReply::NetworkError replyError);
     void requestConfig();
+    void requestModes();
 
 protected:
     QNetworkAccessManager *m_networkAccessManager;
@@ -39,6 +47,7 @@ protected:
     QString getHost() const;
 
     LedWall::Config m_config;
+    LedWall::ModeList m_modes;
 
     bool m_isConnected = false;
     void setIsConnected(bool isConnected);
@@ -49,6 +58,8 @@ protected:
     void showProgressDialog();
     // decreases pending requests and hides the progress dialog if pending requests reached zero
     void hideProgressDialog();
+
+    void apiGet(const QString &apiEndpoint);
 };
 
 #endif //LEDWALLSTUDIO_HTTPCONNECTOR_H

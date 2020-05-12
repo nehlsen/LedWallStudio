@@ -6,13 +6,14 @@
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QLineEdit>
 #include "HttpConnector/HttpConnector.h"
+#include "LedWallModes/ModesListModel.h"
 
 LedWallConfigWidget::LedWallConfigWidget(HttpConnector *httpConnector, QWidget *parent):
     QWidget(parent), m_httpConnector(httpConnector)
 {
     createUi();
     connect(m_httpConnector, &HttpConnector::connectionStatusChanged, this, &LedWallConfigWidget::setEnabled);
-    connect(m_httpConnector, &HttpConnector::connected, this, &LedWallConfigWidget::loadConfig);
+    connect(m_httpConnector, &HttpConnector::configChanged, this, &LedWallConfigWidget::loadConfig);
 }
 
 void LedWallConfigWidget::loadConfig()
@@ -79,7 +80,8 @@ void LedWallConfigWidget::createUi()
     layout->addRow(tr("Power on Reset"), m_comboPowerOnResetMode);
 
     m_checkRecoverLastMode = new QCheckBox(tr("Recover Last"));
-    m_comboModeToBootInto = new QComboBox; // TODO fill with available modes
+    m_comboModeToBootInto = new QComboBox;
+    m_comboModeToBootInto->setModel(new ModesListModel(m_httpConnector, this));
     connect(m_checkRecoverLastMode, &QCheckBox::toggled, m_comboModeToBootInto, &QComboBox::setDisabled);
     auto *layoutBootMode = new QVBoxLayout;
     layoutBootMode->addWidget(m_checkRecoverLastMode);

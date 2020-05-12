@@ -4,8 +4,9 @@
 #include <QtCore/QTimer>
 #include <QtCore/QSettings>
 
-#define LEDWALL_API_BASE "/api/v1"
+#define LEDWALL_API_BASE QString("/api/v1")
 #define LEDWALL_API_GET_CONFIG LEDWALL_API_BASE + "/config"
+#define LEDWALL_API_GET_MODES LEDWALL_API_BASE + "/led/modes"
 
 HttpConnector::HttpConnector(QWidget *parent): QObject(parent)
 {
@@ -15,6 +16,7 @@ HttpConnector::HttpConnector(QWidget *parent): QObject(parent)
     initProgressDialog();
 
     if (QSettings().value("Settings/auto_connect", true).toBool()) {
+        m_isConnected = !m_isConnected; // to force the connected signal to be emitted
         QTimer::singleShot(0, this, &HttpConnector::connectToWall);
     }
 }
@@ -42,9 +44,14 @@ void HttpConnector::setConfig(const LedWall::Config& config)
             this, &HttpConnector::onHttpRequestError);
 }
 
+LedWall::ModeList HttpConnector::getModes() const
+{
+    return m_modes;
+}
+
 void HttpConnector::connectToWall()
 {
-    requestConfig();
+    QTimer::singleShot(0, this, &HttpConnector::requestConfig);
 }
 
 bool HttpConnector::isConnected() const
@@ -54,14 +61,23 @@ bool HttpConnector::isConnected() const
 
 void HttpConnector::onHttpRequestFinished(QNetworkReply *reply)
 {
-    qDebug() << "onHttpRequestFinished" << reply->error() << reply->request().url();
+    const QString &requestUrl = reply->request().url().toString();
+    const bool replySuccessful = reply->error() == QNetworkReply::NoError;
 
-    if (reply->request().url().toString().endsWith(QString() + LEDWALL_API_GET_CONFIG)) {
+    qDebug() << "onHttpRequestFinished" << reply->error() << requestUrl;
+
+    if (replySuccessful && requestUrl.endsWith(LEDWALL_API_GET_CONFIG)) {
         m_config = LedWall::Config::fromJson(QJsonDocument::fromJson(reply->readAll()));
+        emit configChanged();
+        QTimer::singleShot(0, this, &HttpConnector::requestModes);
+    }
+    if (replySuccessful && requestUrl.endsWith(LEDWALL_API_GET_MODES)) {
+        m_modes = LedWall::ModeList::fromJson(QJsonDocument::fromJson(reply->readAll()));
+        emit modesChanged();
     }
 
     hideProgressDialog();
-    setIsConnected(reply->error() == QNetworkReply::NoError);
+    setIsConnected(replySuccessful);
 }
 
 void HttpConnector::onHttpRequestError(QNetworkReply::NetworkError replyError)
@@ -72,8 +88,18 @@ void HttpConnector::onHttpRequestError(QNetworkReply::NetworkError replyError)
 
 void HttpConnector::requestConfig()
 {
+    apiGet(LEDWALL_API_GET_CONFIG);
+}
+
+void HttpConnector::requestModes()
+{
+    apiGet(LEDWALL_API_GET_MODES);
+}
+
+void HttpConnector::apiGet(const QString &apiEndpoint)
+{
     QNetworkRequest request;
-    request.setUrl(QUrl("http://" + getHost() + LEDWALL_API_GET_CONFIG));
+    request.setUrl(QUrl("http://" + getHost() + apiEndpoint));
     request.setRawHeader("User-Agent", "LedWallStudio 1.0");
 
     showProgressDialog();
@@ -84,6 +110,10 @@ void HttpConnector::requestConfig()
 
 void HttpConnector::setIsConnected(bool isConnected)
 {
+    if (m_isConnected == isConnected) {
+        return;
+    }
+
     m_isConnected = isConnected;
 
     if (isConnected) emit connected();
