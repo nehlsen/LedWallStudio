@@ -17,7 +17,8 @@ public:
     explicit ModeConfigWidget(HttpConnector *httpConnector, QWidget *parent = nullptr);
 
 protected slots:
-    void onActiveModeChanged();
+    void onModeChanged();
+    void onSetModeClicked();
 
 protected:
     HttpConnector *m_httpConnector;

@@ -22,6 +22,8 @@ public:
     void setConfig(const LedWall::Config& config);
 
     LedWall::ModeList getModes() const;
+    LedWall::Mode getMode() const;
+    void setMode(int modeIndex);
 
 public slots:
     void connectToWall();
@@ -33,13 +35,14 @@ signals:
 
     void configChanged();
     void modesChanged();
-    void activeModeChanged(); // TODO emit this!
+    void modeChanged(); // TODO emit this!
 
 protected slots:
     void onHttpRequestFinished(QNetworkReply *reply);
     void onHttpRequestError(QNetworkReply::NetworkError replyError);
     void requestConfig();
     void requestModes();
+    void requestMode();
 
 protected:
     QNetworkAccessManager *m_networkAccessManager;
@@ -48,6 +51,7 @@ protected:
 
     LedWall::Config m_config;
     LedWall::ModeList m_modes;
+    LedWall::Mode m_mode;
 
     bool m_isConnected = false;
     void setIsConnected(bool isConnected);
@@ -60,6 +64,7 @@ protected:
     void hideProgressDialog();
 
     void apiGet(const QString &apiEndpoint);
+    void apiPost(const QString &apiEndpoint, const QByteArray &data);
 };
 
 #endif //LEDWALLSTUDIO_HTTPCONNECTOR_H

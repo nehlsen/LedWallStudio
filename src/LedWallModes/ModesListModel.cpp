@@ -11,7 +11,7 @@ ModesListModel::ModesListModel(HttpConnector *httpConnector, QObject *parent):
 
 int ModesListModel::rowCount(const QModelIndex &parent) const
 {
-    return m_httpConnector->getModes().count();
+    return m_modes.count();
 }
 
 QVariant ModesListModel::data(const QModelIndex &index, int role) const
@@ -25,17 +25,28 @@ QVariant ModesListModel::data(const QModelIndex &index, int role) const
     }
 
     if (role == Qt::DisplayRole) {
-        return m_httpConnector->getModes().at(index.row()).Name;
+        return m_modes.at(index.row()).Name;
     }
     if (role == Qt::UserRole) {
-        return m_httpConnector->getModes().at(index.row()).Index;
+        return m_modes.at(index.row()).Index;
     }
 
     return QVariant();
 }
 
+QModelIndex ModesListModel::modeIndexToModelIndex(int modeIndex) const
+{
+    for (int idx = 0; idx < m_modes.count(); ++idx) {
+        if (m_modes.at(idx).Index == modeIndex) {
+            return createIndex(idx, 0);
+        }
+    }
+    return QModelIndex();
+}
+
 void ModesListModel::onModesChanged()
 {
     beginResetModel();
+    m_modes = m_httpConnector->getModes();
     endResetModel();
 }

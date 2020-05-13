@@ -1,6 +1,32 @@
 #include "Mode.h"
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonArray>
+#include <QtCore/QVariant>
+
+LedWall::Mode LedWall::Mode::fromJson(const QJsonObject &jsonObject)
+{
+    LedWall::Mode mode = {-1, ""};
+
+    if (jsonObject.contains("index")) {
+        mode.Index = (qint8)jsonObject.value("index").toInt();
+    }
+    if (jsonObject.contains("name")) {
+        mode.Name = jsonObject.value("name").toString();
+    }
+    if (jsonObject.contains("options")) {
+        auto optionsObject = jsonObject.value("options").toObject();
+        for (auto it = optionsObject.constBegin(); it != optionsObject.constEnd(); ++it) {
+            mode.Options[it.key()] = it.value().toVariant();
+        }
+    }
+
+    return mode;
+}
+
+bool LedWall::Mode::isValid() const
+{
+    return Index != -1;
+}
 
 LedWall::ModeList LedWall::ModeList::fromJson(const QJsonDocument &jsonDocument)
 {
@@ -18,15 +44,12 @@ LedWall::ModeList LedWall::ModeList::fromJson(const QJsonDocument &jsonDocument)
         if (!it->isObject()) {
             continue;
         }
-        const QJsonObject &jsonMode = it->toObject();
-        if (!jsonMode.contains("index") || !jsonMode.contains("name")) {
+        Mode mode = Mode::fromJson(it->toObject());
+        if (!mode.isValid()) {
             continue;
         }
 
-        modes.append({
-            (quint8) jsonMode.value("index").toInt(),
-            jsonMode.value("name").toString()
-        });
+        modes.append(mode);
     }
 
     return modes;
