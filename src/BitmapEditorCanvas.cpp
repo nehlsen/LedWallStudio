@@ -19,6 +19,26 @@ void BitmapEditorCanvas::setSize(quint32 width, quint32 height)
     clearCanvas();
 }
 
+const QColor &BitmapEditorCanvas::getPrimaryColor() const
+{
+    return m_primaryColor;
+}
+
+void BitmapEditorCanvas::setPrimaryColor(const QColor &primaryColor)
+{
+    m_primaryColor = primaryColor;
+}
+
+const QColor &BitmapEditorCanvas::getSecondaryColor() const
+{
+    return m_secondaryColor;
+}
+
+void BitmapEditorCanvas::setSecondaryColor(const QColor &secondaryColor)
+{
+    m_secondaryColor = secondaryColor;
+}
+
 Bitmap BitmapEditorCanvas::getBitmap() const
 {
     Bitmap bitmap = Bitmap();
@@ -54,6 +74,14 @@ void BitmapEditorCanvas::setBitmap(const Bitmap& bitmap)
     emit bitmapChanged();
 }
 
+void BitmapEditorCanvas::clearCanvas()
+{
+    clear();
+    drawGrid();
+
+    emit bitmapChanged();
+}
+
 void BitmapEditorCanvas::drawGrid()
 {
     for (int x = 0; x < m_width; ++x) {
@@ -61,6 +89,16 @@ void BitmapEditorCanvas::drawGrid()
             addRect(x * m_gridSize, y * m_gridSize, m_gridSize, m_gridSize, QPen(Qt::white), QBrush(Qt::black));
         }
     }
+}
+
+QPoint BitmapEditorCanvas::sceneToGridCoordinates(const QPointF &sceneCoordinates) const
+{
+    return {(int)(sceneCoordinates.x() / m_gridSize), (int)(sceneCoordinates.y() / m_gridSize)};
+}
+
+QPointF BitmapEditorCanvas::gridToSceneCoordinates(const QPoint &gridCoordinates) const
+{
+    return {gridCoordinates.x() * m_gridSize + m_gridSize / 2, gridCoordinates.y() * m_gridSize + m_gridSize / 2};
 }
 
 void BitmapEditorCanvas::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
@@ -90,42 +128,4 @@ void BitmapEditorCanvas::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         emit bitmapChanged();
         emit bitmapChanged(sceneToGridCoordinates(event->scenePos()));
     }
-}
-
-const QColor &BitmapEditorCanvas::getPrimaryColor() const
-{
-    return m_primaryColor;
-}
-
-void BitmapEditorCanvas::setPrimaryColor(const QColor &primaryColor)
-{
-    m_primaryColor = primaryColor;
-}
-
-const QColor &BitmapEditorCanvas::getSecondaryColor() const
-{
-    return m_secondaryColor;
-}
-
-void BitmapEditorCanvas::setSecondaryColor(const QColor &secondaryColor)
-{
-    m_secondaryColor = secondaryColor;
-}
-
-QPoint BitmapEditorCanvas::sceneToGridCoordinates(const QPointF &sceneCoordinates) const
-{
-    return {(int)(sceneCoordinates.x() / m_gridSize), (int)(sceneCoordinates.y() / m_gridSize)};
-}
-
-QPointF BitmapEditorCanvas::gridToSceneCoordinates(const QPoint &gridCoordinates) const
-{
-    return {gridCoordinates.x() * m_gridSize + m_gridSize / 2, gridCoordinates.y() * m_gridSize + m_gridSize / 2};
-}
-
-void BitmapEditorCanvas::clearCanvas()
-{
-    clear();
-    drawGrid();
-
-    emit bitmapChanged();
 }
