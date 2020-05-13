@@ -9,7 +9,7 @@ class QListView;
 class QPushButton;
 QT_END_NAMESPACE
 
-class BitmapEditorCanvas;
+class BitmapEditor;
 class FrameListModel;
 
 class BitmapFramesWidget : public QWidget
@@ -17,7 +17,7 @@ class BitmapFramesWidget : public QWidget
 Q_OBJECT
 
 public:
-    explicit BitmapFramesWidget(BitmapEditorCanvas *canvas, QWidget *parent = nullptr);
+    explicit BitmapFramesWidget(BitmapEditor *bitmapEditor, QWidget *parent = nullptr);
 
 protected slots:
     void onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
@@ -25,7 +25,7 @@ protected slots:
     void onBtnRemoveClicked();
 
 protected:
-    BitmapEditorCanvas *m_canvas;
+    BitmapEditor *m_bitmapEditor;
 
     void createUi();
     FrameListModel *m_frames;

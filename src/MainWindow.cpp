@@ -1,5 +1,5 @@
 #include "MainWindow.h"
-#include "BitmapEditorCanvas.h"
+#include "BitmapEditor.h"
 #include "UdpConnector.h"
 #include "HttpConnector/HttpConnector.h"
 #include "SettingsDialog.h"
@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     setWindowTitle("LedWall Studio");
 
-    createCanvas();
+    createBitmapEditor();
 
     m_udpConnector = new UdpConnector(this);
     m_httpConnector = new HttpConnector(this);
@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     createMenu();
     createToolbars();
-    setCentralWidget(m_view);
+    setCentralWidget(m_bitmapEditor);
     createDocks();
 
     QSettings settings;
@@ -46,7 +46,7 @@ void MainWindow::onHttpConnectorConfigChanged()
 {
     QSettings settings;
     if (settings.value("Settings/autodetect_size", false).toBool()) {
-        m_canvas->setSize(m_httpConnector->getConfig().MatrixWidth, m_httpConnector->getConfig().MatrixHeight);
+        m_bitmapEditor->setSize(m_httpConnector->getConfig().MatrixWidth, m_httpConnector->getConfig().MatrixHeight);
         settings.setValue("Settings/width", m_httpConnector->getConfig().MatrixWidth);
         settings.setValue("Settings/height", m_httpConnector->getConfig().MatrixHeight);
     }
@@ -63,17 +63,17 @@ void MainWindow::onBitmapChanged()
 
 void MainWindow::onPickPrimaryColorTriggered()
 {
-    QColor color = QColorDialog::getColor(m_canvas->getPrimaryColor(), this);
+    QColor color = QColorDialog::getColor(m_bitmapEditor->getPrimaryColor(), this);
     if (color.isValid()) {
-        m_canvas->setPrimaryColor(color);
+        m_bitmapEditor->setPrimaryColor(color);
     }
 }
 
 void MainWindow::onPickSecondaryColorTriggered()
 {
-    QColor color = QColorDialog::getColor(m_canvas->getSecondaryColor(), this);
+    QColor color = QColorDialog::getColor(m_bitmapEditor->getSecondaryColor(), this);
     if (color.isValid()) {
-        m_canvas->setSecondaryColor(color);
+        m_bitmapEditor->setSecondaryColor(color);
     }
 }
 
@@ -87,21 +87,20 @@ void MainWindow::showSettings()
 
 void MainWindow::sendBitmap() const
 {
-    m_udpConnector->sendBitmap(m_canvas->getBitmap());
+    m_udpConnector->sendBitmap(m_bitmapEditor->getBitmap());
 }
 
-void MainWindow::createCanvas()
+void MainWindow::createBitmapEditor()
 {
-    m_view = new QGraphicsView(this);
-    m_canvas = new BitmapEditorCanvas(this);
-    m_view->setScene(m_canvas);
-    connect(m_canvas, SIGNAL(bitmapChanged()), this, SLOT(onBitmapChanged()));
+    m_bitmapEditor = new BitmapEditor(this);
+
+    connect(m_bitmapEditor, SIGNAL(bitmapChanged()), this, SLOT(onBitmapChanged()));
 }
 
 void MainWindow::createMenu()
 {
     auto *clearCanvasAction = new QAction(tr("Clear Canvas"), this);
-    connect(clearCanvasAction, SIGNAL(triggered()), m_canvas, SLOT(clearCanvas()));
+    connect(clearCanvasAction, SIGNAL(triggered()), m_bitmapEditor, SLOT(clearCanvas()));
 
     auto *settingsAction = new QAction(tr("&Settings"), this);
     connect(settingsAction, SIGNAL(triggered()), this, SLOT(showSettings()));
@@ -154,7 +153,7 @@ void MainWindow::createToolbars()
 
 void MainWindow::createDocks()
 {
-    m_bitmapFramesWidget = new BitmapFramesWidget(m_canvas, this);
+    m_bitmapFramesWidget = new BitmapFramesWidget(m_bitmapEditor, this);
     auto *bitmapFramesDock = new QDockWidget(tr("Frames"), this);
     bitmapFramesDock->setObjectName("bitmapFramesDock");
     bitmapFramesDock->setWidget(m_bitmapFramesWidget);

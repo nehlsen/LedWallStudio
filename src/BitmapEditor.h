@@ -1,17 +1,17 @@
-#ifndef LEDWALLSTUDIO_BITMAPEDITORCANVAS_H
-#define LEDWALLSTUDIO_BITMAPEDITORCANVAS_H
+#ifndef LEDWALLSTUDIO_BITMAPEDITOR_H
+#define LEDWALLSTUDIO_BITMAPEDITOR_H
 
-#include <QtWidgets/QGraphicsScene>
+#include <QtWidgets/QGraphicsView>
 #include "Bitmap.h"
 
-class BitmapEditorCanvas : public QGraphicsScene
+class BitmapEditor : public QGraphicsView
 {
 Q_OBJECT
 
 public:
-    explicit BitmapEditorCanvas(QObject *parent = nullptr);
+    explicit BitmapEditor(QWidget *parent = nullptr);
 
-    // set size in LEDs
+    // set grid size / size in LEDs
     void setSize(quint32 width, quint32 height);
 
     const QColor &getPrimaryColor() const;
@@ -31,6 +31,7 @@ signals:
     void bitmapChanged(const QPoint &gridCoordinates);
 
 protected:
+    QGraphicsScene *m_scene;
     const qreal m_gridSize = 20;
     quint32 m_width = 1;
     quint32 m_height = 1;
@@ -40,11 +41,12 @@ protected:
     QColor m_primaryColor = Qt::red;
     QColor m_secondaryColor = Qt::black;
 
-    QPoint sceneToGridCoordinates(const QPointF &sceneCoordinates) const;
-    QPointF gridToSceneCoordinates(const QPoint &gridCoordinates) const;
+    QPoint viewToGridCoordinates(const QPoint &viewCoordinates) const;
+    QPoint gridToViewCoordinates(const QPoint &gridCoordinates) const;
 
-    // TODO click and hold to colorize multiple pixels / draw...
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    bool paintAction(QMouseEvent *event);
 };
 
-#endif //LEDWALLSTUDIO_BITMAPEDITORCANVAS_H
+#endif //LEDWALLSTUDIO_BITMAPEDITOR_H

@@ -4,7 +4,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QGraphicsView>
 
-class BitmapEditorCanvas;
+class BitmapEditor;
 class UdpConnector;
 class HttpConnector;
 class LedWallConfigWidget;
@@ -29,9 +29,8 @@ protected slots:
     void sendBitmap() const;
 
 protected:
-    void createCanvas();
-    QGraphicsView *m_view;
-    BitmapEditorCanvas *m_canvas;
+    void createBitmapEditor();
+    BitmapEditor *m_bitmapEditor;
 
     UdpConnector *m_udpConnector;
     HttpConnector *m_httpConnector;

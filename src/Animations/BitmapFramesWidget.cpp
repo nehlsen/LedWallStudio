@@ -3,10 +3,10 @@
 #include <QtWidgets/QListView>
 #include <QtWidgets/QPushButton>
 #include "FrameListModel.h"
-#include "../BitmapEditorCanvas.h"
+#include "../BitmapEditor.h"
 
-BitmapFramesWidget::BitmapFramesWidget(BitmapEditorCanvas *canvas, QWidget *parent):
-    QWidget(parent), m_canvas(canvas)
+BitmapFramesWidget::BitmapFramesWidget(BitmapEditor *bitmapEditor, QWidget *parent):
+        QWidget(parent), m_bitmapEditor(bitmapEditor)
 {
     createUi();
 }
@@ -15,12 +15,12 @@ void BitmapFramesWidget::onSelectionChanged(const QItemSelection &selected, cons
 {
     // save current/deselected frame
     if (!deselected.isEmpty()) {
-        m_frames->setBitmap(deselected.indexes().first().row(), m_canvas->getBitmap());
+        m_frames->setBitmap(deselected.indexes().first().row(), m_bitmapEditor->getBitmap());
     }
 
     // load selected frame
     if (!selected.isEmpty()) {
-        m_canvas->setBitmap(m_frames->getBitmap(selected.indexes().first().row()));
+        m_bitmapEditor->setBitmap(m_frames->getBitmap(selected.indexes().first().row()));
     }
 
     // disable remove button if no selection

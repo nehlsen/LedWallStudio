@@ -1,7 +1,7 @@
 
 add_executable(LedWallStudio
         main.cpp
-        BitmapEditorCanvas.cpp
+        BitmapEditor.cpp
         Bitmap.cpp
         UdpConnector.cpp
         MainWindow.cpp
