@@ -5,6 +5,7 @@
 #include "SettingsDialog.h"
 #include "LedWallConfigWidget.h"
 #include "LedWallModes/ModeConfigWidget.h"
+#include "Animations/BitmapFramesWidget.h"
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QColorDialog>
 #include <QtWidgets/QMenuBar>
@@ -153,15 +154,19 @@ void MainWindow::createToolbars()
 
 void MainWindow::createDocks()
 {
-    m_modeWidget = new ModeConfigWidget(m_httpConnector, this);
+    m_bitmapFramesWidget = new BitmapFramesWidget(m_canvas, this);
+    auto *bitmapFramesDock = new QDockWidget(tr("Frames"), this);
+    bitmapFramesDock->setObjectName("bitmapFramesDock");
+    bitmapFramesDock->setWidget(m_bitmapFramesWidget);
+    addDockWidget(Qt::LeftDockWidgetArea, bitmapFramesDock);
 
+    m_modeWidget = new ModeConfigWidget(m_httpConnector, this);
     auto *modeDock = new QDockWidget(tr("Mode"), this);
     modeDock->setObjectName("modeDock");
     modeDock->setWidget(m_modeWidget);
     addDockWidget(Qt::RightDockWidgetArea, modeDock);
 
     m_configWidget = new LedWallConfigWidget(m_httpConnector, this);
-
     auto *configDock = new QDockWidget(tr("Config"), this);
     configDock->setObjectName("configDock");
     configDock->setWidget(m_configWidget);

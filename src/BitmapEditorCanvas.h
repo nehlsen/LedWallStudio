@@ -21,7 +21,7 @@ public:
     void setSecondaryColor(const QColor &secondaryColor);
 
     Bitmap getBitmap() const;
-//    void setBitmap(const Bitmap& bitmap);
+    void setBitmap(const Bitmap& bitmap);
 
 public slots:
     void clearCanvas();
@@ -40,7 +40,8 @@ protected:
     QColor m_primaryColor = Qt::red;
     QColor m_secondaryColor = Qt::black;
 
-    QPoint sceneToGridCoordinates(const QPointF sceneCoordinates) const;
+    QPoint sceneToGridCoordinates(const QPointF &sceneCoordinates) const;
+    QPointF gridToSceneCoordinates(const QPoint &gridCoordinates) const;
 
     // TODO click and hold to colorize multiple pixels / draw...
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;

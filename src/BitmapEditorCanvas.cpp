@@ -22,20 +22,36 @@ void BitmapEditorCanvas::setSize(quint32 width, quint32 height)
 Bitmap BitmapEditorCanvas::getBitmap() const
 {
     Bitmap bitmap = Bitmap();
-
     for (int x = 0; x < m_width; ++x) {
         for (int y = 0; y < m_height; ++y) {
-            QPointF pos = QPointF(x * m_gridSize + m_gridSize / 2, y * m_gridSize + m_gridSize / 2);
-            QList<QGraphicsItem*> itemsAtPos = items(pos);
-            if (itemsAtPos.size() == 1) {
-                QGraphicsItem *itm = itemsAtPos.first();
-                auto *rect = qgraphicsitem_cast<QGraphicsRectItem *>(itm);
-                bitmap.insert(QPoint(x, m_height - 1 - y), rect->brush().color());
+            QList<QGraphicsItem*> itemsAtPos = items(gridToSceneCoordinates({x, y}));
+            if (itemsAtPos.size() != 1) {
+                continue;
             }
+
+            auto *rect = qgraphicsitem_cast<QGraphicsRectItem*>(itemsAtPos.first());
+            bitmap.insert({x, (int)m_height - 1 - y}, rect->brush().color());
         }
     }
 
     return bitmap;
+}
+
+void BitmapEditorCanvas::setBitmap(const Bitmap& bitmap)
+{
+    clear();
+    drawGrid();
+    QMapIterator<QPoint, QColor> mi(bitmap);
+    while (mi.hasNext()) {
+        mi.next();
+        QList<QGraphicsItem*> itemsAtPos = items(gridToSceneCoordinates({mi.key().x(), (int) m_height - 1 - mi.key().y()}));
+        if (itemsAtPos.size() != 1) {
+            continue;
+        }
+        auto *rect = qgraphicsitem_cast<QGraphicsRectItem*>(itemsAtPos.first());
+        rect->setBrush(mi.value());
+    }
+    emit bitmapChanged();
 }
 
 void BitmapEditorCanvas::drawGrid()
@@ -96,9 +112,14 @@ void BitmapEditorCanvas::setSecondaryColor(const QColor &secondaryColor)
     m_secondaryColor = secondaryColor;
 }
 
-QPoint BitmapEditorCanvas::sceneToGridCoordinates(QPointF sceneCoordinates) const
+QPoint BitmapEditorCanvas::sceneToGridCoordinates(const QPointF &sceneCoordinates) const
 {
     return {(int)(sceneCoordinates.x() / m_gridSize), (int)(sceneCoordinates.y() / m_gridSize)};
+}
+
+QPointF BitmapEditorCanvas::gridToSceneCoordinates(const QPoint &gridCoordinates) const
+{
+    return {gridCoordinates.x() * m_gridSize + m_gridSize / 2, gridCoordinates.y() * m_gridSize + m_gridSize / 2};
 }
 
 void BitmapEditorCanvas::clearCanvas()

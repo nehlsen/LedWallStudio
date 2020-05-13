@@ -12,6 +12,8 @@ add_executable(LedWallStudio
         HttpConnector/Mode.cpp
         LedWallModes/ModeConfigWidget.cpp
         LedWallModes/ModesListModel.cpp
+        Animations/BitmapFramesWidget.cpp
+        Animations/FrameListModel.cpp
         )
 
 target_link_libraries(LedWallStudio Qt5::Widgets Qt5::Network)

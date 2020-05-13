@@ -3,6 +3,7 @@
 
 #include <QtCore/QMap>
 #include <QtCore/QPoint>
+//#include <QtCore/QMetaType>
 #include <QtGui/QColor>
 
 bool operator<(const QPoint &left, const QPoint &right);
@@ -27,5 +28,7 @@ public:
 protected:
     QByteArray createChunk(QMapIterator<QPoint, QColor> &mi, int pixelsPerChunk) const;
 };
+
+//Q_DECLARE_METATYPE(Bitmap)
 
 #endif //LEDWALLSTUDIO_BITMAP_H

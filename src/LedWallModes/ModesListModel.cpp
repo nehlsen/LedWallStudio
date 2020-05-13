@@ -34,14 +34,6 @@ QVariant ModesListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QVariant ModesListModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
-        return QVariant();
-
-    return QStringLiteral("Mode");
-}
-
 void ModesListModel::onModesChanged()
 {
     beginResetModel();

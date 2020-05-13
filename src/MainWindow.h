@@ -9,6 +9,7 @@ class UdpConnector;
 class HttpConnector;
 class LedWallConfigWidget;
 class ModeConfigWidget;
+class BitmapFramesWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -41,6 +42,7 @@ protected:
     QAction *m_actionManualUpdate;
 
     void createDocks();
+    BitmapFramesWidget *m_bitmapFramesWidget;
     ModeConfigWidget *m_modeWidget;
     LedWallConfigWidget *m_configWidget;
 
