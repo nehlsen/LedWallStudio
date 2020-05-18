@@ -35,7 +35,7 @@ signals:
 
     void configChanged();
     void modesChanged();
-    void modeChanged(); // TODO emit this!
+    void modeChanged();
 
 protected slots:
     void onHttpRequestFinished(QNetworkReply *reply);

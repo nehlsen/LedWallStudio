@@ -17,8 +17,11 @@ protected slots:
     void onSocketError(QAbstractSocket::SocketError socketError);
     void onSocketConnected();
 
+    void continueSend();
+
 protected:
     QUdpSocket *m_socket;
+    QByteArrayList m_sendQueue;
 };
 
 #endif //LEDWALLSTUDIO_UDPCONNECTOR_H

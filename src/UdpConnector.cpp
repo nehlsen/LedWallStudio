@@ -1,8 +1,9 @@
 #include "UdpConnector.h"
 #include <QtCore/QSettings>
-//#include <QtCore/QDebug>
+#include <QtCore/QTimer>
 
 #define UDP_CHUNK_SIZE 128
+#define SEND_DELAY 30
 
 UdpConnector::UdpConnector(QObject *parent) : QObject(parent)
 {
@@ -18,12 +19,8 @@ UdpConnector::UdpConnector(QObject *parent) : QObject(parent)
 
 void UdpConnector::sendBitmap(const Bitmap &bitmap)
 {
-    QByteArrayList chunks = bitmap.toPixelStreamChunked(UDP_CHUNK_SIZE);
-//    qDebug() << "sendBitmap," << chunks.size() << "chunks";
-    for (QByteArray chunk : chunks) {
-//        qDebug() << "CHUNK" << chunk;
-        m_socket->write(chunk); // TODO error handling ?!
-    }
+    m_sendQueue.append(bitmap.toPixelStreamChunked(UDP_CHUNK_SIZE));
+    QTimer::singleShot(SEND_DELAY, this, &UdpConnector::continueSend);
 }
 
 void UdpConnector::onSocketConnected()
@@ -34,4 +31,16 @@ void UdpConnector::onSocketConnected()
 void UdpConnector::onSocketError(QAbstractSocket::SocketError socketError)
 {
     qDebug() << "onSocketError" << socketError;
+}
+
+void UdpConnector::continueSend()
+{
+    if (m_sendQueue.isEmpty()) {
+        return;
+    }
+
+    QByteArray chunk = m_sendQueue.takeFirst();
+    m_socket->write(chunk);
+
+    QTimer::singleShot(SEND_DELAY, this, &UdpConnector::continueSend);
 }

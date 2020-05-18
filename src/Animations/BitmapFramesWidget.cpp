@@ -58,10 +58,14 @@ void BitmapFramesWidget::createUi()
     layout->addLayout(btnLayout);
 
     m_btnAdd = new QPushButton("+", this);
+    m_btnAdd->setMinimumWidth(25);
+    m_btnAdd->setMaximumWidth(25);
     connect(m_btnAdd, &QPushButton::clicked, this, &BitmapFramesWidget::onBtnAddClicked);
     btnLayout->addWidget(m_btnAdd);
 
     m_btnRemove = new QPushButton("-", this);
+    m_btnRemove->setMinimumWidth(25);
+    m_btnRemove->setMaximumWidth(25);
     connect(m_btnRemove, &QPushButton::clicked, this, &BitmapFramesWidget::onBtnRemoveClicked);
     m_btnRemove->setDisabled(true);
     btnLayout->addWidget(m_btnRemove);
