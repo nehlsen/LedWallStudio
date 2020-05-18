@@ -29,7 +29,7 @@ QVariant FrameListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void FrameListModel::addFrame()
+int FrameListModel::addFrame()
 {
     const int row = m_frames.count();
     Frame frame = {
@@ -40,6 +40,8 @@ void FrameListModel::addFrame()
     beginInsertRows(QModelIndex(), row, row);
     m_frames.insert(row, frame);
     endInsertRows();
+
+    return row;
 }
 
 //bool FrameListModel::insertRows(int row, int count, const QModelIndex &parent)
@@ -85,4 +87,5 @@ void FrameListModel::setBitmap(int row, const Bitmap &bitmap)
     }
 
     m_frames[row].bitmap = bitmap;
+    emit dataChanged(index(row), index(row));
 }

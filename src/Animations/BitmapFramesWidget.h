@@ -21,6 +21,7 @@ public:
 
 protected slots:
     void onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void onBtnCopyClicked();
     void onBtnAddClicked();
     void onBtnRemoveClicked();
 
@@ -30,6 +31,7 @@ protected:
     void createUi();
     FrameListModel *m_frames;
     QListView *m_view;
+    QPushButton *m_btnCopy;
     QPushButton *m_btnAdd;
     QPushButton *m_btnRemove;
 };
