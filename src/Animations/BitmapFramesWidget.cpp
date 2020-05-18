@@ -47,9 +47,11 @@ void BitmapFramesWidget::createUi()
     layout->setContentsMargins(0, 0, 0, 0);
 
     m_frames = new FrameListModel(this);
+    m_frames->addFrame();
 
     m_view = new QListView(this);
     m_view->setModel(m_frames);
+    m_view->selectionModel()->select(m_frames->index(0), QItemSelectionModel::SelectCurrent);
     connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &BitmapFramesWidget::onSelectionChanged);
     layout->addWidget(m_view);
 
