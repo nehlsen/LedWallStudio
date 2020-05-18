@@ -59,3 +59,38 @@ QByteArray Bitmap::createChunk(QMapIterator<QPoint, QColor> &mi, int pixelsPerCh
 
     return chunk;
 }
+
+Bitmap Bitmap::diff(const Bitmap &other) const
+{
+    QPoint tr(topRight());
+    if (other.topRight().x() > tr.x()) tr.setX(other.topRight().x());
+    if (other.topRight().y() > tr.y()) tr.setY(other.topRight().y());
+
+    Bitmap theDiff(other);
+    for (int x = 0; x < tr.x(); ++x) {
+        for (int y = 0; y < tr.y(); ++y) {
+            QPoint p(x, y);
+            // if this and other are the same, remove from diff
+            if (contains(p) && theDiff.contains(p) && value(p) == theDiff.value(p)) {
+                theDiff.remove(p);
+            }
+            // if point is not-set in other, explicitly set to black
+            if (contains(p) && !theDiff.contains(p)) {
+                theDiff[p] = Qt::black;
+            }
+        }
+    }
+
+    return theDiff;
+}
+
+QPoint Bitmap::topRight() const
+{
+    QPoint tr;
+    for (QPoint p : keys()) {
+        if (p.x() > tr.x()) tr.setX(p.x());
+        if (p.y() > tr.y()) tr.setY(p.y());
+    }
+
+    return tr;
+}

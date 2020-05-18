@@ -25,6 +25,11 @@ public:
     QByteArray toQuadTree() const;
     QByteArray toQuadTreeChunked(quint16 chunkSize) const;
 
+    QPoint topRight() const;
+
+    // get a bitmap having only those pixels set to get from _this_ Bitmap to _other_ Bitmap
+    Bitmap diff(const Bitmap &other) const;
+
 protected:
     QByteArray createChunk(QMapIterator<QPoint, QColor> &mi, int pixelsPerChunk) const;
 };
