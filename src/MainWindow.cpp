@@ -85,6 +85,14 @@ void MainWindow::showSettings()
     }
 }
 
+void MainWindow::loadBitmap() const
+{
+}
+
+void MainWindow::saveBitmap() const
+{
+}
+
 void MainWindow::sendBitmap() const
 {
     m_udpConnector->sendBitmap(m_bitmapEditor->getBitmap());
@@ -102,6 +110,12 @@ void MainWindow::createMenu()
     auto *clearCanvasAction = new QAction(tr("Clear Canvas"), this);
     connect(clearCanvasAction, SIGNAL(triggered()), m_bitmapEditor, SLOT(clearCanvas()));
 
+    auto *loadBitmapAction = new QAction(tr("Load"), this);
+    connect(loadBitmapAction, SIGNAL(triggered()), this, SLOT(loadBitmap()));
+
+    auto *saveBitmapAction = new QAction(tr("Save"), this);
+    connect(saveBitmapAction, SIGNAL(triggered()), this, SLOT(saveBitmap()));
+
     auto *settingsAction = new QAction(tr("&Settings"), this);
     connect(settingsAction, SIGNAL(triggered()), this, SLOT(showSettings()));
 
@@ -111,6 +125,9 @@ void MainWindow::createMenu()
 
     auto *fileMenu = new QMenu(tr("&File"), this);
     fileMenu->addAction(clearCanvasAction);
+    fileMenu->addAction(loadBitmapAction);
+    fileMenu->addAction(saveBitmapAction);
+    fileMenu->addSeparator();
     fileMenu->addAction(settingsAction);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAction);

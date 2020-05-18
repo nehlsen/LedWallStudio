@@ -22,6 +22,8 @@ protected slots:
 protected:
     void createUi();
 
+    QLineEdit *m_editBitmapFolder;
+
     QLineEdit *m_editHost;
     QCheckBox *m_checkAutodetectSize;
     QSpinBox *m_editWidth;
