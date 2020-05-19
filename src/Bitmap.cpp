@@ -17,7 +17,7 @@ QByteArray Bitmap::toPixelStream() const
 
 QByteArrayList Bitmap::toPixelStreamChunked(quint16 chunkSize) const
 {
-    QList<QByteArray> chunks;
+    QByteArrayList chunks;
 
     if (chunkSize < 7) {
         // a chunk carrying only one pixel requires 7 byte...
@@ -60,6 +60,45 @@ QByteArray Bitmap::createChunk(QMapIterator<QPoint, QColor> &mi, int pixelsPerCh
     return chunk;
 }
 
+QByteArray Bitmap::toPixelStream1a(quint8 delay) const
+{
+    QByteArray pixelStream;
+
+    if (empty()) {
+        pixelStream.append(delay); // delay
+        pixelStream.append((quint8)0); // number of pixels
+
+        return pixelStream;
+    }
+
+    QMapIterator<QPoint, QColor> mi(*this);
+    bool isFirstChunk = true;
+    QByteArray currentChunk;
+    quint8 pixelsInChunk = 0;
+    do {
+        mi.next();
+
+        currentChunk.append((quint8)mi.key().x());
+        currentChunk.append((quint8)mi.key().y());
+        currentChunk.append((quint8)mi.value().red());
+        currentChunk.append((quint8)mi.value().green());
+        currentChunk.append((quint8)mi.value().blue());
+        ++pixelsInChunk;
+
+        if (pixelsInChunk == 255 || !mi.hasNext()) {
+            pixelStream.append(isFirstChunk ? delay : (quint8)0x00); // delay
+            pixelStream.append(pixelsInChunk); // number of pixels
+            pixelStream.append(currentChunk);
+
+            isFirstChunk = false;
+            currentChunk.clear();
+            pixelsInChunk = 0;
+        }
+    } while (mi.hasNext());
+
+    return pixelStream;
+}
+
 Bitmap Bitmap::diff(const Bitmap &other) const
 {
     QPoint tr(topRight());
@@ -67,16 +106,15 @@ Bitmap Bitmap::diff(const Bitmap &other) const
     if (other.topRight().y() > tr.y()) tr.setY(other.topRight().y());
 
     Bitmap theDiff(other);
-    for (int x = 0; x < tr.x(); ++x) {
-        for (int y = 0; y < tr.y(); ++y) {
+    for (int x = 0; x <= tr.x(); ++x) {
+        for (int y = 0; y <= tr.y(); ++y) {
             QPoint p(x, y);
-            // if this and other are the same, remove from diff
-            if (contains(p) && theDiff.contains(p) && value(p) == theDiff.value(p)) {
-                theDiff.remove(p);
-            }
-            // if point is not-set in other, explicitly set to black
             if (contains(p) && !theDiff.contains(p)) {
+                // if point is not-set in other, explicitly set to black
                 theDiff[p] = Qt::black;
+            } else if (contains(p) && theDiff.contains(p) && value(p) == theDiff.value(p)) {
+                // if this and other are the same, remove from diff
+                theDiff.remove(p);
             }
         }
     }

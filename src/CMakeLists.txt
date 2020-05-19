@@ -1,4 +1,3 @@
-
 add_executable(LedWallStudio
         main.cpp
         BitmapEditor.cpp
