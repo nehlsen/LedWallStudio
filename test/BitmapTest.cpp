@@ -170,6 +170,74 @@ void BitmapTest::test_diff()
         QCOMPARE(diff4.count(), 1);
         QCOMPARE(diff4.value({1, 1}), Qt::black);
     }
+
+    {
+        // 3x3, change one
+        Bitmap bitmap5a;
+        Bitmap bitmap5b;
+        for (int x = 0; x < 3; ++x) {
+            for (int y = 0; y < 3; ++y) {
+                bitmap5a.insert({x, y}, Qt::black);
+                bitmap5b.insert({x, y}, Qt::black);
+            }
+        }
+
+        bitmap5a[{0, 0}] = Qt::red; // will be changed
+        bitmap5b[{0, 0}] = Qt::green;
+
+        bitmap5a[{0, 1}] = Qt::red; // will be kept
+        bitmap5b[{0, 1}] = Qt::red; // will be kept
+
+        Bitmap diff5(bitmap5a.diff(bitmap5b));
+        QCOMPARE(diff5.count(), 1);
+        QCOMPARE(diff5.value({0, 0}), Qt::green);
+    }
+
+    {
+        // 3x3, add one
+        Bitmap bitmap5a;
+        Bitmap bitmap5b;
+        for (int x = 0; x < 3; ++x) {
+            for (int y = 0; y < 3; ++y) {
+                bitmap5a.insert({x, y}, Qt::black);
+                bitmap5b.insert({x, y}, Qt::black);
+            }
+        }
+
+        bitmap5a[{0, 0}] = Qt::red; // will be kept
+        bitmap5b[{0, 0}] = Qt::red; // will be kept
+
+        bitmap5a[{0, 1}] = Qt::red; // will be kept
+        bitmap5b[{0, 1}] = Qt::red; // will be kept
+
+        bitmap5b[{1, 1}] = Qt::green; // added
+
+        Bitmap diff5(bitmap5a.diff(bitmap5b));
+        QCOMPARE(diff5.count(), 1);
+        QCOMPARE(diff5.value({1, 1}), Qt::green);
+    }
+
+    {
+        // 3x3, remove one
+        Bitmap bitmap5a;
+        Bitmap bitmap5b;
+        for (int x = 0; x < 3; ++x) {
+            for (int y = 0; y < 3; ++y) {
+                bitmap5a.insert({x, y}, Qt::black);
+                bitmap5b.insert({x, y}, Qt::black);
+            }
+        }
+
+        bitmap5a[{0, 0}] = Qt::red; // will be removed
+        bitmap5b.remove({0, 0});
+
+        bitmap5a[{0, 1}] = Qt::red; // will be kept
+        bitmap5b[{0, 1}] = Qt::red; // will be kept
+
+        Bitmap diff5(bitmap5a.diff(bitmap5b));
+        QCOMPARE(diff5.count(), 1);
+        QCOMPARE(diff5.value({0, 0}), Qt::black);
+    }
 }
 
 QTEST_MAIN(BitmapTest)

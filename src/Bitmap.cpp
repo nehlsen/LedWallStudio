@@ -1,5 +1,7 @@
 #include "Bitmap.h"
 
+//#include <QtCore/QDebug>
+
 bool operator<(const QPoint &left, const QPoint &right)
 {
     return left.x() < right.x() ? true : left.y() < right.y();
@@ -105,19 +107,30 @@ Bitmap Bitmap::diff(const Bitmap &other) const
     if (other.topRight().x() > tr.x()) tr.setX(other.topRight().x());
     if (other.topRight().y() > tr.y()) tr.setY(other.topRight().y());
 
-    Bitmap theDiff(other);
+    Bitmap theDiff;
     for (int x = 0; x <= tr.x(); ++x) {
         for (int y = 0; y <= tr.y(); ++y) {
             QPoint p(x, y);
-            if (contains(p) && !theDiff.contains(p)) {
-                // if point is not-set in other, explicitly set to black
+            if (value(p).isValid() && other.value(p).isValid() && value(p) != other.value(p)) {
+                // pixel has changed
+//                qDebug() << p << "CHANGED";
+                theDiff[p] = other.value(p);
+            } else if (!value(p).isValid() && other.value(p).isValid()) {
+                // pixel was added
+//                qDebug() << p << "ADDED";
+                theDiff[p] = other.value(p);
+            } else if (value(p).isValid() && !other.value(p).isValid()) {
+                // pixel was added
+//                qDebug() << p << "REMOVED";
                 theDiff[p] = Qt::black;
-            } else if (contains(p) && theDiff.contains(p) && value(p) == theDiff.value(p)) {
-                // if this and other are the same, remove from diff
-                theDiff.remove(p);
             }
         }
     }
+
+//    qDebug() << *this;
+//    qDebug() << other;
+//    qDebug() << theDiff;
+//    qDebug() << "DIFF of" << count() << "and" << other.count() << "has" << theDiff.count() << "pixels";
 
     return theDiff;
 }
