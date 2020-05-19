@@ -26,8 +26,8 @@ protected slots:
     void onPickPrimaryColorTriggered();
     void onPickSecondaryColorTriggered();
     void showSettings();
-    void loadBitmap() const;
-    void saveBitmap() const;
+    void loadFrames() const;
+    void saveFrames();
     void sendBitmap() const;
 
 protected:

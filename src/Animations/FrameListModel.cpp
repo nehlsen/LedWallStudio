@@ -44,6 +44,11 @@ int FrameListModel::addFrame()
     return row;
 }
 
+FrameList FrameListModel::getFrames() const
+{
+    return m_frames;
+}
+
 //bool FrameListModel::insertRows(int row, int count, const QModelIndex &parent)
 //{
 //    return QAbstractItemModel::insertRows(row, count, parent);

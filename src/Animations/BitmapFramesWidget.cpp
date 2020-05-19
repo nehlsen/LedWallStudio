@@ -6,9 +6,14 @@
 #include "../BitmapEditor.h"
 
 BitmapFramesWidget::BitmapFramesWidget(BitmapEditor *bitmapEditor, QWidget *parent):
-        QWidget(parent), m_bitmapEditor(bitmapEditor)
+    QWidget(parent), m_bitmapEditor(bitmapEditor)
 {
     createUi();
+}
+
+FrameList BitmapFramesWidget::getFrames() const
+{
+    return m_frames->getFrames();
 }
 
 void BitmapFramesWidget::onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)

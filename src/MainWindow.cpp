@@ -12,6 +12,7 @@
 #include <QtWidgets/QDockWidget>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QSettings>
+#include <QtWidgets/QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -85,12 +86,47 @@ void MainWindow::showSettings()
     }
 }
 
-void MainWindow::loadBitmap() const
+void MainWindow::loadFrames() const
 {
 }
 
-void MainWindow::saveBitmap() const
+void MainWindow::saveFrames()
 {
+    QString saveToName = QFileDialog::getSaveFileName(
+            this,
+            tr("Save Frames"),
+            QSettings().value("Settings/bitmap_folder", QDir::homePath()).toString()
+            );
+
+    if (saveToName.isEmpty()) {
+        return;
+    }
+
+    QFile file(saveToName);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        return;
+    }
+
+    auto frames = m_bitmapFramesWidget->getFrames();
+    if (frames.isEmpty()) {
+        return;
+    }
+
+    QByteArray data;
+    data.append((quint8)0x1a); // protocol
+    data.append((quint8)0x00); // options
+    QListIterator<Frame> it(frames);
+    while (it.hasNext()) {
+        if (!it.hasPrevious()) {
+//            qDebug("FULL frame");
+            data.append(it.next().bitmap.toPixelStream1a(/*TODO delay*/0));
+        } else {
+//            qDebug("DIFF frame");
+            data.append(it.peekPrevious().bitmap.diff(it.next().bitmap).toPixelStream1a(/*TODO delay*/0));
+        }
+    }
+
+    file.write(data);
 }
 
 void MainWindow::sendBitmap() const
@@ -110,11 +146,11 @@ void MainWindow::createMenu()
     auto *clearCanvasAction = new QAction(tr("Clear Canvas"), this);
     connect(clearCanvasAction, SIGNAL(triggered()), m_bitmapEditor, SLOT(clearCanvas()));
 
-    auto *loadBitmapAction = new QAction(tr("Load"), this);
-    connect(loadBitmapAction, SIGNAL(triggered()), this, SLOT(loadBitmap()));
+    auto *loadFramesAction = new QAction(tr("Load Frames"), this);
+    connect(loadFramesAction, SIGNAL(triggered()), this, SLOT(loadFrames()));
 
-    auto *saveBitmapAction = new QAction(tr("Save"), this);
-    connect(saveBitmapAction, SIGNAL(triggered()), this, SLOT(saveBitmap()));
+    auto *saveFramesAction = new QAction(tr("Save Frames"), this);
+    connect(saveFramesAction, SIGNAL(triggered()), this, SLOT(saveFrames()));
 
     auto *settingsAction = new QAction(tr("&Settings"), this);
     connect(settingsAction, SIGNAL(triggered()), this, SLOT(showSettings()));
@@ -125,8 +161,8 @@ void MainWindow::createMenu()
 
     auto *fileMenu = new QMenu(tr("&File"), this);
     fileMenu->addAction(clearCanvasAction);
-    fileMenu->addAction(loadBitmapAction);
-    fileMenu->addAction(saveBitmapAction);
+    fileMenu->addAction(loadFramesAction);
+    fileMenu->addAction(saveFramesAction);
     fileMenu->addSeparator();
     fileMenu->addAction(settingsAction);
     fileMenu->addSeparator();

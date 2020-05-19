@@ -3,6 +3,7 @@
 
 #include <QtCore/QAbstractListModel>
 #include "../Bitmap.h"
+#include "Frame.h"
 
 class FrameListModel : public QAbstractListModel
 {
@@ -15,6 +16,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
 
     int addFrame();
+    FrameList getFrames() const;
+
 //    bool insertRows(int row, int count, const QModelIndex &parent) override;
     bool removeRows(int row, int count, const QModelIndex &parent) override;
 
@@ -22,12 +25,8 @@ public:
     void setBitmap(int row, const Bitmap &bitmap);
 
 protected:
-    struct Frame {
-        QString name;
-        Bitmap bitmap;
-    };
     int m_nextFrameName = 0;
-    QList<Frame> m_frames;
+    FrameList m_frames;
 };
 
 #endif //LEDWALLSTUDIO_FRAMELISTMODEL_H

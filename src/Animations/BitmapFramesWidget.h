@@ -3,6 +3,8 @@
 
 #include <QtWidgets/QWidget>
 #include <QtCore/QItemSelection>
+#include "../Bitmap.h"
+#include "Frame.h"
 
 QT_BEGIN_NAMESPACE
 class QListView;
@@ -18,6 +20,8 @@ Q_OBJECT
 
 public:
     explicit BitmapFramesWidget(BitmapEditor *bitmapEditor, QWidget *parent = nullptr);
+
+    FrameList getFrames() const;
 
 protected slots:
     void onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
