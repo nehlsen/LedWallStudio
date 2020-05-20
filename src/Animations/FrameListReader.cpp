@@ -27,13 +27,17 @@ FrameList FrameListReader::fromIoDevice(QIODevice &ioDevice)
         if (ioDevice.read(&delay, 1) != 1) break;
         if (ioDevice.read(&pixelsInFrame, 1) != 1) break;
 
-        // TODO delay of zero should merge to bitmaps into one
-        //  to e.g. handle bitmaps with more than 256 pixels
+        FrameList::iterator it;
+        if (frames.isEmpty()) {
+            // start first frame
+            frames.append({QString::number(frameNumber++), Bitmap()});
+        } else if ((quint8)delay > 0) {
+            // copy previous frame and apply delta
+            frames.append({QString::number(frameNumber++), Bitmap(frames.last().bitmap)});
+        } // else, no delay: "continue" to write to previous bitmap
 
-        // FIXME the data stream stores delta frames!
-        //  this has to be reversed
+        it = frames.end() - 1;
 
-        Bitmap bitmap;
         for (int i = 0; i < pixelsInFrame; ++i) {
             if (ioDevice.bytesAvailable() < 5) {
                 break;
@@ -46,14 +50,12 @@ FrameList FrameListReader::fromIoDevice(QIODevice &ioDevice)
             ioDevice.read(&g, 1);
             ioDevice.read(&b, 1);
 
-            bitmap.insert({(quint8)x, (quint8)y}, QColor((quint8)r, (quint8)g, (quint8)b));
+            (*it).bitmap.insert({(quint8)x, (quint8)y}, QColor((quint8)r, (quint8)g, (quint8)b));
         }
-        if (bitmap.size() != pixelsInFrame) {
+        if ((*it).bitmap.size() != pixelsInFrame) {
             // hmmm....
             // FIXME read error?
         }
-
-        frames.append({QString::number(frameNumber++), bitmap});
     }
 
     return frames;
