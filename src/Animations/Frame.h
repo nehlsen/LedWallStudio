@@ -6,7 +6,7 @@
 
 struct Frame {
     QString name;
-    // TODO delay
+    quint8 delay; // delay BEFORE this frame
     Bitmap bitmap;
 };
 

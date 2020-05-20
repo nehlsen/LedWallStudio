@@ -30,10 +30,10 @@ FrameList FrameListReader::fromIoDevice(QIODevice &ioDevice)
         FrameList::iterator it;
         if (frames.isEmpty()) {
             // start first frame
-            frames.append({QString::number(frameNumber++), Bitmap()});
+            frames.append({QString::number(frameNumber++), (quint8)delay, Bitmap()});
         } else if ((quint8)delay > 0) {
             // copy previous frame and apply delta
-            frames.append({QString::number(frameNumber++), Bitmap(frames.last().bitmap)});
+            frames.append({QString::number(frameNumber++), (quint8)delay, Bitmap(frames.last().bitmap)});
         } // else, no delay: "continue" to write to previous bitmap
 
         it = frames.end() - 1;

@@ -24,8 +24,8 @@ void FrameListWriterTest::test_toByteArray()
         b2.insert({2, 0}, Qt::blue);
 
         FrameList frames;
-        frames.append({"b1", b1});
-        frames.append({"b2", b2});
+        frames.append({"b1", 0, b1});
+        frames.append({"b2", 1, b2});
 
         QByteArray data = FrameListWriter::toByteArray(frames);
         // 2 header + 2 header 1st frame + 3 pixel * 5 byte + 2 header 2nd frame + 1 pixel * 5 byte == 26
@@ -33,7 +33,9 @@ void FrameListWriterTest::test_toByteArray()
         QCOMPARE(data.at(0), 0x1a);
         QCOMPARE(data.at(1), 0x00);
 
+        QCOMPARE(data.at(2), 0x00); // 1st frame delay
         QCOMPARE(data.at(3), 0x03); // 1st frame pixel count
+        QCOMPARE(data.at(19), 0x01); // 2nd frame delay
         QCOMPARE(data.at(20), 0x01); // 2nd frame pixel count
     }
 }

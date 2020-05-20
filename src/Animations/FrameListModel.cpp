@@ -34,6 +34,7 @@ int FrameListModel::addFrame()
     const int row = m_frames.count();
     Frame frame = {
             QString("%1").arg(m_nextFrameName++, 2, 10, QLatin1Char('0')),
+            1, // TODO default delay?
             Bitmap()
     };
 

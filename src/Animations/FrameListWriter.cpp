@@ -9,11 +9,12 @@ QByteArray FrameListWriter::toByteArray(const FrameList &frames)
     QListIterator<Frame> it(frames);
     while (it.hasNext()) {
         if (!it.hasPrevious()) {
-//            qDebug("FULL frame");
-            data.append(it.next().bitmap.toPixelStream1a(/*TODO delay*/0));
+            const Frame &frame = it.next();
+            data.append(frame.bitmap.toPixelStream1a(frame.delay));
         } else {
-//            qDebug("DIFF frame");
-            data.append(it.peekPrevious().bitmap.diff(it.next().bitmap).toPixelStream1a(/*TODO delay*/0));
+            const Frame &previousFrame = it.peekPrevious();
+            const Frame &frame = it.next();
+            data.append(previousFrame.bitmap.diff(frame.bitmap).toPixelStream1a(frame.delay));
         }
     }
 
