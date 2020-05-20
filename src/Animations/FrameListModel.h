@@ -17,6 +17,7 @@ public:
 
     int addFrame();
     FrameList getFrames() const;
+    void setFrames(const FrameList &frames);
 
 //    bool insertRows(int row, int count, const QModelIndex &parent) override;
     bool removeRows(int row, int count, const QModelIndex &parent) override;

@@ -24,6 +24,7 @@ public:
 
     // prepend delay and number of pixels to chunks and limit to 256 Pixels per chunk
     QByteArray toPixelStream1a(quint8 delay) const;
+    static Bitmap fromPixelStream1a(const QByteArray &data);
 
     QByteArray toQuadTree() const;
     QByteArray toQuadTreeChunked(quint16 chunkSize) const;

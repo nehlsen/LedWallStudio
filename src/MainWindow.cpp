@@ -6,6 +6,8 @@
 #include "LedWallConfigWidget.h"
 #include "LedWallModes/ModeConfigWidget.h"
 #include "Animations/BitmapFramesWidget.h"
+#include "Animations/FrameListWriter.h"
+#include "Animations/FrameListReader.h"
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QColorDialog>
 #include <QtWidgets/QMenuBar>
@@ -13,6 +15,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QSettings>
 #include <QtWidgets/QFileDialog>
+#include <QtWidgets/QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -86,8 +89,36 @@ void MainWindow::showSettings()
     }
 }
 
-void MainWindow::loadFrames() const
+void MainWindow::loadFrames()
 {
+    if (QMessageBox::warning(
+            this,
+            tr("Discard Frames?"),
+            tr("Opening a list of Frames will discard current Frames.\nDiscard Frames?"),
+            QMessageBox::Ok | QMessageBox::Cancel,
+            QMessageBox::Cancel) == QMessageBox::Cancel) {
+        return;
+    }
+
+    QString loadFromName = QFileDialog::getOpenFileName(
+            this,
+            tr("Load Frames"),
+            QSettings().value("Settings/bitmap_folder", QDir::homePath()).toString()
+    );
+
+    if (loadFromName.isEmpty()) {
+        return;
+    }
+
+    QFile file(loadFromName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        return;
+    }
+
+    FrameList frames = FrameListReader::fromIoDevice(file);
+    file.close();
+
+    m_bitmapFramesWidget->setFrames(frames);
 }
 
 void MainWindow::saveFrames()
@@ -112,21 +143,9 @@ void MainWindow::saveFrames()
         return;
     }
 
-    QByteArray data;
-    data.append((quint8)0x1a); // protocol
-    data.append((quint8)0x00); // options
-    QListIterator<Frame> it(frames);
-    while (it.hasNext()) {
-        if (!it.hasPrevious()) {
-//            qDebug("FULL frame");
-            data.append(it.next().bitmap.toPixelStream1a(/*TODO delay*/0));
-        } else {
-//            qDebug("DIFF frame");
-            data.append(it.peekPrevious().bitmap.diff(it.next().bitmap).toPixelStream1a(/*TODO delay*/0));
-        }
-    }
-
+    QByteArray data = FrameListWriter::toByteArray(frames);
     file.write(data);
+    file.close();
 }
 
 void MainWindow::sendBitmap() const

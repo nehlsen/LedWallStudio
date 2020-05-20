@@ -14,6 +14,8 @@ add_executable(LedWallStudio
         Animations/BitmapFramesWidget.cpp
         Animations/FrameListModel.cpp
         Animations/Frame.cpp
+        Animations/FrameListWriter.cpp
+        Animations/FrameListReader.cpp
         )
 
 target_link_libraries(LedWallStudio Qt5::Widgets Qt5::Network)

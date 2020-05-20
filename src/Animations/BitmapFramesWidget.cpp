@@ -16,6 +16,11 @@ FrameList BitmapFramesWidget::getFrames() const
     return m_frames->getFrames();
 }
 
+void BitmapFramesWidget::setFrames(const FrameList &frames)
+{
+    m_frames->setFrames(frames);
+}
+
 void BitmapFramesWidget::onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     // save current/deselected frame

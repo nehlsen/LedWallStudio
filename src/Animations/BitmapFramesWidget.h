@@ -22,6 +22,7 @@ public:
     explicit BitmapFramesWidget(BitmapEditor *bitmapEditor, QWidget *parent = nullptr);
 
     FrameList getFrames() const;
+    void setFrames(const FrameList &frames);
 
 protected slots:
     void onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
