@@ -89,14 +89,14 @@ void HttpConnector::onHttpRequestFinished(QNetworkReply *reply)
         emit modeChanged();
     }
 
-    hideProgressDialog();
+    removePendingRequest(reply);
     setIsConnected(replySuccessful);
 }
 
 void HttpConnector::onHttpRequestError(QNetworkReply::NetworkError replyError)
 {
 //    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
-    qDebug() << "onHttpRequestError" << replyError;
+//    qDebug() << "onHttpRequestError" << replyError;
 }
 
 void HttpConnector::requestConfig()
@@ -112,6 +112,30 @@ void HttpConnector::requestModes()
 void HttpConnector::requestMode()
 {
     apiGet(LEDWALL_API_GET_MODE);
+}
+
+void HttpConnector::onConnectCanceled()
+{
+    setIsConnected(false);
+
+    // TODO for any pending reply : reply->abort
+    for (QNetworkReply *reply : m_pendingRequests) {
+        reply->abort();
+    }
+}
+
+void HttpConnector::addPendingRequest(QNetworkReply *reply)
+{
+    m_pendingRequests << reply;
+    m_progressDialog->show();
+}
+
+void HttpConnector::removePendingRequest(QNetworkReply *reply)
+{
+    m_pendingRequests.removeOne(reply);
+    if (!m_pendingRequests.isEmpty()) {
+        m_progressDialog->hide();
+    }
 }
 
 QString HttpConnector::getHost() const
@@ -142,25 +166,7 @@ void HttpConnector::initProgressDialog()
     m_progressDialog->setLabelText(tr("Connecting LedWall..."));
     m_progressDialog->setVisible(false);
 
-    // FIXME cancel button is displayed and closes the dialog but has no meaningful function
-}
-
-void HttpConnector::showProgressDialog()
-{
-    m_pendingRequests++;
-
-    m_progressDialog->show();
-}
-
-void HttpConnector::hideProgressDialog()
-{
-    if (m_pendingRequests > 0) {
-        m_pendingRequests--;
-    }
-
-    if (m_pendingRequests == 0) {
-        m_progressDialog->hide();
-    }
+    connect(m_progressDialog, &QProgressDialog::canceled, this, &HttpConnector::onConnectCanceled);
 }
 
 void HttpConnector::apiGet(const QString &apiEndpoint)
@@ -171,10 +177,10 @@ void HttpConnector::apiGet(const QString &apiEndpoint)
     request.setUrl(QUrl("http://" + getHost() + apiEndpoint));
     request.setRawHeader("User-Agent", "LedWallStudio 1.0");
 
-    showProgressDialog();
     QNetworkReply *reply = m_networkAccessManager->get(request);
     connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
             this, &HttpConnector::onHttpRequestError);
+    addPendingRequest(reply);
 }
 
 void HttpConnector::apiPost(const QString &apiEndpoint, const QByteArray &data)
@@ -186,10 +192,10 @@ void HttpConnector::apiPost(const QString &apiEndpoint, const QByteArray &data)
     request.setRawHeader("User-Agent", "LedWallStudio 1.0");
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    showProgressDialog();
     qDebug() << "POST" << data;
     QNetworkReply *reply = m_networkAccessManager->post(request, data);
     connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
             this, &HttpConnector::onHttpRequestError);
+    addPendingRequest(reply);
 }
 

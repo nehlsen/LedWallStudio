@@ -44,9 +44,14 @@ protected slots:
     void requestModes();
     void requestMode();
 
+    void onConnectCanceled();
+
 protected:
     QNetworkAccessManager *m_networkAccessManager;
-    quint16 m_pendingRequests = 0;
+    QList<QNetworkReply*> m_pendingRequests;
+    void addPendingRequest(QNetworkReply *reply);
+    void removePendingRequest(QNetworkReply *reply);
+
     QString getHost() const;
 
     LedWall::Config m_config;
@@ -58,10 +63,6 @@ protected:
 
     QProgressDialog *m_progressDialog;
     void initProgressDialog();
-    // increases pending requests and shows the progress dialog
-    void showProgressDialog();
-    // decreases pending requests and hides the progress dialog if pending requests reached zero
-    void hideProgressDialog();
 
     void apiGet(const QString &apiEndpoint);
     void apiPost(const QString &apiEndpoint, const QByteArray &data);
