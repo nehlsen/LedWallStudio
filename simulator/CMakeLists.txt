@@ -1,0 +1,37 @@
+add_executable(Simulator
+        main.cpp
+        Simulator.cpp
+
+        support/esp32-hal.cpp
+        support/FastLED.cpp
+        support/cJSON.cpp
+
+        ../src/Bitmap.cpp
+        ../src/BitmapEditor.cpp
+
+        ../../esp/LedWall/main/LedMode/LedMode.cpp
+        ../../esp/LedWall/main/LedMode/utilities.c
+        ../../esp/LedWall/main/LedMode/LedModeStatus.cpp
+        ../../esp/LedWall/main/LedMode/Bars.cpp
+        ../../esp/LedWall/main/LedMode/MultiBars.cpp
+#        ../../esp/LedWall/main/LedMode/Breathe.cpp
+#        ../../esp/LedWall/main/LedMode/Fire.cpp
+        ../../esp/LedWall/main/LedMode/Fireworks.cpp
+        ../../esp/LedWall/main/LedMode/Text.cpp
+        ../../esp/LedWall/components/Mates-for-LEDs/LedMatrix/LedMatrix.cpp
+        ../../esp/LedWall/components/Mates-for-LEDs/LedMatrix/PixelLocator.cpp
+
+        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/GfxPrimitive.cpp
+        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Pixel.cpp
+        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/PixelMap.cpp
+        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Point.cpp
+        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Text.cpp
+#        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Circle.cpp
+        )
+
+target_include_directories(Simulator PRIVATE
+        support
+        ../../esp/LedWall/components/Mates-for-LEDs/LedMatrix
+        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives
+        )
+target_link_libraries(Simulator Qt5::Widgets)
