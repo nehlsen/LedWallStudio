@@ -12,7 +12,10 @@ public:
     explicit BitmapEditor(QWidget *parent = nullptr);
 
     // set grid size / size in LEDs
+    [[deprecated]]
     void setSize(quint32 width, quint32 height);
+    QSize getSize() const;
+    void setSize(const QSize &size);
 
     const QColor &getPrimaryColor() const;
     void setPrimaryColor(const QColor &primaryColor);

@@ -1,6 +1,7 @@
 #include "BitmapEditor.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QtWidgets/QtWidgets>
+#include <QtCore/QDebug>
 
 BitmapEditor::BitmapEditor(QWidget *parent):
     QGraphicsView(parent)
@@ -8,17 +9,27 @@ BitmapEditor::BitmapEditor(QWidget *parent):
     m_scene = new QGraphicsScene(this);
     setScene(m_scene);
     setBackgroundBrush(QBrush(Qt::black));
-    setSize(5, 5);
+    setSize({5, 5});
 }
 
 void BitmapEditor::setSize(quint32 width, quint32 height)
 {
-    if (m_width == width && m_height == height) {
+    setSize(QSize(width, height));
+}
+
+QSize BitmapEditor::getSize() const
+{
+    return QSize(m_width, m_height);
+}
+
+void BitmapEditor::setSize(const QSize &size)
+{
+    if (m_width == size.width() && m_height == size.height()) {
         return;
     }
 
-    m_width = width;
-    m_height = height;
+    m_width = size.width();
+    m_height = size.height();
     clearCanvas();
 }
 
@@ -62,6 +73,7 @@ Bitmap BitmapEditor::getBitmap() const
 
 void BitmapEditor::setBitmap(const Bitmap& bitmap)
 {
+//    qDebug() << "BitmapEditor::setBitmap\n" << bitmap;
     m_scene->clear();
     drawGrid();
     QMapIterator<QPoint, QColor> mi(bitmap);
