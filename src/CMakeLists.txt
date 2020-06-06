@@ -1,6 +1,9 @@
 add_executable(LedWallStudio
         main.cpp
         BitmapEditor.cpp
+        BitmapEditor/Grid.cpp
+        BitmapEditor/GridRect.cpp
+        BitmapEditor/GridHexagon.cpp
         Bitmap.cpp
         UdpConnector.cpp
         MainWindow.cpp

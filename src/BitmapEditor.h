@@ -4,6 +4,8 @@
 #include <QtWidgets/QGraphicsView>
 #include "Bitmap.h"
 
+class Grid;
+
 class BitmapEditor : public QGraphicsView
 {
 Q_OBJECT
@@ -35,11 +37,9 @@ signals:
 
 protected:
     QGraphicsScene *m_scene;
-    const qreal m_gridSize = 20;
-    quint32 m_width = 1;
-    quint32 m_height = 1;
 
     void drawGrid();
+    Grid *m_grid = nullptr;
 
     QColor m_primaryColor = Qt::red;
     QColor m_secondaryColor = Qt::black;
