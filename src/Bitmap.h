@@ -38,6 +38,8 @@ protected:
     QByteArray createChunk(QMapIterator<QPoint, QColor> &mi, int pixelsPerChunk) const;
 };
 
+QDebug operator<<(QDebug dbg, const Bitmap &bitmap);
+
 //Q_DECLARE_METATYPE(Bitmap)
 
 #endif //LEDWALLSTUDIO_BITMAP_H

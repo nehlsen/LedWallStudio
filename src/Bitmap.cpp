@@ -1,3 +1,5 @@
+#include <QtCore/QDebug>
+#include <QtCore/QDebugStateSaver>
 #include "Bitmap.h"
 
 //#include <QtCore/QDebug>
@@ -144,4 +146,30 @@ QPoint Bitmap::topRight() const
     }
 
     return tr;
+}
+
+QDebug operator<<(QDebug dbg, const Bitmap &bitmap)
+{
+    QDebugStateSaver saver(dbg);
+
+    for (int y = bitmap.topRight().y(); y >= 0; --y) {
+        for (int x = 0; x <= bitmap.topRight().x(); ++x) {
+            const QColor &c = bitmap[{x,y}];
+            dbg.nospace()
+            << "("
+//            << c.red()
+            << QString("%1").arg(c.red(), 3, 10, QChar(' '))
+            << ", "
+//            << c.green()
+            << QString("%1").arg(c.green(), 3, 10, QChar(' '))
+            << ", "
+//            << c.blue()
+            << QString("%1").arg(c.blue(), 3, 10, QChar(' '))
+            << ") ";
+        }
+
+        dbg.nospace() << "\n ";
+    }
+
+    return dbg;
 }
