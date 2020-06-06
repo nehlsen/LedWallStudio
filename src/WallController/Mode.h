@@ -4,6 +4,7 @@
 #include <QtCore/QList>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QMap>
+#include <QtCore/QVariant>
 
 namespace LedWall
 {

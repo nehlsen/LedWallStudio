@@ -1,12 +1,14 @@
 #include "ModesListModel.h"
-#include "../HttpConnector/HttpConnector.h"
+#include "../WallController/WallController.h"
+#include <QtCore/QTimer>
 
-ModesListModel::ModesListModel(HttpConnector *httpConnector, QObject *parent):
-    QAbstractListModel(parent), m_httpConnector(httpConnector)
+ModesListModel::ModesListModel(WallController *wallController, QObject *parent):
+    QAbstractListModel(parent), m_wallController(wallController)
 {
     // TODO clear on loss of connection?
 //    connect(m_httpConnector, &HttpConnector::connectionStatusChanged, this, &ModesListModel::setEnabled);
-    connect(m_httpConnector, &HttpConnector::modesChanged, this, &ModesListModel::onModesChanged);
+    connect(m_wallController, &WallController::modesChanged, this, &ModesListModel::onModesChanged);
+    QTimer::singleShot(0, this, &ModesListModel::onModesChanged);
 }
 
 int ModesListModel::rowCount(const QModelIndex &parent) const
@@ -47,6 +49,6 @@ QModelIndex ModesListModel::modeIndexToModelIndex(int modeIndex) const
 void ModesListModel::onModesChanged()
 {
     beginResetModel();
-    m_modes = m_httpConnector->getModes();
+    m_modes = m_wallController->getModes();
     endResetModel();
 }

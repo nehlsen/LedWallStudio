@@ -1,16 +1,16 @@
 #include "ModeConfigWidget.h"
-#include "../HttpConnector/HttpConnector.h"
+#include "../WallController/WallController.h"
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
 #include "ModesListModel.h"
 
-ModeConfigWidget::ModeConfigWidget(HttpConnector *httpConnector, QWidget *parent):
-    QWidget(parent), m_httpConnector(httpConnector)
+ModeConfigWidget::ModeConfigWidget(WallController *wallController, QWidget *parent):
+    QWidget(parent), m_wallController(wallController)
 {
     createUi();
-    connect(m_httpConnector, &HttpConnector::connectionStatusChanged, this, &ModeConfigWidget::setEnabled);
-    connect(m_httpConnector, &HttpConnector::modeChanged, this, &ModeConfigWidget::onModeChanged);
+    connect(m_wallController, &WallController::connectionStatusChanged, this, &ModeConfigWidget::setEnabled);
+    connect(m_wallController, &WallController::modeChanged, this, &ModeConfigWidget::onModeChanged);
 }
 
 void ModeConfigWidget::onModeChanged()
@@ -19,7 +19,7 @@ void ModeConfigWidget::onModeChanged()
     int newComboIndex = -1;
     auto model = qobject_cast<ModesListModel*>(m_selectMode->model());
     if (model) {
-        newComboIndex = model->modeIndexToModelIndex(m_httpConnector->getMode().Index).row();
+        newComboIndex = model->modeIndexToModelIndex(m_wallController->getMode().Index).row();
     }
 
     m_selectMode->setCurrentIndex(newComboIndex);
@@ -27,13 +27,13 @@ void ModeConfigWidget::onModeChanged()
 
 void ModeConfigWidget::onSetModeClicked()
 {
-    m_httpConnector->setMode(m_selectMode->currentData().toInt());
+    m_wallController->setModeByIndex(m_selectMode->currentData().toInt());
 }
 
 void ModeConfigWidget::createUi()
 {
     m_selectMode = new QComboBox;
-    m_selectMode->setModel(new ModesListModel(m_httpConnector, this));
+    m_selectMode->setModel(new ModesListModel(m_wallController, this));
 
     auto *btnSetMode = new QPushButton(tr("Set Mode"), this);
     connect(btnSetMode, &QPushButton::clicked, this, &ModeConfigWidget::onSetModeClicked);

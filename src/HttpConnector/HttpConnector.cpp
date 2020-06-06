@@ -12,7 +12,7 @@
 #define LEDWALL_API_GET_MODE LEDWALL_API_BASE + "/led/mode"
 #define LEDWALL_API_POST_MODE LEDWALL_API_GET_MODE
 
-HttpConnector::HttpConnector(QWidget *parent): QObject(parent)
+HttpConnector::HttpConnector(QWidget *parent): WallController(parent)
 {
     m_networkAccessManager = new QNetworkAccessManager;
     connect(m_networkAccessManager, &QNetworkAccessManager::finished, this, &HttpConnector::onHttpRequestFinished);
@@ -39,20 +39,18 @@ void HttpConnector::setConfig(const LedWall::Config& config)
     apiPost(LEDWALL_API_POST_CONFIG, m_config.deltaAsJson(config).toJson());
 }
 
-LedWall::ModeList HttpConnector::getModes() const
-{
-    return m_modes;
-}
-
-LedWall::Mode HttpConnector::getMode() const
-{
-    return m_mode;
-}
-
-void HttpConnector::setMode(int modeIndex)
+void HttpConnector::setModeByIndex(int modeIndex)
 {
     QJsonObject req;
     req.insert("index", modeIndex);
+
+    apiPost(LEDWALL_API_POST_MODE, QJsonDocument(req).toJson());
+}
+
+void HttpConnector::setModeByName(const QString &name)
+{
+    QJsonObject req;
+    req.insert("name", name);
 
     apiPost(LEDWALL_API_POST_MODE, QJsonDocument(req).toJson());
 }
@@ -62,11 +60,6 @@ void HttpConnector::connectToWall()
     QTimer::singleShot(0, this, &HttpConnector::requestConfig);
     QTimer::singleShot(0, this, &HttpConnector::requestModes);
     QTimer::singleShot(0, this, &HttpConnector::requestMode);
-}
-
-bool HttpConnector::isConnected() const
-{
-    return m_isConnected;
 }
 
 void HttpConnector::onHttpRequestFinished(QNetworkReply *reply)
@@ -81,12 +74,10 @@ void HttpConnector::onHttpRequestFinished(QNetworkReply *reply)
         emit configChanged();
     }
     if (replySuccessful && requestUrl.endsWith(LEDWALL_API_GET_MODES)) {
-        m_modes = LedWall::ModeList::fromJson(QJsonDocument::fromJson(reply->readAll()));
-        emit modesChanged();
+        updateModes(LedWallStudio::ModeList::fromJson(QJsonDocument::fromJson(reply->readAll())));
     }
     if (replySuccessful && requestUrl.endsWith(LEDWALL_API_GET_MODE)) {
-        m_mode = LedWall::Mode::fromJson(QJsonDocument::fromJson(reply->readAll()).object());
-        emit modeChanged();
+        updateMode(LedWallStudio::Mode::fromJson(QJsonDocument::fromJson(reply->readAll()).object()));
     }
 
     removePendingRequest(reply);
@@ -118,7 +109,6 @@ void HttpConnector::onConnectCanceled()
 {
     setIsConnected(false);
 
-    // TODO for any pending reply : reply->abort
     for (QNetworkReply *reply : m_pendingRequests) {
         reply->abort();
     }
@@ -141,19 +131,6 @@ void HttpConnector::removePendingRequest(QNetworkReply *reply)
 QString HttpConnector::getHost() const
 {
     return QSettings().value("Settings/host", "ledwall.local").toString();
-}
-
-void HttpConnector::setIsConnected(bool isConnected)
-{
-    if (m_isConnected == isConnected) {
-        return;
-    }
-
-    m_isConnected = isConnected;
-
-    if (isConnected) emit connected();
-    else emit disconnected();
-    emit connectionStatusChanged(isConnected);
 }
 
 void HttpConnector::initProgressDialog()

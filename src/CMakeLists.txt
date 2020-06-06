@@ -8,10 +8,11 @@ add_executable(LedWallStudio
         UdpConnector.cpp
         MainWindow.cpp
         SettingsDialog.cpp
+        WallController/WallController.cpp
+        WallController/Mode.cpp
         HttpConnector/HttpConnector.cpp
         HttpConnector/Config.cpp
         LedWallConfigWidget.cpp
-        HttpConnector/Mode.cpp
         LedWallModes/ModeConfigWidget.cpp
         LedWallModes/ModesListModel.cpp
         Animations/BitmapFramesWidget.cpp

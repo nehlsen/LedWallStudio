@@ -2,16 +2,16 @@
 #define LEDWALLSTUDIO_MODESLISTMODEL_H
 
 #include <QtCore/QAbstractListModel>
-#include "../HttpConnector/Mode.h"
+#include "../WallController/Mode.h"
 
-class HttpConnector;
+class WallController;
 
 class ModesListModel : public QAbstractListModel
 {
 Q_OBJECT
 
 public:
-    explicit ModesListModel(HttpConnector *httpConnector, QObject *parent = nullptr);
+    explicit ModesListModel(WallController *wallController, QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -22,8 +22,8 @@ protected slots:
     void onModesChanged();
 
 protected:
-    HttpConnector *m_httpConnector;
-    LedWall::ModeList m_modes; // copy of the list from http connector
+    WallController *m_wallController;
+    LedWallStudio::ModeList m_modes; // copy of the list from wall-Controller
 };
 
 #endif //LEDWALLSTUDIO_MODESLISTMODEL_H

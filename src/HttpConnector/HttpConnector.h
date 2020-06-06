@@ -6,9 +6,9 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtWidgets/QProgressDialog>
 #include "Config.h"
-#include "Mode.h"
+#include "../WallController/WallController.h"
 
-class HttpConnector : public QObject
+class HttpConnector : public WallController
 {
 Q_OBJECT
 
@@ -16,26 +16,17 @@ public:
     // although this is only an object, a widget as parent is required to parent the progress-dialog
     explicit HttpConnector(QWidget *parent = nullptr);
 
-    bool isConnected() const;
-
     LedWall::Config getConfig() const;
     void setConfig(const LedWall::Config& config);
 
-    LedWall::ModeList getModes() const;
-    LedWall::Mode getMode() const;
-    void setMode(int modeIndex);
+    void setModeByIndex(int modeIndex) override;
+    void setModeByName(const QString &name) override;
 
 public slots:
     void connectToWall();
 
 signals:
-    void connected();
-    void disconnected();
-    void connectionStatusChanged(bool isConnected);
-
     void configChanged();
-    void modesChanged();
-    void modeChanged();
 
 protected slots:
     void onHttpRequestFinished(QNetworkReply *reply);
@@ -55,11 +46,6 @@ protected:
     QString getHost() const;
 
     LedWall::Config m_config;
-    LedWall::ModeList m_modes;
-    LedWall::Mode m_mode;
-
-    bool m_isConnected = false;
-    void setIsConnected(bool isConnected);
 
     QProgressDialog *m_progressDialog;
     void initProgressDialog();
