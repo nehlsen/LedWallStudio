@@ -4,14 +4,13 @@
 #include "../../esp/LedWall/components/Mates-for-LEDs/LedMatrix/LedMatrix.h"
 #include "../../esp/LedWall/main/LedMode/LedMode.h"
 
-Simulator::Simulator()
+Simulator::Simulator(BitmapEditor *view, QObject *parent) :
+    QObject(parent), m_view(view)
 {
-    const int width = 25;
-    const int height = 16;
+    const int width = m_view->getGridSize().width();
+    const int height = m_view->getGridSize().height();
 
-    m_view = new BitmapEditor;
-    m_view->setSize({width, height});
-    m_controller = new CLEDController(m_view, width * height);
+    m_controller = new CFastLED(m_view, width * height);
     m_matrix = new LedMatrix(*m_controller, width, height, MatrixOptions::MatrixStraight);
 
     m_tickTimer = new QTimer;
@@ -49,9 +48,8 @@ void Simulator::run()
 
     m_tickTimer->setInterval(m_mode->frameDelay());
 //    m_tickTimer->setInterval(1000);
+//    m_tickTimer->setInterval(100);
     m_tickTimer->start();
-
-    m_view->show();
 }
 
 void Simulator::onTick()

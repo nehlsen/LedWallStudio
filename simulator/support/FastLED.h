@@ -64,13 +64,27 @@ public:
     QVector<CRGB> &leds();
 
     void show();
-    void showLeds(uint8_t brightness=255);
+    void showLeds(uint8_t brightness = 255);
+    void showColor(const CRGB &data, uint8_t brightness = 255);
+    void clearLedData();
 
 protected:
     BitmapEditor *m_editor = nullptr;
     QVector<CRGB> m_leds;
 };
 
-static CLEDController FastLED;
+class CFastLED : public CLEDController
+{
+public:
+    using CLEDController::CLEDController;
+
+    void setBrightness(uint8_t scale) {}
+    uint8_t getBrightness() { return 0xff; }
+
+    void clear(bool writeData = false) {}
+    void delay(unsigned long ms) {}
+};
+
+static CFastLED FastLED;
 
 #endif //LEDWALLSTUDIO_SIMULATOR_SUPPORT_FASTLED_H

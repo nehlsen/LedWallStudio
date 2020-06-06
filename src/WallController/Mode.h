@@ -6,7 +6,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QVariant>
 
-namespace LedWall
+namespace LedWallStudio
 {
 
 struct Mode
@@ -26,5 +26,5 @@ public:
     static ModeList fromJson(const QJsonDocument &jsonDocument);
 };
 
-} // namespace LedWall
+} // namespace LedWallStudio
 #endif //LEDWALLSTUDIO_MODE_H

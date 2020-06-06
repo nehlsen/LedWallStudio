@@ -1,11 +1,10 @@
 #include "Mode.h"
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonArray>
-#include <QtCore/QVariant>
 
-LedWall::Mode LedWall::Mode::fromJson(const QJsonObject &jsonObject)
+LedWallStudio::Mode LedWallStudio::Mode::fromJson(const QJsonObject &jsonObject)
 {
-    LedWall::Mode mode = {-1, ""};
+    LedWallStudio::Mode mode = {-1, ""};
 
     if (jsonObject.contains("index")) {
         mode.Index = (qint8)jsonObject.value("index").toInt();
@@ -23,12 +22,12 @@ LedWall::Mode LedWall::Mode::fromJson(const QJsonObject &jsonObject)
     return mode;
 }
 
-bool LedWall::Mode::isValid() const
+bool LedWallStudio::Mode::isValid() const
 {
     return Index != -1;
 }
 
-LedWall::ModeList LedWall::ModeList::fromJson(const QJsonDocument &jsonDocument)
+LedWallStudio::ModeList LedWallStudio::ModeList::fromJson(const QJsonDocument &jsonDocument)
 {
     ModeList modes;
 

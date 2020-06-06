@@ -1,14 +1,15 @@
 #include <QtWidgets/QApplication>
-#include "../src/BitmapEditor.h"
-#include "../../esp/LedWall/components/Mates-for-LEDs/LedMatrix/LedMatrix.h"
-#include "../../esp/LedWall/main/LedMode/LedModeStatus.h"
-#include "../../esp/LedWall/main/LedMode/Bars.h"
-#include "../../esp/LedWall/main/LedMode/MultiBars.h"
+//#include "../src/BitmapEditor.h"
+//#include "../../esp/LedWall/components/Mates-for-LEDs/LedMatrix/LedMatrix.h"
+//#include "../../esp/LedWall/main/LedMode/LedModeStatus.h"
+//#include "../../esp/LedWall/main/LedMode/Bars.h"
+//#include "../../esp/LedWall/main/LedMode/MultiBars.h"
 //#include "../../esp/LedWall/main/LedMode/Breathe.h"
-//#include "../../esp/LedWall/main/LedMode/Fire.h"
-#include "../../esp/LedWall/main/LedMode/Fireworks.h"
-#include "../../esp/LedWall/main/LedMode/Text.h"
-#include "Simulator.h"
+////#include "../../esp/LedWall/main/LedMode/Fire.h"
+//#include "../../esp/LedWall/main/LedMode/Fireworks.h"
+//#include "../../esp/LedWall/main/LedMode/Text.h"
+//#include "Simulator.h"
+#include "MainWindow.h"
 
 int main(int argc, char* argv[])
 {
@@ -16,6 +17,7 @@ int main(int argc, char* argv[])
     QApplication::setApplicationName("ledwall-studio-simulator");
     QApplication app(argc, argv);
 
+    /*
     auto *simulator = new Simulator();
 //    auto *modeToSimulate = new LedWall::Mode::LedModeStatus(*simulator->getMatrix());
 //    auto *modeToSimulate = new LedWall::Mode::Bars(*simulator->getMatrix());
@@ -26,6 +28,10 @@ int main(int argc, char* argv[])
 //    auto *modeToSimulate = new LedWall::Mode::Text(*simulator->getMatrix());
     simulator->setMode(modeToSimulate);
     simulator->run();
+    */
+
+    auto *mainWin = new MainWindow;
+    mainWin->show();
 
     return app.exec();
 }

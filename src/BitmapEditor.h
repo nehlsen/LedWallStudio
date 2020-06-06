@@ -16,8 +16,13 @@ public:
     // set grid size / size in LEDs
     [[deprecated]]
     void setSize(quint32 width, quint32 height);
-    QSize getSize() const;
-    void setSize(const QSize &size);
+    [[deprecated("by getGridSize")]]
+    QSize getSize() const { return getGridSize(); }
+    [[deprecated("by setGridSize")]]
+    void setSize(const QSize &size) { setGridSize(size); }
+
+    QSize getGridSize() const;
+    void setGridSize(const QSize &size);
 
     const QColor &getPrimaryColor() const;
     void setPrimaryColor(const QColor &primaryColor);

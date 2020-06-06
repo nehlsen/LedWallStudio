@@ -141,3 +141,16 @@ void CLEDController::showLeds(uint8_t brightness)
 {
     show();
 }
+
+void CLEDController::showColor(const CRGB &data, uint8_t brightness)
+{
+    const int oldSize = size();
+    m_leds.clear();
+    m_leds.fill(data, oldSize);
+    show();
+}
+
+void CLEDController::clearLedData()
+{
+    showColor(CRGB::Black);
+}

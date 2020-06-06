@@ -10,7 +10,7 @@ class LedMode;
 }
 }
 class BitmapEditor;
-class CLEDController;
+class CFastLED;
 class LedMatrix;
 
 class Simulator : public QObject
@@ -18,7 +18,7 @@ class Simulator : public QObject
 Q_OBJECT
 
 public:
-    Simulator();
+    explicit Simulator(BitmapEditor *view, QObject *parent = nullptr);
 
     LedMatrix *getMatrix();
     void setMode(LedWall::Mode::LedMode *modeToSimulate);
@@ -31,7 +31,7 @@ protected slots:
 
 protected:
     BitmapEditor *m_view;
-    CLEDController *m_controller;
+    CFastLED *m_controller;
     LedMatrix *m_matrix;
 
     LedWall::Mode::LedMode *m_mode = nullptr;

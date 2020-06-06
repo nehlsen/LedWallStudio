@@ -10,3 +10,4 @@ find_package(Qt5 COMPONENTS Widgets Network REQUIRED)
 
 add_subdirectory(src)
 add_subdirectory(test)
+add_subdirectory(simulator)

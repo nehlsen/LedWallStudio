@@ -21,12 +21,12 @@ void BitmapEditor::setSize(quint32 width, quint32 height)
     setSize(QSize(width, height));
 }
 
-QSize BitmapEditor::getSize() const
+QSize BitmapEditor::getGridSize() const
 {
     return m_grid->getSize();
 }
 
-void BitmapEditor::setSize(const QSize &size)
+void BitmapEditor::setGridSize(const QSize &size)
 {
     if (m_grid->getSize() == size) {
         return;
