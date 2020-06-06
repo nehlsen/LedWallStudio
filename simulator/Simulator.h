@@ -23,8 +23,20 @@ public:
     LedMatrix *getMatrix();
     void setMode(LedWall::Mode::LedMode *modeToSimulate);
 
+    bool isActive() const;
+    int getFrameDelay() const;
+    bool isAutomaticFrameDelay() const;
+
 public slots:
     void run();
+
+    void start();
+    void stop();
+    void setFrameDelay(int msec);
+    void revertFrameDelay();
+
+    // if isActive toggles pause
+    void step();
 
 protected slots:
     void onTick();

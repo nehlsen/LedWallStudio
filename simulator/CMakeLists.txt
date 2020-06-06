@@ -3,6 +3,7 @@ add_executable(Simulator
         MainWindow.cpp
         Simulator.cpp
         FakeConnector.cpp
+        PlaybackControlWidget.cpp
 
         support/esp32-hal.cpp
         support/FastLED.cpp

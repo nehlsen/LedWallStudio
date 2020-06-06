@@ -37,7 +37,6 @@ void FakeConnector::setModeByIndex(int modeIndex)
     }
 
     m_simulator->setMode(newMode);
-    m_simulator->run(); // FIXME
 }
 
 void FakeConnector::setModeByName(const QString &name)

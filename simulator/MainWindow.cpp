@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "Simulator.h"
 #include "FakeConnector.h"
+#include "PlaybackControlWidget.h"
 #include "../src/LedWallModes/ModeConfigWidget.h"
 #include <QtWidgets/QDockWidget>
 #include "../src/BitmapEditor.h"
@@ -23,8 +24,6 @@ void MainWindow::createSimulator()
     m_view->show();
     m_simulator = new Simulator(m_view, this);
     setCentralWidget(m_view);
-
-    m_simulator->run(); // FIXME replace with play/pause button
 }
 
 void MainWindow::createFakeConnector()
@@ -39,6 +38,12 @@ void MainWindow::creatDocks()
     modeDock->setObjectName("modeDock");
     modeDock->setWidget(m_modeWidget);
     addDockWidget(Qt::RightDockWidgetArea, modeDock);
+
+    m_playbackControlWidget = new PlaybackControlWidget(m_simulator, this);
+    auto *playbackControlDock = new QDockWidget(tr("Playback Control"), this);
+    playbackControlDock->setObjectName("playbackControlDock");
+    playbackControlDock->setWidget(m_playbackControlWidget);
+    addDockWidget(Qt::RightDockWidgetArea, playbackControlDock);
 
     // combo mode
     // frame rate 1/s 40/s pause step

@@ -7,6 +7,7 @@ class Simulator;
 class ModeConfigWidget;
 class FakeConnector;
 class BitmapEditor;
+class PlaybackControlWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -27,6 +28,7 @@ protected:
 
     void creatDocks();
     ModeConfigWidget *m_modeWidget;
+    PlaybackControlWidget *m_playbackControlWidget;
 };
 
 #endif //LEDWALLSTUDIO_MAINWINDOW_H

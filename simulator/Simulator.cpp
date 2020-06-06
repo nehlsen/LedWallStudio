@@ -15,6 +15,7 @@ Simulator::Simulator(BitmapEditor *view, QObject *parent) :
 
     m_tickTimer = new QTimer;
     m_tickTimer->setSingleShot(false);
+    m_tickTimer->setInterval(40);
     connect(m_tickTimer, &QTimer::timeout, this, &Simulator::onTick);
 }
 
@@ -27,9 +28,9 @@ void Simulator::setMode(LedWall::Mode::LedMode *modeToSimulate)
 {
     bool restart = false;
     if (m_mode != nullptr) {
+        restart = m_tickTimer->isActive();
         m_tickTimer->stop();
         delete m_mode;
-        restart = true;
     }
 
     m_mode = modeToSimulate;
@@ -39,6 +40,21 @@ void Simulator::setMode(LedWall::Mode::LedMode *modeToSimulate)
     }
 }
 
+bool Simulator::isActive() const
+{
+    return m_tickTimer->isActive();
+}
+
+int Simulator::getFrameDelay() const
+{
+    return m_tickTimer->interval();
+}
+
+bool Simulator::isAutomaticFrameDelay() const
+{
+    return false;
+}
+
 void Simulator::run()
 {
     if (m_mode == nullptr) {
@@ -46,10 +62,37 @@ void Simulator::run()
         return;
     }
 
-    m_tickTimer->setInterval(m_mode->frameDelay());
-//    m_tickTimer->setInterval(1000);
-//    m_tickTimer->setInterval(100);
     m_tickTimer->start();
+}
+
+void Simulator::start()
+{
+    run();
+}
+
+void Simulator::stop()
+{
+    m_tickTimer->stop();
+}
+
+void Simulator::setFrameDelay(int msec)
+{
+    m_tickTimer->setInterval(msec);
+}
+
+void Simulator::revertFrameDelay()
+{
+    if (m_mode == nullptr) {
+        return;
+    }
+
+    m_tickTimer->setInterval(m_mode->frameDelay());
+}
+
+void Simulator::step()
+{
+    stop();
+    onTick();
 }
 
 void Simulator::onTick()
