@@ -5,14 +5,22 @@
 #include <QtWidgets/QtWidgets>
 #include <QtCore/QDebug>
 
-BitmapEditor::BitmapEditor(QWidget *parent):
+BitmapEditor::BitmapEditor(QWidget *parent): BitmapEditor(GridModeRect, parent)
+{}
+
+BitmapEditor::BitmapEditor(BitmapEditor::GridMode gridMode, QWidget *parent):
     QGraphicsView(parent)
 {
     m_scene = new QGraphicsScene(this);
     setScene(m_scene);
     setBackgroundBrush(QBrush(Qt::black));
-    m_grid = new GridRect(m_scene);
-//    m_grid = new GridHexagon(m_scene);
+
+    if (gridMode == GridModeHexagon) {
+        m_grid = new GridHexagon(m_scene);
+    } else {
+        m_grid = new GridRect(m_scene);
+    }
+
     setSize({5, 5});
 }
 

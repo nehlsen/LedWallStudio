@@ -11,7 +11,9 @@ class BitmapEditor : public QGraphicsView
 Q_OBJECT
 
 public:
+    enum GridMode { GridModeRect, GridModeHexagon };
     explicit BitmapEditor(QWidget *parent = nullptr);
+    explicit BitmapEditor(GridMode gridMode, QWidget *parent = nullptr);
 
     // set grid size / size in LEDs
     [[deprecated]]

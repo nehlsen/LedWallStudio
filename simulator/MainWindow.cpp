@@ -4,6 +4,7 @@
 #include "PlaybackControlWidget.h"
 #include "../src/LedWallModes/ModeConfigWidget.h"
 #include <QtWidgets/QDockWidget>
+#include <QtCore/QSettings>
 #include "../src/BitmapEditor.h"
 
 MainWindow::MainWindow(QWidget *parent):
@@ -16,11 +17,18 @@ MainWindow::MainWindow(QWidget *parent):
 
 void MainWindow::createSimulator()
 {
-    const int width = 10;
-    const int height = 1;
+    QSettings settings;
+    if (!settings.contains("Grid/Size")) {
+        settings.setValue("Grid/Size", QSize(5, 5));
+    }
+    if (!settings.contains("Grid/Mode")) {
+        settings.setValue("Grid/Mode", BitmapEditor::GridModeRect);
+    }
+    QSize gridSize = settings.value("Grid/Size", QSize(5, 5)).toSize();
+    BitmapEditor::GridMode gridMode = static_cast<BitmapEditor::GridMode>(settings.value("Grid/Mode", BitmapEditor::GridModeRect).toInt());
 
-    m_view = new BitmapEditor(this);
-    m_view->setGridSize({width, height});
+    m_view = new BitmapEditor(gridMode, this);
+    m_view->setGridSize(gridSize);
     m_view->show();
     m_simulator = new Simulator(m_view, this);
     setCentralWidget(m_view);
