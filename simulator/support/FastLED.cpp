@@ -154,3 +154,8 @@ void CLEDController::clearLedData()
 {
     showColor(CRGB::Black);
 }
+
+void CFastLED::clear(bool writeData)
+{
+    clearLedData();
+}

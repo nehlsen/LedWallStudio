@@ -81,7 +81,7 @@ public:
     void setBrightness(uint8_t scale) {}
     uint8_t getBrightness() { return 0xff; }
 
-    void clear(bool writeData = false) {}
+    void clear(bool writeData = false);
     void delay(unsigned long ms) {}
 };
 
