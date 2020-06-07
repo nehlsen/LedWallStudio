@@ -7,6 +7,7 @@
 #include "../../esp/LedWall/main/LedMode/Breathe.h"
 #include "../../esp/LedWall/main/LedMode/Fireworks.h"
 #include "../../esp/LedWall/main/LedMode/Text.h"
+#include "../../esp/LedWall/main/LedMode/MatesDemo.h"
 
 FakeConnector::FakeConnector(Simulator *simulator, QObject *parent) :
     WallController(parent), m_simulator(simulator)
@@ -29,6 +30,10 @@ void FakeConnector::setModeByIndex(int modeIndex)
 
         case 2:
             newMode = new LedWall::Mode::MultiBars(*m_simulator->getMatrix());
+            break;
+
+        case 3:
+            newMode = new LedWall::Mode::MatesDemo(*m_simulator->getMatrix());
             break;
 
         default:
@@ -58,10 +63,14 @@ void FakeConnector::init()
     modeMultiBars.Index = 2;
     modeMultiBars.Name = "MultiBars";
 
+    LedWallStudio::Mode modeMatesDemo;
+    modeMatesDemo.Index = 3;
+    modeMatesDemo.Name = "MatesDemo";
+
     // breath, fireworks, text
 
     LedWallStudio::ModeList modes;
-    modes << modeStatus << modeBars << modeMultiBars;
+    modes << modeStatus << modeBars << modeMultiBars << modeMatesDemo;
 
     updateModes(modes);
 //    updateMode(); // TODO

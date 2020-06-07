@@ -28,6 +28,7 @@ add_executable(Simulator
 #        ../../esp/LedWall/main/LedMode/Fire.cpp # requires palettes
         ../../esp/LedWall/main/LedMode/Fireworks.cpp
         ../../esp/LedWall/main/LedMode/Text.cpp
+        ../../esp/LedWall/main/LedMode/MatesDemo.cpp
         ../../esp/LedWall/components/Mates-for-LEDs/LedMatrix/LedMatrix.cpp
         ../../esp/LedWall/components/Mates-for-LEDs/LedMatrix/PixelLocator.cpp
 
@@ -37,6 +38,7 @@ add_executable(Simulator
         ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Point.cpp
         ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Text.cpp
         ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Rect.cpp
+        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Line.cpp
 #        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Circle.cpp
         )
 
