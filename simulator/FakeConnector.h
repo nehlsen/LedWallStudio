@@ -15,6 +15,8 @@ public:
     void setModeByIndex(int modeIndex) override;
     void setModeByName(const QString &name) override;
 
+    void setModeOptions(const LedWallStudio::ModeOptions &options) override;
+
 protected:
     Simulator *m_simulator;
 

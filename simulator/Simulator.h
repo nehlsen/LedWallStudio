@@ -21,7 +21,9 @@ public:
     explicit Simulator(BitmapEditor *view, QObject *parent = nullptr);
 
     LedMatrix *getMatrix();
+    // simulator takes ownership of mode and deletes it when necessary
     void setMode(LedWall::Mode::LedMode *modeToSimulate);
+    LedWall::Mode::LedMode *getMode() const;
 
     bool isActive() const;
     int getFrameDelay() const;

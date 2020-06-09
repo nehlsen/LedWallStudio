@@ -19,6 +19,9 @@ public:
     virtual void setModeByIndex(int modeIndex) = 0;
     virtual void setModeByName(const QString &name) = 0;
 
+    // use getMode().Options to get options
+    virtual void setModeOptions(const LedWallStudio::ModeOptions &options) = 0;
+
 signals:
     void connected();
     void disconnected();

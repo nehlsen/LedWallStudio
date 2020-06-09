@@ -1,6 +1,5 @@
 #include "FakeConnector.h"
 #include "Simulator.h"
-
 #include "../../esp/LedWall/main/LedMode/LedModeStatus.h"
 #include "../../esp/LedWall/main/LedMode/Bars.h"
 #include "../../esp/LedWall/main/LedMode/MultiBars.h"
@@ -8,6 +7,8 @@
 #include "../../esp/LedWall/main/LedMode/Fireworks.h"
 #include "../../esp/LedWall/main/LedMode/Text.h"
 #include "../../esp/LedWall/main/LedMode/MatesDemo.h"
+#include "../../esp/LedWall/main/LedMode/Wave.h"
+#include "ModeOptions.h"
 
 FakeConnector::FakeConnector(Simulator *simulator, QObject *parent) :
     WallController(parent), m_simulator(simulator)
@@ -36,17 +37,32 @@ void FakeConnector::setModeByIndex(int modeIndex)
             newMode = new LedWall::Mode::MatesDemo(*m_simulator->getMatrix());
             break;
 
+        case 4:
+            newMode = new LedWall::Mode::Wave(*m_simulator->getMatrix());
+            break;
+
         default:
             qWarning("FakeConnector::setModeByIndex - INVALID MODE INDEX");
             break;
     }
 
     m_simulator->setMode(newMode);
+    for (auto& mode : m_modes) {
+        if (mode.Index == modeIndex) {
+            mode.Options = ModeOptions::readFromMode(newMode);
+            updateMode(mode);
+        }
+    }
 }
 
 void FakeConnector::setModeByName(const QString &name)
 {
     qWarning("FakeConnector::setModeByName - NOT IMPLEMENTED");
+}
+
+void FakeConnector::setModeOptions(const LedWallStudio::ModeOptions &options)
+{
+    ModeOptions::writeToMode(options, m_simulator->getMode());
 }
 
 void FakeConnector::init()
@@ -67,10 +83,14 @@ void FakeConnector::init()
     modeMatesDemo.Index = 3;
     modeMatesDemo.Name = "MatesDemo";
 
+    LedWallStudio::Mode modeWave;
+    modeWave.Index = 4;
+    modeWave.Name = "Wave";
+
     // breath, fireworks, text
 
     LedWallStudio::ModeList modes;
-    modes << modeStatus << modeBars << modeMultiBars << modeMatesDemo;
+    modes << modeStatus << modeBars << modeMultiBars << modeMatesDemo << modeWave;
 
     updateModes(modes);
 //    updateMode(); // TODO

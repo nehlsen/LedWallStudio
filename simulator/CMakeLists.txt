@@ -3,6 +3,7 @@ add_executable(Simulator
         MainWindow.cpp
         Simulator.cpp
         FakeConnector.cpp
+        ModeOptions.cpp
         PlaybackControlWidget.cpp
 
         support/esp32-hal.cpp
@@ -16,6 +17,8 @@ add_executable(Simulator
         ../src/BitmapEditor/GridHexagon.cpp
         ../src/LedWallModes/ModeConfigWidget.cpp
         ../src/LedWallModes/ModesListModel.cpp
+        ../src/LedWallModes/ModeOptionsWidget.cpp
+        ../src/LedWallModes/WaveOptionsWidget.cpp
         ../src/WallController/WallController.cpp
         ../src/WallController/Mode.cpp
 
@@ -24,11 +27,12 @@ add_executable(Simulator
         ../../esp/LedWall/main/LedMode/LedModeStatus.cpp
         ../../esp/LedWall/main/LedMode/Bars.cpp
         ../../esp/LedWall/main/LedMode/MultiBars.cpp
-        ../../esp/LedWall/main/LedMode/Breathe.cpp
+#        ../../esp/LedWall/main/LedMode/Breathe.cpp
 #        ../../esp/LedWall/main/LedMode/Fire.cpp # requires palettes
         ../../esp/LedWall/main/LedMode/Fireworks.cpp
         ../../esp/LedWall/main/LedMode/Text.cpp
         ../../esp/LedWall/main/LedMode/MatesDemo.cpp
+        ../../esp/LedWall/main/LedMode/Wave.cpp
         ../../esp/LedWall/components/Mates-for-LEDs/LedMatrix/LedMatrix.cpp
         ../../esp/LedWall/components/Mates-for-LEDs/LedMatrix/PixelLocator.cpp
 
@@ -39,7 +43,7 @@ add_executable(Simulator
         ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Text.cpp
         ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Rect.cpp
         ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Line.cpp
-#        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Circle.cpp
+        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Circle.cpp
         )
 
 target_include_directories(Simulator PRIVATE

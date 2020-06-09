@@ -40,6 +40,11 @@ void Simulator::setMode(LedWall::Mode::LedMode *modeToSimulate)
     }
 }
 
+LedWall::Mode::LedMode * Simulator::getMode() const
+{
+    return m_mode;
+}
+
 bool Simulator::isActive() const
 {
     return m_tickTimer->isActive();

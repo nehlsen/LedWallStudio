@@ -9,6 +9,8 @@
 namespace LedWallStudio
 {
 
+typedef QMap<QString, QVariant> ModeOptions;
+
 struct Mode
 {
     static Mode fromJson(const QJsonObject &jsonObject);
@@ -17,7 +19,7 @@ struct Mode
 
     qint8 Index;
     QString Name;
-    QMap<QString, QVariant> Options;
+    ModeOptions Options;
 };
 
 class ModeList : public QList<Mode>
