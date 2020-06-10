@@ -1,6 +1,6 @@
 #include "ModeOptions.h"
-#include "../../esp/LedWall/main/LedMode/LedMode.h"
-#include "../../esp/LedWall/main/LedMode/Wave.h"
+#include <LedMode/LedMode.h>
+#include <LedMode/Wave.h>
 
 bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall::Mode::LedMode *mode)
 {

@@ -9,7 +9,13 @@
 namespace LedWallStudio
 {
 
-typedef QMap<QString, QVariant> ModeOptions;
+class ModeOptions : public QMap<QString, QVariant>
+{
+public:
+    static ModeOptions fromJson(const QJsonObject &jsonObject);
+    void readJson(const QJsonObject &jsonObject);
+    QJsonObject toJson() const;
+};
 
 struct Mode
 {

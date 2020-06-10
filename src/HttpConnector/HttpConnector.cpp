@@ -11,6 +11,7 @@
 #define LEDWALL_API_GET_MODES LEDWALL_API_BASE + "/led/modes"
 #define LEDWALL_API_GET_MODE LEDWALL_API_BASE + "/led/mode"
 #define LEDWALL_API_POST_MODE LEDWALL_API_GET_MODE
+#define LEDWALL_API_POST_MODE_OPTIONS LEDWALL_API_BASE + "/led/mode/options"
 
 HttpConnector::HttpConnector(QWidget *parent): WallController(parent)
 {
@@ -53,6 +54,11 @@ void HttpConnector::setModeByName(const QString &name)
     req.insert("name", name);
 
     apiPost(LEDWALL_API_POST_MODE, QJsonDocument(req).toJson());
+}
+
+void HttpConnector::setModeOptions(const LedWallStudio::ModeOptions &options)
+{
+    apiPost(LEDWALL_API_POST_MODE_OPTIONS, QJsonDocument(options.toJson()).toJson());
 }
 
 void HttpConnector::connectToWall()

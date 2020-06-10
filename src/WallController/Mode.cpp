@@ -2,9 +2,36 @@
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonArray>
 
-LedWallStudio::Mode LedWallStudio::Mode::fromJson(const QJsonObject &jsonObject)
+namespace LedWallStudio
 {
-    LedWallStudio::Mode mode = {-1, ""};
+
+ModeOptions ModeOptions::fromJson(const QJsonObject &optionsObject)
+{
+    ModeOptions that;
+    that.readJson(optionsObject);
+    return that;
+}
+
+void ModeOptions::readJson(const QJsonObject &optionsObject)
+{
+    for (auto it = optionsObject.constBegin(); it != optionsObject.constEnd(); ++it) {
+        (*this)[it.key()] = it.value().toVariant();
+    }
+}
+
+QJsonObject ModeOptions::toJson() const
+{
+    QJsonObject jsonObject;
+    for (auto it = constBegin(); it != constEnd(); ++it) {
+        jsonObject.insert(it.key(), QJsonValue::fromVariant(it.value()));
+    }
+
+    return jsonObject;
+}
+
+Mode Mode::fromJson(const QJsonObject &jsonObject)
+{
+    Mode mode = {-1, ""};
 
     if (jsonObject.contains("index")) {
         mode.Index = (qint8)jsonObject.value("index").toInt();
@@ -13,21 +40,18 @@ LedWallStudio::Mode LedWallStudio::Mode::fromJson(const QJsonObject &jsonObject)
         mode.Name = jsonObject.value("name").toString();
     }
     if (jsonObject.contains("options")) {
-        auto optionsObject = jsonObject.value("options").toObject();
-        for (auto it = optionsObject.constBegin(); it != optionsObject.constEnd(); ++it) {
-            mode.Options[it.key()] = it.value().toVariant();
-        }
+        mode.Options.readJson(jsonObject.value("options").toObject());
     }
 
     return mode;
 }
 
-bool LedWallStudio::Mode::isValid() const
+bool Mode::isValid() const
 {
     return Index != -1;
 }
 
-LedWallStudio::ModeList LedWallStudio::ModeList::fromJson(const QJsonDocument &jsonDocument)
+ModeList ModeList::fromJson(const QJsonDocument &jsonDocument)
 {
     ModeList modes;
 
@@ -53,3 +77,5 @@ LedWallStudio::ModeList LedWallStudio::ModeList::fromJson(const QJsonDocument &j
 
     return modes;
 }
+
+} // namespace LedWallStudio

@@ -1,8 +1,8 @@
 #include "Simulator.h"
 #include "../src/BitmapEditor.h"
 #include "support/FastLED.h"
-#include "../../esp/LedWall/components/Mates-for-LEDs/LedMatrix/LedMatrix.h"
-#include "../../esp/LedWall/main/LedMode/LedMode.h"
+#include <LedMatrix.h>
+#include <LedMode/LedMode.h>
 
 Simulator::Simulator(BitmapEditor *view, QObject *parent) :
     QObject(parent), m_view(view)

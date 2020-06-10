@@ -1,3 +1,5 @@
+set(LEDWALL_SRC_DIR ../../LedWall)
+
 add_executable(Simulator
         main.cpp
         MainWindow.cpp
@@ -19,36 +21,38 @@ add_executable(Simulator
         ../src/LedWallModes/ModesListModel.cpp
         ../src/LedWallModes/ModeOptionsWidget.cpp
         ../src/LedWallModes/WaveOptionsWidget.cpp
+        ../src/LedWallModes/MultiBarsOptionsWidget.cpp
         ../src/WallController/WallController.cpp
         ../src/WallController/Mode.cpp
 
-        ../../esp/LedWall/main/LedMode/LedMode.cpp
-        ../../esp/LedWall/main/LedMode/utilities.c
-        ../../esp/LedWall/main/LedMode/LedModeStatus.cpp
-        ../../esp/LedWall/main/LedMode/Bars.cpp
-        ../../esp/LedWall/main/LedMode/MultiBars.cpp
-#        ../../esp/LedWall/main/LedMode/Breathe.cpp
-#        ../../esp/LedWall/main/LedMode/Fire.cpp # requires palettes
-        ../../esp/LedWall/main/LedMode/Fireworks.cpp
-        ../../esp/LedWall/main/LedMode/Text.cpp
-        ../../esp/LedWall/main/LedMode/MatesDemo.cpp
-        ../../esp/LedWall/main/LedMode/Wave.cpp
-        ../../esp/LedWall/components/Mates-for-LEDs/LedMatrix/LedMatrix.cpp
-        ../../esp/LedWall/components/Mates-for-LEDs/LedMatrix/PixelLocator.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/LedMode.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/utilities.c
+        ${LEDWALL_SRC_DIR}/main/LedMode/LedModeStatus.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/Bars.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/MultiBars.cpp
+#        ${LEDWALL_SRC_DIR}/main/LedMode/Breathe.cpp
+#        ${LEDWALL_SRC_DIR}/main/LedMode/Fire.cpp # requires palettes
+        ${LEDWALL_SRC_DIR}/main/LedMode/Fireworks.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/Text.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/MatesDemo.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/Wave.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/LedMatrix/LedMatrix.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/LedMatrix/PixelLocator.cpp
 
-        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/GfxPrimitive.cpp
-        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Pixel.cpp
-        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/PixelMap.cpp
-        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Point.cpp
-        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Text.cpp
-        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Rect.cpp
-        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Line.cpp
-        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives/Circle.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/GfxPrimitive.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/Pixel.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/PixelMap.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/Point.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/Text.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/Rect.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/Line.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/Circle.cpp
         )
 
 target_include_directories(Simulator PRIVATE
         support
-        ../../esp/LedWall/components/Mates-for-LEDs/LedMatrix
-        ../../esp/LedWall/components/Mates-for-LEDs/GfxPrimitives
+        ${LEDWALL_SRC_DIR}/main
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/LedMatrix
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives
         )
 target_link_libraries(Simulator Qt5::Widgets)

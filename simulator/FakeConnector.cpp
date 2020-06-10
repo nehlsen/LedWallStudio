@@ -1,14 +1,14 @@
 #include "FakeConnector.h"
 #include "Simulator.h"
-#include "../../esp/LedWall/main/LedMode/LedModeStatus.h"
-#include "../../esp/LedWall/main/LedMode/Bars.h"
-#include "../../esp/LedWall/main/LedMode/MultiBars.h"
-#include "../../esp/LedWall/main/LedMode/Breathe.h"
-#include "../../esp/LedWall/main/LedMode/Fireworks.h"
-#include "../../esp/LedWall/main/LedMode/Text.h"
-#include "../../esp/LedWall/main/LedMode/MatesDemo.h"
-#include "../../esp/LedWall/main/LedMode/Wave.h"
 #include "ModeOptions.h"
+#include <LedMode/LedModeStatus.h>
+#include <LedMode/Bars.h>
+#include <LedMode/MultiBars.h>
+#include <LedMode/Breathe.h>
+#include <LedMode/Fireworks.h>
+#include <LedMode/Text.h>
+#include <LedMode/MatesDemo.h>
+#include <LedMode/Wave.h>
 
 FakeConnector::FakeConnector(Simulator *simulator, QObject *parent) :
     WallController(parent), m_simulator(simulator)
