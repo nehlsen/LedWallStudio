@@ -4,9 +4,9 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
 #include "ModesListModel.h"
-#include "ModeOptionsWidget.h"
 #include "WaveOptionsWidget.h"
 #include "MultiBarsOptionsWidget.h"
+#include "TextOptionsWidget.h"
 
 ModeConfigWidget::ModeConfigWidget(WallController *wallController, QWidget *parent):
     QWidget(parent), m_wallController(wallController)
@@ -36,11 +36,13 @@ void ModeConfigWidget::onModeChanged()
 
     if (m_wallController->getMode().Name == "Wave") {
         m_modeOptionsWidget = new WaveOptionsWidget(this);
-        m_modeOptionsWidget->setOptions(m_wallController->getMode().Options);
-        layout()->addWidget(m_modeOptionsWidget);
-        m_btnSetOptions->setEnabled(true);
     } else if (m_wallController->getMode().Name == "MultiBars") {
         m_modeOptionsWidget = new MultiBarsOptionsWidget(this);
+    } else if (m_wallController->getMode().Name == "Text") {
+        m_modeOptionsWidget = new TextOptionsWidget(this);
+    }
+
+    if (m_modeOptionsWidget != nullptr) {
         m_modeOptionsWidget->setOptions(m_wallController->getMode().Options);
         layout()->addWidget(m_modeOptionsWidget);
         m_btnSetOptions->setEnabled(true);
