@@ -1,12 +1,18 @@
 #include "ModeOptions.h"
 #include <LedMode/LedMode.h>
 #include <LedMode/Wave.h>
+#include <LedMode/MultiBars.h>
 
 bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall::Mode::LedMode *mode)
 {
     auto wave = dynamic_cast<LedWall::Mode::Wave*>(mode);
     if (wave) {
         return ModeOptions(options).write(wave);
+    }
+
+    auto multiBars = dynamic_cast<LedWall::Mode::MultiBars*>(mode);
+    if (multiBars) {
+        return ModeOptions(options).write(multiBars);
     }
 
     return false;
@@ -17,6 +23,11 @@ LedWallStudio::ModeOptions ModeOptions::readFromMode(LedWall::Mode::LedMode *mod
     auto wave = dynamic_cast<LedWall::Mode::Wave*>(mode);
     if (wave) {
         return ModeOptions::read(wave);
+    }
+
+    auto multiBars = dynamic_cast<LedWall::Mode::MultiBars*>(mode);
+    if (multiBars) {
+        return ModeOptions::read(multiBars);
     }
 
     return LedWallStudio::ModeOptions();
@@ -78,6 +89,44 @@ LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::Wave *wave)
     options.insert("colorSaturationHigh", wave->getModSaturation().second);
     options.insert("colorValueLow", wave->getModValue().first);
     options.insert("colorValueHigh", wave->getModValue().second);
+
+    return options;
+}
+
+bool ModeOptions::write(LedWall::Mode::MultiBars *multiBars)
+{
+    if (m_options.contains("fadeRate")) {
+        multiBars->setFadeRate(m_options.value("fadeRate").toInt());
+    }
+    if (m_options.contains("barTravelSpeed")) {
+        multiBars->setBarTravelSpeed(m_options.value("barTravelSpeed").toInt());
+    }
+    if (m_options.contains("numberOfBars")) {
+        multiBars->setNumberOfBars(m_options.value("numberOfBars").toInt());
+    }
+    if (m_options.contains("maximumFrameDelay")) {
+        multiBars->setMaximumFrameDelay(m_options.value("maximumFrameDelay").toInt());
+    }
+    if (m_options.contains("barKeepsColor")) {
+        multiBars->setBarKeepsColor(m_options.value("barKeepsColor").toBool());
+    }
+    if (m_options.contains("blendColor")) {
+        multiBars->setBlendColor(m_options.value("blendColor").toBool());
+    }
+
+    return true;
+}
+
+LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::MultiBars *multiBars)
+{
+    LedWallStudio::ModeOptions options;
+
+    options.insert("fadeRate", multiBars->getFadeRate());
+    options.insert("barTravelSpeed", multiBars->getBarTravelSpeed());
+    options.insert("numberOfBars", multiBars->getNumberOfBars());
+    options.insert("maximumFrameDelay", multiBars->getMaximumFrameDelay());
+    options.insert("barKeepsColor", multiBars->isBarKeepsColor());
+    options.insert("blendColor", multiBars->isBlendColor());
 
     return options;
 }

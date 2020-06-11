@@ -7,6 +7,7 @@ namespace LedWall {
 namespace Mode{
 class LedMode;
 class Wave;
+class MultiBars;
 }
 }
 
@@ -22,6 +23,9 @@ protected:
 
     bool write(LedWall::Mode::Wave *wave);
     static LedWallStudio::ModeOptions read(LedWall::Mode::Wave *wave);
+
+    bool write(LedWall::Mode::MultiBars *multiBars);
+    static LedWallStudio::ModeOptions read(LedWall::Mode::MultiBars *multiBars);
 };
 
 #endif //LEDWALLSTUDIO_MODEOPTIONS_H
