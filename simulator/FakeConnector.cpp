@@ -41,6 +41,10 @@ void FakeConnector::setModeByIndex(int modeIndex)
             newMode = new LedWall::Mode::Wave(*m_simulator->getMatrix());
             break;
 
+        case 5:
+            newMode = new LedWall::Mode::Text(*m_simulator->getMatrix());
+            break;
+
         default:
             qWarning("FakeConnector::setModeByIndex - INVALID MODE INDEX");
             break;
@@ -87,10 +91,14 @@ void FakeConnector::init()
     modeWave.Index = 4;
     modeWave.Name = "Wave";
 
+    LedWallStudio::Mode modeText;
+    modeText.Index = 5;
+    modeText.Name = "Text";
+
     // breath, fireworks, text
 
     LedWallStudio::ModeList modes;
-    modes << modeStatus << modeBars << modeMultiBars << modeMatesDemo << modeWave;
+    modes << modeStatus << modeBars << modeMultiBars << modeMatesDemo << modeWave << modeText;
 
     updateModes(modes);
 //    updateMode(); // TODO

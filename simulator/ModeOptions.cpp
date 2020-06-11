@@ -2,6 +2,7 @@
 #include <LedMode/LedMode.h>
 #include <LedMode/Wave.h>
 #include <LedMode/MultiBars.h>
+#include <LedMode/Text.h>
 
 bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall::Mode::LedMode *mode)
 {
@@ -13,6 +14,11 @@ bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall
     auto multiBars = dynamic_cast<LedWall::Mode::MultiBars*>(mode);
     if (multiBars) {
         return ModeOptions(options).write(multiBars);
+    }
+
+    auto text = dynamic_cast<LedWall::Mode::Text*>(mode);
+    if (text) {
+        return ModeOptions(options).write(text);
     }
 
     return false;
@@ -28,6 +34,11 @@ LedWallStudio::ModeOptions ModeOptions::readFromMode(LedWall::Mode::LedMode *mod
     auto multiBars = dynamic_cast<LedWall::Mode::MultiBars*>(mode);
     if (multiBars) {
         return ModeOptions::read(multiBars);
+    }
+
+    auto text = dynamic_cast<LedWall::Mode::Text*>(mode);
+    if (text) {
+        return ModeOptions::read(text);
     }
 
     return LedWallStudio::ModeOptions();
@@ -127,6 +138,28 @@ LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::MultiBars *multiBars
     options.insert("maximumFrameDelay", multiBars->getMaximumFrameDelay());
     options.insert("barKeepsColor", multiBars->isBarKeepsColor());
     options.insert("blendColor", multiBars->isBlendColor());
+
+    return options;
+}
+
+bool ModeOptions::write(LedWall::Mode::Text *text)
+{
+    if (m_options.contains("text")) {
+        text->setText(m_options.value("text").toString().toStdString());
+    }
+    if (m_options.contains("scrollSpeed")) {
+        text->setScrollSpeed(m_options.value("scrollSpeed").toInt());
+    }
+
+    return true;
+}
+
+LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::Text *text)
+{
+    LedWallStudio::ModeOptions options;
+
+    options.insert("text", QString::fromStdString(text->getText()));
+    options.insert("scrollSpeed", text->getScrollSpeed());
 
     return options;
 }

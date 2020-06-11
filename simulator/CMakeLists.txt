@@ -22,6 +22,7 @@ add_executable(Simulator
         ../src/LedWallModes/ModeOptionsWidget.cpp
         ../src/LedWallModes/WaveOptionsWidget.cpp
         ../src/LedWallModes/MultiBarsOptionsWidget.cpp
+        ../src/LedWallModes/TextOptionsWidget.cpp
         ../src/WallController/WallController.cpp
         ../src/WallController/Mode.cpp
 
