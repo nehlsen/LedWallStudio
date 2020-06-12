@@ -1,6 +1,6 @@
 #include "BitmapEditor.h"
-#include "BitmapEditor/GridRect.h"
-#include "BitmapEditor/GridHexagon.h"
+#include "GridRect.h"
+#include "GridHexagon.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QtWidgets/QtWidgets>
 #include <QtCore/QDebug>

@@ -1,6 +1,5 @@
 #include "FrameListReaderTest.h"
-
-#include "../../src/Animations/FrameListReader.h"
+#include "../../studio/Animations/FrameListReader.h"
 
 void FrameListReaderTest::test_fromByteArray()
 {

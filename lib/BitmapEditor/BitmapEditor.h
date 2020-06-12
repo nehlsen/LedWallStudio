@@ -2,7 +2,7 @@
 #define LEDWALLSTUDIO_BITMAPEDITOR_H
 
 #include <QtWidgets/QGraphicsView>
-#include "Bitmap.h"
+#include "../Bitmap.h"
 
 class Grid;
 

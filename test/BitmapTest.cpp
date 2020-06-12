@@ -1,5 +1,5 @@
 #include "BitmapTest.h"
-#include "../src/Bitmap.h"
+#include <Bitmap.h>
 
 void BitmapTest::test_toPixelStream()
 {

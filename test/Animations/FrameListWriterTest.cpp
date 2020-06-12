@@ -1,6 +1,6 @@
 #include "FrameListWriterTest.h"
-#include "../../src/Animations/Frame.h"
-#include "../../src/Animations/FrameListWriter.h"
+#include "../../studio/Animations/Frame.h"
+#include "../../studio/Animations/FrameListWriter.h"
 
 void FrameListWriterTest::test_toByteArray()
 {

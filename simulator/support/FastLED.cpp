@@ -1,5 +1,5 @@
 #include "FastLED.h"
-#include "../../src/BitmapEditor.h"
+#include <BitmapEditor/BitmapEditor.h>
 #include <QtCore/QDebug>
 
 CRGB::CRGB()

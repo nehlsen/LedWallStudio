@@ -1,7 +1,7 @@
 #ifndef LEDWALLSTUDIO_MODEOPTIONS_H
 #define LEDWALLSTUDIO_MODEOPTIONS_H
 
-#include "../src/WallController/Mode.h"
+#include <WallController/Mode.h>
 
 namespace LedWall {
 namespace Mode{

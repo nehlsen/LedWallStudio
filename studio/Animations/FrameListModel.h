@@ -2,7 +2,7 @@
 #define LEDWALLSTUDIO_FRAMELISTMODEL_H
 
 #include <QtCore/QAbstractListModel>
-#include "../Bitmap.h"
+#include <Bitmap.h>
 #include "Frame.h"
 
 class FrameListModel : public QAbstractListModel

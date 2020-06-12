@@ -1,7 +1,7 @@
 #ifndef LEDWALLSTUDIO_FAKECONNECTOR_H
 #define LEDWALLSTUDIO_FAKECONNECTOR_H
 
-#include "../src/WallController/WallController.h"
+#include <WallController/WallController.h>
 
 class Simulator;
 

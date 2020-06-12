@@ -8,6 +8,7 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Qt5 COMPONENTS Widgets Network REQUIRED)
 
-add_subdirectory(src)
-add_subdirectory(test)
+add_subdirectory(lib)
+add_subdirectory(studio)
 add_subdirectory(simulator)
+add_subdirectory(test)

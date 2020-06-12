@@ -3,7 +3,7 @@
 
 #include <QtWidgets/QWidget>
 #include <QtCore/QItemSelection>
-#include "../Bitmap.h"
+#include <Bitmap.h>
 #include "Frame.h"
 
 QT_BEGIN_NAMESPACE

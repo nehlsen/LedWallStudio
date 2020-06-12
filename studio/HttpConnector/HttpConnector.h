@@ -6,7 +6,7 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtWidgets/QProgressDialog>
 #include "Config.h"
-#include "../WallController/WallController.h"
+#include <WallController/WallController.h>
 
 class HttpConnector : public WallController
 {

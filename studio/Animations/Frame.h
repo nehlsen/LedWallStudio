@@ -2,7 +2,7 @@
 #define LEDWALLSTUDIO_FRAME_H
 
 #include <QtCore/QList>
-#include "../Bitmap.h"
+#include <Bitmap.h>
 
 struct Frame {
     QString name;

@@ -2,10 +2,10 @@
 #include "Simulator.h"
 #include "FakeConnector.h"
 #include "PlaybackControlWidget.h"
-#include "../src/LedWallModes/ModeConfigWidget.h"
+#include <LedWallModes/ModeConfigWidget.h>
 #include <QtWidgets/QDockWidget>
 #include <QtCore/QSettings>
-#include "../src/BitmapEditor.h"
+#include <BitmapEditor/BitmapEditor.h>
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent)

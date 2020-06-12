@@ -1,5 +1,5 @@
 #include "Simulator.h"
-#include "../src/BitmapEditor.h"
+#include <BitmapEditor/BitmapEditor.h>
 #include "support/FastLED.h"
 #include <LedMatrix.h>
 #include <LedMode/LedMode.h>

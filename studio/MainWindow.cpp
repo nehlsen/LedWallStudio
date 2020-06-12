@@ -1,5 +1,5 @@
 #include "MainWindow.h"
-#include "BitmapEditor.h"
+#include <BitmapEditor/BitmapEditor.h>
 #include "UdpConnector.h"
 #include "HttpConnector/HttpConnector.h"
 #include "SettingsDialog.h"

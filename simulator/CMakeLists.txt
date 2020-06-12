@@ -12,20 +12,6 @@ add_executable(Simulator
         support/FastLED.cpp
         support/cJSON.cpp
 
-        ../src/Bitmap.cpp
-        ../src/BitmapEditor.cpp
-        ../src/BitmapEditor/Grid.cpp
-        ../src/BitmapEditor/GridRect.cpp
-        ../src/BitmapEditor/GridHexagon.cpp
-        ../src/LedWallModes/ModeConfigWidget.cpp
-        ../src/LedWallModes/ModesListModel.cpp
-        ../src/LedWallModes/ModeOptionsWidget.cpp
-        ../src/LedWallModes/WaveOptionsWidget.cpp
-        ../src/LedWallModes/MultiBarsOptionsWidget.cpp
-        ../src/LedWallModes/TextOptionsWidget.cpp
-        ../src/WallController/WallController.cpp
-        ../src/WallController/Mode.cpp
-
         ${LEDWALL_SRC_DIR}/main/LedMode/LedMode.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/utilities.c
         ${LEDWALL_SRC_DIR}/main/LedMode/LedModeStatus.cpp
@@ -52,8 +38,9 @@ add_executable(Simulator
 
 target_include_directories(Simulator PRIVATE
         support
+        ../lib
         ${LEDWALL_SRC_DIR}/main
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/LedMatrix
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives
         )
-target_link_libraries(Simulator Qt5::Widgets)
+target_link_libraries(Simulator LedWallStudioLib Qt5::Widgets)

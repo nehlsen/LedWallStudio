@@ -3,7 +3,7 @@
 #include <QtWidgets/QListView>
 #include <QtWidgets/QPushButton>
 #include "FrameListModel.h"
-#include "../BitmapEditor.h"
+#include <BitmapEditor/BitmapEditor.h>
 
 BitmapFramesWidget::BitmapFramesWidget(BitmapEditor *bitmapEditor, QWidget *parent):
     QWidget(parent), m_bitmapEditor(bitmapEditor)
