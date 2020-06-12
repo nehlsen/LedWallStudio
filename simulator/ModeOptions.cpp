@@ -2,7 +2,7 @@
 #include <LedMode/LedMode.h>
 #include <LedMode/Wave.h>
 #include <LedMode/MultiBars.h>
-#include <LedMode/Text.h>
+#include <LedMode/ModeText.h>
 
 bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall::Mode::LedMode *mode)
 {
@@ -16,7 +16,7 @@ bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall
         return ModeOptions(options).write(multiBars);
     }
 
-    auto text = dynamic_cast<LedWall::Mode::Text*>(mode);
+    auto text = dynamic_cast<LedWall::Mode::ModeText*>(mode);
     if (text) {
         return ModeOptions(options).write(text);
     }
@@ -36,7 +36,7 @@ LedWallStudio::ModeOptions ModeOptions::readFromMode(LedWall::Mode::LedMode *mod
         return ModeOptions::read(multiBars);
     }
 
-    auto text = dynamic_cast<LedWall::Mode::Text*>(mode);
+    auto text = dynamic_cast<LedWall::Mode::ModeText*>(mode);
     if (text) {
         return ModeOptions::read(text);
     }
@@ -142,7 +142,7 @@ LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::MultiBars *multiBars
     return options;
 }
 
-bool ModeOptions::write(LedWall::Mode::Text *text)
+bool ModeOptions::write(LedWall::Mode::ModeText *text)
 {
     if (m_options.contains("text")) {
         text->setText(m_options.value("text").toString().toStdString());
@@ -151,13 +151,13 @@ bool ModeOptions::write(LedWall::Mode::Text *text)
         text->setScrollSpeed(m_options.value("scrollSpeed").toInt());
     }
     if (m_options.contains("scrollDirection")) {
-        text->setScrollDirection(static_cast<LedWall::Mode::Text::ScrollDirection>(m_options.value("scrollDirection").toInt()));
+        text->setScrollDirection(static_cast<LedWall::Mode::ModeText::ScrollDirection>(m_options.value("scrollDirection").toInt()));
     }
 
     return true;
 }
 
-LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::Text *text)
+LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::ModeText *text)
 {
     LedWallStudio::ModeOptions options;
 

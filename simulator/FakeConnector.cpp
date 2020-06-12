@@ -6,7 +6,7 @@
 #include <LedMode/MultiBars.h>
 #include <LedMode/Breathe.h>
 #include <LedMode/Fireworks.h>
-#include <LedMode/Text.h>
+#include <LedMode/ModeText.h>
 #include <LedMode/MatesDemo.h>
 #include <LedMode/Wave.h>
 
@@ -42,7 +42,7 @@ void FakeConnector::setModeByIndex(int modeIndex)
             break;
 
         case 5:
-            newMode = new LedWall::Mode::Text(*m_simulator->getMatrix());
+            newMode = new LedWall::Mode::ModeText(*m_simulator->getMatrix());
             break;
 
         default:

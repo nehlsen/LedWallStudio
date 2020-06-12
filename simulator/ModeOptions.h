@@ -8,7 +8,7 @@ namespace Mode{
 class LedMode;
 class Wave;
 class MultiBars;
-class Text;
+class ModeText;
 }
 }
 
@@ -28,8 +28,8 @@ protected:
     bool write(LedWall::Mode::MultiBars *multiBars);
     static LedWallStudio::ModeOptions read(LedWall::Mode::MultiBars *multiBars);
 
-    bool write(LedWall::Mode::Text *text);
-    static LedWallStudio::ModeOptions read(LedWall::Mode::Text *text);
+    bool write(LedWall::Mode::ModeText *text);
+    static LedWallStudio::ModeOptions read(LedWall::Mode::ModeText *text);
 };
 
 #endif //LEDWALLSTUDIO_MODEOPTIONS_H
