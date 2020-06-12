@@ -18,6 +18,7 @@ add_executable(LedWallStudio
         LedWallModes/ModeOptionsWidget.cpp
         LedWallModes/WaveOptionsWidget.cpp
         LedWallModes/MultiBarsOptionsWidget.cpp
+        LedWallModes/TextOptionsWidget.cpp
         Animations/BitmapFramesWidget.cpp
         Animations/FrameListModel.cpp
         Animations/Frame.cpp
