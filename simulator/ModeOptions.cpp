@@ -150,6 +150,9 @@ bool ModeOptions::write(LedWall::Mode::Text *text)
     if (m_options.contains("scrollSpeed")) {
         text->setScrollSpeed(m_options.value("scrollSpeed").toInt());
     }
+    if (m_options.contains("scrollDirection")) {
+        text->setScrollDirection(static_cast<LedWall::Mode::Text::ScrollDirection>(m_options.value("scrollDirection").toInt()));
+    }
 
     return true;
 }
@@ -160,6 +163,7 @@ LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::Text *text)
 
     options.insert("text", QString::fromStdString(text->getText()));
     options.insert("scrollSpeed", text->getScrollSpeed());
+    options.insert("scrollDirection", text->getScrollDirection());
 
     return options;
 }
