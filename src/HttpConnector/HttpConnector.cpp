@@ -11,7 +11,7 @@
 #define LEDWALL_API_GET_MODES LEDWALL_API_BASE + "/led/modes"
 #define LEDWALL_API_GET_MODE LEDWALL_API_BASE + "/led/mode"
 #define LEDWALL_API_POST_MODE LEDWALL_API_GET_MODE
-#define LEDWALL_API_POST_MODE_OPTIONS LEDWALL_API_BASE + "/led/mode/options"
+#define LEDWALL_API_POST_MODE_OPTIONS LEDWALL_API_BASE + "/mode/options"
 
 HttpConnector::HttpConnector(QWidget *parent): WallController(parent)
 {
@@ -129,7 +129,7 @@ void HttpConnector::addPendingRequest(QNetworkReply *reply)
 void HttpConnector::removePendingRequest(QNetworkReply *reply)
 {
     m_pendingRequests.removeOne(reply);
-    if (!m_pendingRequests.isEmpty()) {
+    if (m_pendingRequests.isEmpty()) {
         m_progressDialog->hide();
     }
 }
