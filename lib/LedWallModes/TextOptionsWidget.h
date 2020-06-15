@@ -24,6 +24,7 @@ protected:
     QLineEdit *m_text;
     QSpinBox *m_scrollSpeed;
     QComboBox *m_scrollDirection;
+    QComboBox *m_scrollMode;
 };
 
 #endif //LEDWALLSTUDIO_TEXTOPTIONSWIDGET_H
