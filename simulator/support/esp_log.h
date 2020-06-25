@@ -3,4 +3,6 @@
 
 #define ESP_LOGD
 
+#define ESP_LOGE
+
 #endif //LEDWALLSTUDIO_SIMULATOR_SUPPORT_ESP_LOG_H

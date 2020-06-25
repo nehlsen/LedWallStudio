@@ -11,6 +11,10 @@ add_executable(Simulator
         support/esp32-hal.cpp
         support/FastLED.cpp
         support/cJSON.cpp
+        support/CRGBPalette16.cpp
+        support/CRGB.cpp
+        support/CHSV.cpp
+        support/fill_x.cpp
 
         ${LEDWALL_SRC_DIR}/main/LedMode/LedMode.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/utilities.c
