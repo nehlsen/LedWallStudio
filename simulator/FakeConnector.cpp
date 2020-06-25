@@ -9,6 +9,7 @@
 #include <LedMode/ModeText.h>
 #include <LedMode/MatesDemo.h>
 #include <LedMode/Wave.h>
+#include <LedMode/FancyDemo.h>
 
 FakeConnector::FakeConnector(Simulator *simulator, QObject *parent) :
     WallController(parent), m_simulator(simulator)
@@ -18,45 +19,18 @@ FakeConnector::FakeConnector(Simulator *simulator, QObject *parent) :
 
 void FakeConnector::setModeByIndex(int modeIndex)
 {
-    LedWall::Mode::LedMode *newMode = nullptr;
-
-    switch (modeIndex) {
-        case 0:
-            newMode = new LedWall::Mode::LedModeStatus(*m_simulator->getMatrix());
-            break;
-
-        case 1:
-            newMode = new LedWall::Mode::Bars(*m_simulator->getMatrix());
-            break;
-
-        case 2:
-            newMode = new LedWall::Mode::MultiBars(*m_simulator->getMatrix());
-            break;
-
-        case 3:
-            newMode = new LedWall::Mode::MatesDemo(*m_simulator->getMatrix());
-            break;
-
-        case 4:
-            newMode = new LedWall::Mode::Wave(*m_simulator->getMatrix());
-            break;
-
-        case 5:
-            newMode = new LedWall::Mode::ModeText(*m_simulator->getMatrix());
-            break;
-
-        default:
-            qWarning("FakeConnector::setModeByIndex - INVALID MODE INDEX");
-            break;
+    if (modeIndex >= m_modeFactories.size()) {
+        qWarning("FakeConnector::setModeByIndex - INVALID MODE INDEX");
+        return;
     }
 
-    m_simulator->setMode(newMode);
-    for (auto& mode : m_modes) {
-        if (mode.Index == modeIndex) {
-            mode.Options = ModeOptions::readFromMode(newMode);
-            updateMode(mode);
-        }
-    }
+    LedWallStudio::Mode studioMode = m_modes.at(modeIndex);
+    LambdaModeFactory_t wallModeFactory = m_modeFactories.at(modeIndex);
+    LedWall::Mode::LedMode *wallMode = wallModeFactory(*m_simulator->getMatrix());
+
+    m_simulator->setMode(wallMode);
+    studioMode.Options = ModeOptions::readFromMode(wallMode);
+    updateMode(studioMode);
 }
 
 void FakeConnector::setModeByName(const QString &name)
@@ -71,34 +45,44 @@ void FakeConnector::setModeOptions(const LedWallStudio::ModeOptions &options)
 
 void FakeConnector::init()
 {
-    LedWallStudio::Mode modeStatus;
-    modeStatus.Index = 0;
-    modeStatus.Name = "Status";
-
-    LedWallStudio::Mode modeBars;
-    modeBars.Index = 1;
-    modeBars.Name = "Bars";
-
-    LedWallStudio::Mode modeMultiBars;
-    modeMultiBars.Index = 2;
-    modeMultiBars.Name = "MultiBars";
-
-    LedWallStudio::Mode modeMatesDemo;
-    modeMatesDemo.Index = 3;
-    modeMatesDemo.Name = "MatesDemo";
-
-    LedWallStudio::Mode modeWave;
-    modeWave.Index = 4;
-    modeWave.Name = "Wave";
-
-    LedWallStudio::Mode modeText;
-    modeText.Index = 5;
-    modeText.Name = "Text";
-
-    // breath, fireworks, text
-
     LedWallStudio::ModeList modes;
-    modes << modeStatus << modeBars << modeMultiBars << modeMatesDemo << modeWave << modeText;
+    m_modeFactories.clear();
+    
+    auto addMode = [&modes, this](const QString &name, LambdaModeFactory_t factory) {
+        qint8 nextIndex = modes.size();
+        modes << LedWallStudio::Mode({nextIndex, name});
+        m_modeFactories << factory;
+    };
+    
+    addMode("Status", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::LedModeStatus(*m_simulator->getMatrix());
+    });
+
+    addMode("Bars", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::Bars(*m_simulator->getMatrix());
+    });
+
+    addMode("MultiBars", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::MultiBars(*m_simulator->getMatrix());
+    });
+
+    addMode("MatesDemo", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::MatesDemo(*m_simulator->getMatrix());
+    });
+
+    addMode("Wave", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::Wave(*m_simulator->getMatrix());
+    });
+
+    addMode("Text", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::ModeText(*m_simulator->getMatrix());
+    });
+
+    addMode("FancyDemo", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::FancyDemo(*m_simulator->getMatrix());
+    });
+
+    // breath, fireworks
 
     updateModes(modes);
 //    updateMode(); // TODO

@@ -2,6 +2,9 @@
 #define LEDWALLSTUDIO_FAKECONNECTOR_H
 
 #include <WallController/WallController.h>
+#include <LedMode/LedModes.h>
+
+typedef std::function<LedWall::Mode::LedMode *(LedMatrix &)> LambdaModeFactory_t;
 
 class Simulator;
 
@@ -21,6 +24,7 @@ protected:
     Simulator *m_simulator;
 
     void init();
+    QList<LambdaModeFactory_t> m_modeFactories;
 };
 
 #endif //LEDWALLSTUDIO_FAKECONNECTOR_H
