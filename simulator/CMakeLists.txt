@@ -32,6 +32,9 @@ add_executable(Simulator
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/LedMatrix/PixelLocator.cpp
 
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/GfxPrimitive.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/GfxCanvas.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/Canvas.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/Renderable.cpp
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/Pixel.cpp
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/PixelMap.cpp
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/Point.cpp
