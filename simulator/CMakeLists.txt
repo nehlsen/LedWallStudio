@@ -30,6 +30,7 @@ add_executable(Simulator
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo.cpp
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/LedMatrix/LedMatrix.cpp
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/LedMatrix/PixelLocator.cpp
+        ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/LedMatrix/color_utils.cpp
 
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/GfxPrimitive.cpp
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/GfxPrimitives/GfxCanvas.cpp
