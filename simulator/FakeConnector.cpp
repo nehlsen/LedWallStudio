@@ -1,11 +1,10 @@
 #include "FakeConnector.h"
 #include "Simulator.h"
 #include "ModeOptions.h"
+#include <QtCore/QDebug>
 #include <LedMode/LedModeStatus.h>
 #include <LedMode/Bars.h>
 #include <LedMode/MultiBars.h>
-#include <LedMode/Breathe.h>
-#include <LedMode/Fireworks.h>
 #include <LedMode/ModeText.h>
 #include <LedMode/MatesDemo.h>
 #include <LedMode/Wave.h>
@@ -35,7 +34,19 @@ void FakeConnector::setModeByIndex(int modeIndex)
 
 void FakeConnector::setModeByName(const QString &name)
 {
-    qWarning("FakeConnector::setModeByName - NOT IMPLEMENTED");
+    if (name.isEmpty()) {
+        return;
+    }
+
+    const auto modeIt = std::find_if(m_modes.constBegin(), m_modes.constEnd(), [name](const LedWallStudio::Mode &mode) {
+        return mode.Name == name;
+    });
+    if (modeIt != m_modes.constEnd()) {
+        setModeByIndex(modeIt->Index);
+        return;
+    }
+
+    qWarning() << QString("FakeConnector::setModeByName: FAILED! Mode '%1' not Found!").arg(name);
 }
 
 void FakeConnector::setModeOptions(const LedWallStudio::ModeOptions &options)

@@ -28,6 +28,12 @@ void MainWindow::loadWindowSettings()
     settings.beginGroup("Window");
     restoreState(settings.value("State").toByteArray());
     restoreGeometry(settings.value("Geometry").toByteArray());
+    settings.endGroup();
+
+    QTimer::singleShot(0, [this]() {
+        // delay a little to give the ModesListModel time to populate
+        m_fakeConnector->setModeByName(QSettings().value("LastMode").toString());
+    });
 }
 
 void MainWindow::saveWindowSettings()
@@ -36,6 +42,11 @@ void MainWindow::saveWindowSettings()
     settings.beginGroup("Window");
     settings.setValue("State", saveState());
     settings.setValue("Geometry", saveGeometry());
+    settings.endGroup();
+
+    if (m_fakeConnector->getMode().isValid()) {
+        settings.setValue("LastMode", m_fakeConnector->getMode().Name);
+    }
 }
 
 void MainWindow::createSimulator()

@@ -23,7 +23,7 @@ struct Mode
 
     bool isValid() const;
 
-    qint8 Index;
+    qint8 Index = -1;
     QString Name;
     ModeOptions Options;
 };

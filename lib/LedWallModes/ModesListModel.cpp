@@ -43,7 +43,8 @@ QModelIndex ModesListModel::modeIndexToModelIndex(int modeIndex) const
             return createIndex(idx, 0);
         }
     }
-    return QModelIndex();
+
+    return {};
 }
 
 void ModesListModel::onModesChanged()
