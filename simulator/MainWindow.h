@@ -16,6 +16,11 @@ Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = nullptr);
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+    void loadWindowSettings();
+    void saveWindowSettings();
+
 protected slots:
 
 protected:

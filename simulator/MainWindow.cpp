@@ -13,6 +13,29 @@ MainWindow::MainWindow(QWidget *parent):
     createSimulator();
     createFakeConnector();
     creatDocks();
+    loadWindowSettings();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    saveWindowSettings();
+    QWidget::closeEvent(event);
+}
+
+void MainWindow::loadWindowSettings()
+{
+    QSettings settings;
+    settings.beginGroup("Window");
+    restoreState(settings.value("State").toByteArray());
+    restoreGeometry(settings.value("Geometry").toByteArray());
+}
+
+void MainWindow::saveWindowSettings()
+{
+    QSettings settings;
+    settings.beginGroup("Window");
+    settings.setValue("State", saveState());
+    settings.setValue("Geometry", saveGeometry());
 }
 
 void MainWindow::createSimulator()
