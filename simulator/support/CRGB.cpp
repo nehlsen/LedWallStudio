@@ -39,6 +39,12 @@ void CRGB::setHSV(quint8 h, quint8 s, quint8 v)
     updateProperties();
 }
 
+void CRGB::setRGB(quint8 r, quint8 g, quint8 b)
+{
+    m_color.setRgb(r, g, b);
+    updateProperties();
+}
+
 CRGB & CRGB::nscale8(int scaledown)
 {
     const double factor = qBound(0, scaledown, 256) / 256.0;

@@ -29,6 +29,7 @@ public:
     CRGB &operator+=(const CRGB &other);
 
     void setHSV(quint8 h, quint8 s, quint8 v);
+    void setRGB(quint8 r, quint8 g, quint8 b);
 
     CRGB &nscale8(int scaledown);
     CRGB lerp8(const CRGB& other, int frac) const; // FIXME does not the same thing as the original FastLED implementation
