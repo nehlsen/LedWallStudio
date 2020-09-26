@@ -46,6 +46,7 @@ void TextOptionsWidget::initUi()
     m_scrollDirection->addItem(tr("Left"));
     m_scrollDirection->addItem(tr("Right"));
     m_scrollMode = new QComboBox(this);
+    m_scrollMode->addItem(tr("None"));
     m_scrollMode->addItem(tr("Infinite"));
     m_scrollMode->addItem(tr("Bounce"));
 
