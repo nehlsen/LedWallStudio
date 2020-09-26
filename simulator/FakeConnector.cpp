@@ -9,6 +9,7 @@
 #include <LedMode/MatesDemo.h>
 #include <LedMode/Wave.h>
 #include <LedMode/FancyDemo.h>
+#include <LedMode/GameOfLife.h>
 
 FakeConnector::FakeConnector(Simulator *simulator, QObject *parent) :
     WallController(parent), m_simulator(simulator)
@@ -91,6 +92,10 @@ void FakeConnector::init()
 
     addMode("FancyDemo", [this](LedMatrix &matrix) {
         return new LedWall::Mode::FancyDemo(*m_simulator->getMatrix());
+    });
+
+    addMode("GameOfLife", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::GameOfLife(*m_simulator->getMatrix());
     });
 
     // breath, fireworks

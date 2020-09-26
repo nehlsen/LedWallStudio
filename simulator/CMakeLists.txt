@@ -29,6 +29,10 @@ add_executable(Simulator
         ${LEDWALL_SRC_DIR}/main/LedMode/MatesDemo.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/Wave.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife.cpp
+#        ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife/GameOfLife.cpp
+#        ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife/World.cpp
+
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/LedMatrix/LedMatrix.cpp
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/LedMatrix/PixelLocator.cpp
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/LedMatrix/color_utils.cpp
