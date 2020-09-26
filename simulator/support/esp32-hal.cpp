@@ -7,9 +7,9 @@ int millis()
     return QTime::currentTime().msecsSinceStartOfDay();
 }
 
-int esp_timer_get_time()
+int64_t esp_timer_get_time()
 {
-    return millis() * 1000;
+    return (int64_t)millis() * 1000;
 }
 
 int constrain(int val, int min, int max)

@@ -9,6 +9,7 @@ add_executable(Simulator
         PlaybackControlWidget.cpp
 
         support/esp32-hal.cpp
+        support/esp_log.cpp
         support/FastLED.cpp
         support/cJSON.cpp
         support/CRGBPalette16.cpp
