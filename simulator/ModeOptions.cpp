@@ -118,12 +118,6 @@ bool ModeOptions::write(LedWall::Mode::MultiBars *multiBars)
     if (m_options.contains("maximumFrameDelay")) {
         multiBars->setMaximumFrameDelay(m_options.value("maximumFrameDelay").toInt());
     }
-    if (m_options.contains("barKeepsColor")) {
-        multiBars->setBarKeepsColor(m_options.value("barKeepsColor").toBool());
-    }
-    if (m_options.contains("blendColor")) {
-        multiBars->setBlendColor(m_options.value("blendColor").toBool());
-    }
 
     return true;
 }
@@ -136,8 +130,6 @@ LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::MultiBars *multiBars
     options.insert("barTravelSpeed", multiBars->getBarTravelSpeed());
     options.insert("numberOfBars", multiBars->getNumberOfBars());
     options.insert("maximumFrameDelay", multiBars->getMaximumFrameDelay());
-    options.insert("barKeepsColor", multiBars->isBarKeepsColor());
-    options.insert("blendColor", multiBars->isBlendColor());
 
     return options;
 }
