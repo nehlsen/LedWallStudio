@@ -9,6 +9,7 @@ class LedMode;
 class Wave;
 class MultiBars;
 class ModeText;
+class GameOfLife;
 }
 }
 
@@ -30,6 +31,9 @@ protected:
 
     bool write(LedWall::Mode::ModeText *text);
     static LedWallStudio::ModeOptions read(LedWall::Mode::ModeText *text);
+
+    bool write(LedWall::Mode::GameOfLife *gameOfLife);
+    static LedWallStudio::ModeOptions read(LedWall::Mode::GameOfLife *gameOfLife);
 };
 
 #endif //LEDWALLSTUDIO_MODEOPTIONS_H

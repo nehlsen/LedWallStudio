@@ -7,6 +7,7 @@
 #include "WaveOptionsWidget.h"
 #include "MultiBarsOptionsWidget.h"
 #include "TextOptionsWidget.h"
+#include "GameOfLifeOptionsWidget.h"
 
 ModeConfigWidget::ModeConfigWidget(WallController *wallController, QWidget *parent):
     QWidget(parent), m_wallController(wallController)
@@ -40,6 +41,8 @@ void ModeConfigWidget::onModeChanged()
         m_modeOptionsWidget = new MultiBarsOptionsWidget(this);
     } else if (m_wallController->getMode().Name == "Text") {
         m_modeOptionsWidget = new TextOptionsWidget(this);
+    } else if (m_wallController->getMode().Name == "GameOfLife") {
+        m_modeOptionsWidget = new GameOfLifeOptionsWidget(this);
     }
 
     if (m_modeOptionsWidget != nullptr) {

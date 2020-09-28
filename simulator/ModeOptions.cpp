@@ -3,6 +3,7 @@
 #include <LedMode/Wave.h>
 #include <LedMode/MultiBars.h>
 #include <LedMode/ModeText.h>
+#include <LedMode/GameOfLife.h>
 
 bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall::Mode::LedMode *mode)
 {
@@ -19,6 +20,11 @@ bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall
     auto text = dynamic_cast<LedWall::Mode::ModeText*>(mode);
     if (text) {
         return ModeOptions(options).write(text);
+    }
+
+    auto gameOfLife = dynamic_cast<LedWall::Mode::GameOfLife*>(mode);
+    if (gameOfLife) {
+        return ModeOptions(options).write(gameOfLife);
     }
 
     return false;
@@ -39,6 +45,11 @@ LedWallStudio::ModeOptions ModeOptions::readFromMode(LedWall::Mode::LedMode *mod
     auto text = dynamic_cast<LedWall::Mode::ModeText*>(mode);
     if (text) {
         return ModeOptions::read(text);
+    }
+
+    auto gameOfLife = dynamic_cast<LedWall::Mode::GameOfLife*>(mode);
+    if (gameOfLife) {
+        return ModeOptions::read(gameOfLife);
     }
 
     return LedWallStudio::ModeOptions();
@@ -160,6 +171,24 @@ LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::ModeText *text)
     options.insert("scrollSpeed", text->getScrollSpeed());
     options.insert("scrollDirection", text->getScrollDirection());
     options.insert("scrollMode", text->getScrollMode());
+
+    return options;
+}
+
+bool ModeOptions::write(LedWall::Mode::GameOfLife *gameOfLife)
+{
+    if (m_options.contains("generationDelay")) {
+        gameOfLife->setGenerationDelay(m_options.value("generationDelay").toInt());
+    }
+
+    return true;
+}
+
+LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::GameOfLife *gameOfLife)
+{
+    LedWallStudio::ModeOptions options;
+
+    options.insert("generationDelay", gameOfLife->getGenerationDelay());
 
     return options;
 }

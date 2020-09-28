@@ -10,6 +10,7 @@ set(LedWallStudioLib_src
         LedWallModes/MultiBarsOptionsWidget.cpp
         LedWallModes/TextOptionsWidget.cpp
         LedWallModes/WaveOptionsWidget.cpp
+        LedWallModes/GameOfLifeOptionsWidget.cpp
         WallController/Mode.cpp
         WallController/WallController.cpp
         )
