@@ -16,6 +16,12 @@ CRGB::CRGB(quint8 _r, quint8 _g, quint8 _b):
     updateProperties();
 }
 
+CRGB::CRGB(quint32 colorCode)
+{
+    m_color = QColor(colorCode);
+    updateProperties();
+}
+
 CRGB & CRGB::operator=(Color color)
 {
     m_color = toQColor(color);
@@ -31,6 +37,11 @@ CRGB & CRGB::operator+=(const CRGB &other)
     updateProperties();
 
     return *this;
+}
+
+bool CRGB::operator==(const CRGB &other) const
+{
+    return m_color == other.m_color;
 }
 
 void CRGB::setHSV(quint8 h, quint8 s, quint8 v)

@@ -6,6 +6,7 @@
 #include <LedMode/Bars.h>
 #include <LedMode/MultiBars.h>
 #include <LedMode/ModeText.h>
+#include <LedMode/ModeTime.h>
 #include <LedMode/MatesDemo.h>
 #include <LedMode/Wave.h>
 #include <LedMode/FancyDemo.h>
@@ -88,6 +89,10 @@ void FakeConnector::init()
 
     addMode("Text", [this](LedMatrix &matrix) {
         return new LedWall::Mode::ModeText(*m_simulator->getMatrix());
+    });
+
+    addMode("Time", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::ModeTime(*m_simulator->getMatrix());
     });
 
     addMode("FancyDemo", [this](LedMatrix &matrix) {

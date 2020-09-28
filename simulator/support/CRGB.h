@@ -24,9 +24,11 @@ public:
     CRGB();
     CRGB(Color color);
     CRGB(quint8 r, quint8 g, quint8 b);
+    CRGB(quint32 colorCode);
 
     CRGB &operator=(Color color);
     CRGB &operator+=(const CRGB &other);
+    bool operator==(const CRGB &other) const;
 
     void setHSV(quint8 h, quint8 s, quint8 v);
     void setRGB(quint8 r, quint8 g, quint8 b);

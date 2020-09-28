@@ -25,6 +25,7 @@ add_executable(Simulator
 #        ${LEDWALL_SRC_DIR}/main/LedMode/Breathe.cpp
 #        ${LEDWALL_SRC_DIR}/main/LedMode/Fire.cpp # requires palettes
         ${LEDWALL_SRC_DIR}/main/LedMode/Fireworks.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/ModeTime.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/ModeText.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/MatesDemo.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/Wave.cpp
