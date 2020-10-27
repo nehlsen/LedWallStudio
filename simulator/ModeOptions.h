@@ -3,14 +3,13 @@
 
 #include <WallController/Mode.h>
 
-namespace LedWall {
-namespace Mode{
+namespace LedWall::Mode {
 class LedMode;
 class Wave;
 class MultiBars;
 class ModeText;
+class ModeTime;
 class GameOfLife;
-}
 }
 
 class ModeOptions
@@ -20,7 +19,7 @@ public:
     static LedWallStudio::ModeOptions readFromMode(LedWall::Mode::LedMode *mode);
 
 protected:
-    ModeOptions(const LedWallStudio::ModeOptions &options);
+    explicit ModeOptions(const LedWallStudio::ModeOptions &options);
     LedWallStudio::ModeOptions m_options;
 
     bool write(LedWall::Mode::Wave *wave);
@@ -31,6 +30,9 @@ protected:
 
     bool write(LedWall::Mode::ModeText *text);
     static LedWallStudio::ModeOptions read(LedWall::Mode::ModeText *text);
+
+    bool write(LedWall::Mode::ModeTime *time);
+    static LedWallStudio::ModeOptions read(LedWall::Mode::ModeTime *time);
 
     bool write(LedWall::Mode::GameOfLife *gameOfLife);
     static LedWallStudio::ModeOptions read(LedWall::Mode::GameOfLife *gameOfLife);

@@ -3,6 +3,7 @@
 #include <LedMode/Wave.h>
 #include <LedMode/MultiBars.h>
 #include <LedMode/ModeText.h>
+#include <LedMode/ModeTime.h>
 #include <LedMode/GameOfLife.h>
 
 bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall::Mode::LedMode *mode)
@@ -15,6 +16,11 @@ bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall
     auto multiBars = dynamic_cast<LedWall::Mode::MultiBars*>(mode);
     if (multiBars) {
         return ModeOptions(options).write(multiBars);
+    }
+
+    auto time = dynamic_cast<LedWall::Mode::ModeTime*>(mode);
+    if (time) {
+        return ModeOptions(options).write(time);
     }
 
     auto text = dynamic_cast<LedWall::Mode::ModeText*>(mode);
@@ -40,6 +46,11 @@ LedWallStudio::ModeOptions ModeOptions::readFromMode(LedWall::Mode::LedMode *mod
     auto multiBars = dynamic_cast<LedWall::Mode::MultiBars*>(mode);
     if (multiBars) {
         return ModeOptions::read(multiBars);
+    }
+
+    auto time = dynamic_cast<LedWall::Mode::ModeTime*>(mode);
+    if (time) {
+        return ModeOptions::read(time);
     }
 
     auto text = dynamic_cast<LedWall::Mode::ModeText*>(mode);
@@ -171,6 +182,30 @@ LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::ModeText *text)
     options.insert("scrollSpeed", text->getScrollSpeed());
     options.insert("scrollDirection", text->getScrollDirection());
     options.insert("scrollMode", text->getScrollMode());
+
+    return options;
+}
+
+bool ModeOptions::write(LedWall::Mode::ModeTime *time)
+{
+    write(dynamic_cast<LedWall::Mode::ModeText*>(time));
+
+    if (m_options.contains("variant")) {
+        time->setVariant(static_cast<LedWall::Mode::ModeTime::Variant>(m_options.value("variant").toInt()));
+    }
+    if (m_options.contains("parameter")) {
+        time->setVariantParameter(m_options.value("parameter").toInt());
+    }
+
+    return true;
+}
+
+LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::ModeTime *time)
+{
+    LedWallStudio::ModeOptions options = read(dynamic_cast<LedWall::Mode::ModeText*>(time));
+
+    options.insert("variant", time->getVariant());
+    options.insert("parameter", time->getVariantParameter());
 
     return options;
 }

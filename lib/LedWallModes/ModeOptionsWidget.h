@@ -10,6 +10,7 @@ Q_OBJECT
 
 public:
     explicit ModeOptionsWidget(QWidget *parent = nullptr);
+    virtual ~ModeOptionsWidget() = default;
 
     virtual void setOptions(const LedWallStudio::ModeOptions &options) = 0;
     virtual LedWallStudio::ModeOptions getOptions() const = 0;
