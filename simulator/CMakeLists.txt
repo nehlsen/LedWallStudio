@@ -30,6 +30,13 @@ add_executable(Simulator
         ${LEDWALL_SRC_DIR}/main/LedMode/MatesDemo.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/Wave.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FancyDemoPart.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FancyDemoPart1.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FancyDemoPart2.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FancyDemoPart3.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FancyDemoPart4.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FancyDemoPart5.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FancyDemoPart6.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife.cpp
 #        ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife/GameOfLife.cpp
 #        ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife/World.cpp
