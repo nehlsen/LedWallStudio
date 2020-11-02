@@ -31,6 +31,7 @@ add_executable(Simulator
         ${LEDWALL_SRC_DIR}/main/LedMode/Wave.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FancyDemoPart.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/Nothing.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FdBarsGrow.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FdBarsOpen.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FancyDemoPart3.cpp
