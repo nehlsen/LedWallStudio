@@ -5,13 +5,13 @@
 #include <QtCore/QSettings>
 #include <QtCore/QJsonObject>
 
-#define LEDWALL_API_BASE QString("/api/v1")
+#define LEDWALL_API_BASE QString("/api/v2")
 #define LEDWALL_API_GET_CONFIG LEDWALL_API_BASE + "/config"
 #define LEDWALL_API_POST_CONFIG LEDWALL_API_GET_CONFIG
 #define LEDWALL_API_GET_MODES LEDWALL_API_BASE + "/led/modes"
 #define LEDWALL_API_GET_MODE LEDWALL_API_BASE + "/led/mode"
 #define LEDWALL_API_POST_MODE LEDWALL_API_GET_MODE
-#define LEDWALL_API_POST_MODE_OPTIONS LEDWALL_API_BASE + "/mode/options"
+#define LEDWALL_API_POST_MODE_OPTIONS LEDWALL_API_BASE + "/led/mode/options"
 
 HttpConnector::HttpConnector(QWidget *parent): WallController(parent)
 {
