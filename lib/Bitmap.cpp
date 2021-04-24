@@ -1,12 +1,13 @@
-#include <QtCore/QDebug>
-#include <QtCore/QDebugStateSaver>
 #include "Bitmap.h"
-
-//#include <QtCore/QDebug>
+#include <QtCore/QDebug>
 
 bool operator<(const QPoint &left, const QPoint &right)
 {
-    return left.x() < right.x() ? true : left.y() < right.y();
+    if (left.x() == right.x()) {
+        return left.y() < right.y();
+    }
+
+    return left.x() < right.x();
 }
 
 QByteArray Bitmap::toPixelStream() const
@@ -66,6 +67,8 @@ QByteArray Bitmap::createChunk(QMapIterator<QPoint, QColor> &mi, int pixelsPerCh
 
 QByteArray Bitmap::toPixelStream1a(quint8 delay) const
 {
+    const int maxChunkSize = 255;
+
     QByteArray pixelStream;
 
     if (empty()) {
@@ -89,7 +92,7 @@ QByteArray Bitmap::toPixelStream1a(quint8 delay) const
         currentChunk.append((quint8)mi.value().blue());
         ++pixelsInChunk;
 
-        if (pixelsInChunk == 255 || !mi.hasNext()) {
+        if (pixelsInChunk == maxChunkSize || !mi.hasNext()) {
             pixelStream.append(isFirstChunk ? delay : (quint8)0x00); // delay
             pixelStream.append(pixelsInChunk); // number of pixels
             pixelStream.append(currentChunk);
@@ -115,24 +118,16 @@ Bitmap Bitmap::diff(const Bitmap &other) const
             QPoint p(x, y);
             if (value(p).isValid() && other.value(p).isValid() && value(p) != other.value(p)) {
                 // pixel has changed
-//                qDebug() << p << "CHANGED";
                 theDiff[p] = other.value(p);
             } else if (!value(p).isValid() && other.value(p).isValid()) {
                 // pixel was added
-//                qDebug() << p << "ADDED";
                 theDiff[p] = other.value(p);
             } else if (value(p).isValid() && !other.value(p).isValid()) {
-                // pixel was added
-//                qDebug() << p << "REMOVED";
+                // pixel was removed
                 theDiff[p] = Qt::black;
             }
         }
     }
-
-//    qDebug() << *this;
-//    qDebug() << other;
-//    qDebug() << theDiff;
-//    qDebug() << "DIFF of" << count() << "and" << other.count() << "has" << theDiff.count() << "pixels";
 
     return theDiff;
 }
@@ -155,17 +150,14 @@ QDebug operator<<(QDebug dbg, const Bitmap &bitmap)
     for (int y = bitmap.topRight().y(); y >= 0; --y) {
         for (int x = 0; x <= bitmap.topRight().x(); ++x) {
             const QColor &c = bitmap[{x,y}];
-            dbg.nospace()
-            << "("
-//            << c.red()
-            << QString("%1").arg(c.red(), 3, 10, QChar(' '))
-            << ", "
-//            << c.green()
-            << QString("%1").arg(c.green(), 3, 10, QChar(' '))
-            << ", "
-//            << c.blue()
-            << QString("%1").arg(c.blue(), 3, 10, QChar(' '))
-            << ") ";
+            dbg.nospace().noquote()
+                << QString("[%1/%2 %3,%4,%5] ")
+                    .arg(x, 2, 10, QChar(' '))
+                    .arg(y, 2, 10, QChar(' '))
+                    .arg(c.red(), 3, 10, QChar(' '))
+                    .arg(c.green(), 3, 10, QChar(' '))
+                    .arg(c.blue(), 3, 10, QChar(' '))
+            ;
         }
 
         dbg.nospace() << "\n ";

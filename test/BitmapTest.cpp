@@ -238,6 +238,23 @@ void BitmapTest::test_diff()
         QCOMPARE(diff5.count(), 1);
         QCOMPARE(diff5.value({0, 0}), Qt::black);
     }
+
+    {
+        // all different
+        for (const int bitmapSize : {2, 4, 5}) {
+            Bitmap bitmap6a;
+            Bitmap bitmap6b;
+            for (int x = 0; x < bitmapSize; ++x) {
+                for (int y = 0; y < bitmapSize; ++y) {
+                    bitmap6a.insert({x, y}, QColor(1, 1, 1));
+                    bitmap6b.insert({x, y}, QColor(2, 2, 2));
+                }
+            }
+
+            Bitmap diff6(bitmap6a.diff(bitmap6b));
+            QCOMPARE(diff6.count(), bitmapSize*bitmapSize);
+        }
+    }
 }
 
 QTEST_MAIN(BitmapTest)
