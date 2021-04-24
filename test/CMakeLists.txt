@@ -17,3 +17,9 @@ add_executable(FrameListReaderTest Animations/FrameListReaderTest.cpp ../lib/Bit
 add_test(FrameListReaderTest FrameListReaderTest)
 target_include_directories(FrameListReaderTest PRIVATE ../lib)
 target_link_libraries(FrameListReaderTest Qt5::Gui Qt5::Test)
+
+# move to `studio/test`
+add_executable(FrameListWriteReadbackTest Animations/FrameListWriteReadbackTest.cpp ../lib/Bitmap.cpp ../studio/Animations/FrameListReader.cpp ../studio/Animations/FrameListWriter.cpp ../studio/Animations/Frame.cpp)
+add_test(FrameListWriteReadbackTest FrameListWriteReadbackTest)
+target_include_directories(FrameListWriteReadbackTest PRIVATE ../lib)
+target_link_libraries(FrameListWriteReadbackTest Qt5::Gui Qt5::Test)
