@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
     QApplication::setApplicationName("ledwall-studio");
     QApplication app(argc, argv);
 
-     auto *main = new MainWindow();
+     auto *main = new LedWall::Studio::MainWindow();
      main->show();
 
     return app.exec();

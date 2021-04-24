@@ -12,6 +12,8 @@ QT_END_NAMESPACE
 
 class HttpConnector;
 
+namespace LedWall::Studio {
+
 // configure remote settings
 class LedWallConfigWidget : public QWidget
 {
@@ -40,5 +42,7 @@ protected:
     QLineEdit *m_editMqttDeviceTopic;
     QLineEdit *m_editMqttGroupTopic;
 };
+
+}
 
 #endif //LEDWALLSTUDIO_LEDWALLCONFIGWIDGET_H

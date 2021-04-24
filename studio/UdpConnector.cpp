@@ -5,6 +5,8 @@
 #define UDP_CHUNK_SIZE 128
 #define SEND_DELAY 30
 
+namespace LedWall::Studio {
+
 UdpConnector::UdpConnector(QObject *parent) : QObject(parent)
 {
     m_socket = new QUdpSocket(this);
@@ -43,4 +45,6 @@ void UdpConnector::continueSend()
     m_socket->write(chunk);
 
     QTimer::singleShot(SEND_DELAY, this, &UdpConnector::continueSend);
+}
+
 }

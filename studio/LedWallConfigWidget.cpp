@@ -8,8 +8,10 @@
 #include "HttpConnector/HttpConnector.h"
 #include "LedWallModes/ModesListModel.h"
 
-LedWallConfigWidget::LedWallConfigWidget(HttpConnector *httpConnector, QWidget *parent):
-    QWidget(parent), m_httpConnector(httpConnector)
+namespace LedWall::Studio {
+
+LedWallConfigWidget::LedWallConfigWidget(HttpConnector *httpConnector, QWidget *parent) :
+        QWidget(parent), m_httpConnector(httpConnector)
 {
     createUi();
     connect(m_httpConnector, &HttpConnector::connectionStatusChanged, this, &LedWallConfigWidget::setEnabled);
@@ -106,4 +108,6 @@ void LedWallConfigWidget::createUi()
     // TODO add reboot button
 
     setLayout(layout);
+}
+
 }

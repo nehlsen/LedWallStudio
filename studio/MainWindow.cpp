@@ -17,6 +17,8 @@
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMessageBox>
 
+namespace LedWall::Studio {
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     setWindowTitle("LedWall Studio");
@@ -127,7 +129,7 @@ void MainWindow::saveFrames()
             this,
             tr("Save Frames"),
             QSettings().value("Settings/bitmap_folder", QDir::homePath()).toString()
-            );
+    );
 
     if (saveToName.isEmpty()) {
         return;
@@ -253,4 +255,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
     settings.setValue("InstantUpdateChecked", m_actionInstantUpdate->isChecked());
 
     QWidget::closeEvent(event);
+}
+
 }

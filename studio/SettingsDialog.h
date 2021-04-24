@@ -7,6 +7,8 @@ class QLineEdit;
 class QCheckBox;
 class QSpinBox;
 
+namespace LedWall::Studio {
+
 // configure local settings, like the host to connect to
 class SettingsDialog : public QDialog
 {
@@ -29,5 +31,7 @@ protected:
     QSpinBox *m_editWidth;
     QSpinBox *m_editHeight;
 };
+
+}
 
 #endif //LEDWALLSTUDIO_SETTINGSDIALOG_H

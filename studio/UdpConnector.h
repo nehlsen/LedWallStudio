@@ -4,6 +4,8 @@
 #include <QtNetwork/QUdpSocket>
 #include "Bitmap.h"
 
+namespace LedWall::Studio {
+
 class UdpConnector : public QObject
 {
 Q_OBJECT
@@ -23,5 +25,7 @@ protected:
     QUdpSocket *m_socket;
     QByteArrayList m_sendQueue;
 };
+
+}
 
 #endif //LEDWALLSTUDIO_UDPCONNECTOR_H

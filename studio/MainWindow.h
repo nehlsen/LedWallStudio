@@ -5,11 +5,14 @@
 #include <QtWidgets/QGraphicsView>
 
 class BitmapEditor;
-class UdpConnector;
 class HttpConnector;
-class LedWallConfigWidget;
 class ModeConfigWidget;
 class BitmapFramesWidget;
+
+namespace LedWall::Studio {
+
+class LedWallConfigWidget;
+class UdpConnector;
 
 class MainWindow : public QMainWindow
 {
@@ -49,5 +52,7 @@ protected:
 
     void closeEvent(QCloseEvent *event) override;
 };
+
+}
 
 #endif //LEDWALLSTUDIO_MAINWINDOW_H

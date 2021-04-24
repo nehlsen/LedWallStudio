@@ -8,6 +8,8 @@
 #include <QtCore/QSettings>
 #include <QtWidgets/QFileDialog>
 
+namespace LedWall::Studio {
+
 SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent)
 {
     setWindowTitle(tr("Settings"));
@@ -86,4 +88,6 @@ void SettingsDialog::createUi()
     layout->addRow(tr("Height"), m_editHeight);
     layout->addRow(buttonBox);
     setLayout(layout);
+}
+
 }
