@@ -27,7 +27,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     m_udpConnector = new UdpConnector(this);
     m_httpConnector = new HttpConnector(this);
-    connect(m_httpConnector, &HttpConnector::connectionStatusChanged, this, &MainWindow::onHttpConnectorConnectionChanged);
+    connect(m_httpConnector, &HttpConnector::connectionStatusChanged,
+            this, &MainWindow::onHttpConnectorConnectionChanged);
     connect(m_httpConnector, &HttpConnector::configChanged, this, &MainWindow::onHttpConnectorConfigChanged);
 
     createMenu();

@@ -18,7 +18,6 @@ public:
 protected slots:
     void onSocketError(QAbstractSocket::SocketError socketError);
     void onSocketConnected();
-
     void continueSend();
 
 protected:

@@ -25,7 +25,8 @@ void LedWallConfigWidget::loadConfig()
     m_editMatrixHeight->setValue(cfg.MatrixHeight);
     m_editBrightness->setValue(cfg.Brightness);
 
-    m_comboPowerOnResetMode->setCurrentIndex(cfg.PowerOnResetMode); // FIXME to improve! index and PowerOnResetMode match by coincidence
+    // FIXME to improve! index and PowerOnResetMode match by coincidence
+    m_comboPowerOnResetMode->setCurrentIndex(cfg.PowerOnResetMode);
     if (cfg.LedModeAutoRestore == -1) {
         m_checkRecoverLastMode->setChecked(true);
     } else {
@@ -45,7 +46,7 @@ void LedWallConfigWidget::saveConfig()
     cfg.MatrixHeight = m_editMatrixHeight->value();
     cfg.Brightness = m_editBrightness->value();
 
-    cfg.PowerOnResetMode = (LedWall::Config::AutoPowerOn)m_comboPowerOnResetMode->currentData().toInt();
+    cfg.PowerOnResetMode = (LedWall::Config::AutoPowerOn) m_comboPowerOnResetMode->currentData().toInt();
     if (m_checkRecoverLastMode->isChecked()) {
         cfg.LedModeAutoRestore = -1;
     } else {

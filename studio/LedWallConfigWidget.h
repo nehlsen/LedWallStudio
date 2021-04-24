@@ -30,6 +30,7 @@ protected:
     HttpConnector *m_httpConnector;
 
     void createUi();
+
     QSpinBox *m_editMatrixWidth;
     QSpinBox *m_editMatrixHeight;
     QSpinBox *m_editBrightness;

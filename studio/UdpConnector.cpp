@@ -11,7 +11,8 @@ UdpConnector::UdpConnector(QObject *parent) : QObject(parent)
 {
     m_socket = new QUdpSocket(this);
 
-    connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onSocketError(QAbstractSocket::SocketError)));
+    connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
+            this, SLOT(onSocketError(QAbstractSocket::SocketError)));
     connect(m_socket, &QUdpSocket::connected, this, &UdpConnector::onSocketConnected);
 
     auto host = QSettings().value("Settings/host", "ledwall.local").toString();
