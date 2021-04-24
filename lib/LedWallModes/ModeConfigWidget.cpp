@@ -85,6 +85,7 @@ void ModeConfigWidget::createUi()
     layout->addWidget(m_selectMode);
     layout->addWidget(btnSetMode);
     layout->addWidget(m_btnSetOptions);
+    layout->addStretch();
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
 }
