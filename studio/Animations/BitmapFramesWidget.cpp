@@ -82,19 +82,22 @@ void BitmapFramesWidget::createUi()
     btnLayout->addStretch();
     layout->addLayout(btnLayout);
 
-    m_btnCopy = new QPushButton("&", this);
+    m_btnCopy = new QPushButton("&&", this);
+    m_btnCopy->setToolTip(tr("Copy selected Frame"));
     m_btnCopy->setMinimumWidth(25);
     m_btnCopy->setMaximumWidth(25);
     connect(m_btnCopy, &QPushButton::clicked, this, &BitmapFramesWidget::onBtnCopyClicked);
     btnLayout->addWidget(m_btnCopy);
 
     m_btnAdd = new QPushButton("+", this);
+    m_btnAdd->setToolTip(tr("Create new Frame"));
     m_btnAdd->setMinimumWidth(25);
     m_btnAdd->setMaximumWidth(25);
     connect(m_btnAdd, &QPushButton::clicked, this, &BitmapFramesWidget::onBtnAddClicked);
     btnLayout->addWidget(m_btnAdd);
 
     m_btnRemove = new QPushButton("-", this);
+    m_btnRemove->setToolTip(tr("Delete selected Frame"));
     m_btnRemove->setMinimumWidth(25);
     m_btnRemove->setMaximumWidth(25);
     connect(m_btnRemove, &QPushButton::clicked, this, &BitmapFramesWidget::onBtnRemoveClicked);
