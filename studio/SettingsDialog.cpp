@@ -24,6 +24,7 @@ void SettingsDialog::loadSettings()
 
     m_editBitmapFolder->setText(settings.value("bitmap_folder", QDir::homePath()).toString());
     m_editHost->setText(settings.value("host").toString());
+    m_checkAutoConnect->setChecked(settings.value("auto_connect", true).toBool());
     m_checkAutodetectSize->setChecked(settings.value("autodetect_size", true).toBool());
     m_editWidth->setValue(settings.value("width", 1).toInt());
     m_editHeight->setValue(settings.value("height", 1).toInt());
@@ -36,6 +37,7 @@ void SettingsDialog::saveSettings()
 
     settings.setValue("bitmap_folder", m_editBitmapFolder->text());
     settings.setValue("host", m_editHost->text());
+    settings.setValue("auto_connect", m_checkAutoConnect->isChecked());
     settings.setValue("autodetect_size", m_checkAutodetectSize->isChecked());
     settings.setValue("width", m_editWidth->value());
     settings.setValue("height", m_editHeight->value());
@@ -45,7 +47,7 @@ void SettingsDialog::createUi()
 {
     m_editBitmapFolder = new QLineEdit(this);
     auto *btnChooseFolder = new QPushButton(tr("..."), this);
-    connect(btnChooseFolder, &QPushButton::clicked, [this](){
+    connect(btnChooseFolder, &QPushButton::clicked, [this]() {
         QString dir = QFileDialog::getExistingDirectory(
                 this,
                 tr("Select Bitmaps Folder"),
@@ -62,6 +64,9 @@ void SettingsDialog::createUi()
 
     m_editHost = new QLineEdit(this);
 
+    m_checkAutoConnect = new QCheckBox(this);
+    m_checkAutoConnect->setText(tr("Auto connect on Start"));
+
     m_checkAutodetectSize = new QCheckBox(this);
     m_checkAutodetectSize->setText(tr("&Autodetect Size"));
 
@@ -75,7 +80,7 @@ void SettingsDialog::createUi()
     connect(m_checkAutodetectSize, SIGNAL(toggled(bool)), m_editWidth, SLOT(setDisabled(bool)));
     connect(m_checkAutodetectSize, SIGNAL(toggled(bool)), m_editHeight, SLOT(setDisabled(bool)));
 
-    auto *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
+    auto *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &SettingsDialog::saveSettings);
@@ -83,6 +88,7 @@ void SettingsDialog::createUi()
     auto *layout = new QFormLayout;
     layout->addRow(tr("Bitmaps Folder"), chooseFolderLayout);
     layout->addRow(tr("Host"), m_editHost);
+    layout->addRow(m_checkAutoConnect);
     layout->addRow(m_checkAutodetectSize);
     layout->addRow(tr("Width"), m_editWidth);
     layout->addRow(tr("Height"), m_editHeight);

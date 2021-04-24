@@ -27,6 +27,7 @@ protected:
     QLineEdit *m_editBitmapFolder;
 
     QLineEdit *m_editHost;
+    QCheckBox *m_checkAutoConnect;
     QCheckBox *m_checkAutodetectSize;
     QSpinBox *m_editWidth;
     QSpinBox *m_editHeight;
