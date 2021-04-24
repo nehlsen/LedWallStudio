@@ -1,5 +1,6 @@
 #include <QtCore/QBuffer>
 #include "FrameListReader.h"
+#include <QDebug>
 
 FrameList FrameListReader::fromByteArray(QByteArray &data)
 {
@@ -22,24 +23,34 @@ FrameList FrameListReader::fromIoDevice(QIODevice &ioDevice)
     if (ioDevice.read(&buffer, 1) != 1 || buffer != 0x00) return frames; // options
 
     int frameNumber = 0;
-    while (ioDevice.bytesAvailable() >= 7) {
-        char delay, pixelsInFrame;
-        if (ioDevice.read(&delay, 1) != 1) break;
-        if (ioDevice.read(&pixelsInFrame, 1) != 1) break;
+    while (ioDevice.bytesAvailable() >= 2) {
+        char delayRaw, pixelsInFrameRaw;
+        if (ioDevice.read(&delayRaw, 1) != 1) {
+            qDebug() << "ERROR: failed to read next frame delay";
+            break;
+        }
+        if (ioDevice.read(&pixelsInFrameRaw, 1) != 1) {
+            qDebug() << "ERROR: failed to read next frame pixel-count";
+            break;
+        }
+
+        auto delay = (quint8)delayRaw;
+        auto pixelsInFrame = (quint8)pixelsInFrameRaw;
 
         FrameList::iterator it;
         if (frames.isEmpty()) {
             // start first frame
-            frames.append({QString::number(frameNumber++), (quint8)delay, Bitmap()});
-        } else if ((quint8)delay > 0) {
+            frames.append({QString::number(frameNumber++), delay, Bitmap()});
+        } else if (delay > 0) {
             // copy previous frame and apply delta
-            frames.append({QString::number(frameNumber++), (quint8)delay, Bitmap(frames.last().bitmap)});
+            frames.append({QString::number(frameNumber++), delay, Bitmap(frames.last().bitmap)});
         } // else, no delay: "continue" to write to previous bitmap
 
         it = frames.end() - 1;
 
         for (int i = 0; i < pixelsInFrame; ++i) {
             if (ioDevice.bytesAvailable() < 5) {
+                qDebug() << "ERROR: try to read pixel but not enough bytes available";
                 break;
             }
 

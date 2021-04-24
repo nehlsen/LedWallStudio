@@ -9,6 +9,7 @@ Q_OBJECT
 
 private slots:
     void test_fromByteArray();
+    void test_oneFullTwoEmptyFrames();
 };
 
 #endif //LEDWALLSTUDIO_FRAMELISTREADERTEST_H
