@@ -46,6 +46,7 @@ add_executable(Simulator
         ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife.cpp
 #        ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife/GameOfLife.cpp
 #        ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife/World.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/Bubbles.cpp
 
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/LedMatrix/LedMatrix.cpp
         ${LEDWALL_SRC_DIR}/components/Mates-for-LEDs/LedMatrix/PixelLocator.cpp

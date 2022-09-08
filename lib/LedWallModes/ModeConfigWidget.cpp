@@ -9,6 +9,7 @@
 #include "TextOptionsWidget.h"
 #include "TimeOptionsWidget.h"
 #include "GameOfLifeOptionsWidget.h"
+#include "BubblesOptionsWidget.h"
 
 ModeConfigWidget::ModeConfigWidget(WallController *wallController, QWidget *parent):
     QWidget(parent), m_wallController(wallController)
@@ -46,6 +47,8 @@ void ModeConfigWidget::onModeChanged()
         m_modeOptionsWidget = new TimeOptionsWidget(this);
     } else if (m_wallController->getMode().Name == "GameOfLife") {
         m_modeOptionsWidget = new GameOfLifeOptionsWidget(this);
+    } else if (m_wallController->getMode().Name == "Bubbles") {
+        m_modeOptionsWidget = new BubblesOptionsWidget(this);
     }
 
     if (m_modeOptionsWidget != nullptr) {
@@ -85,7 +88,6 @@ void ModeConfigWidget::createUi()
     layout->addWidget(m_selectMode);
     layout->addWidget(btnSetMode);
     layout->addWidget(m_btnSetOptions);
-    layout->addStretch();
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
 }

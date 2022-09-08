@@ -5,6 +5,7 @@
 #include <LedMode/ModeText.h>
 #include <LedMode/ModeTime.h>
 #include <LedMode/GameOfLife.h>
+#include <LedMode/Bubbles.h>
 
 bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall::Mode::LedMode *mode)
 {
@@ -31,6 +32,11 @@ bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall
     auto gameOfLife = dynamic_cast<LedWall::Mode::GameOfLife*>(mode);
     if (gameOfLife) {
         return ModeOptions(options).write(gameOfLife);
+    }
+
+    auto bubbles = dynamic_cast<LedWall::Mode::Bubbles*>(mode);
+    if (bubbles) {
+        return ModeOptions(options).write(bubbles);
     }
 
     return false;
@@ -61,6 +67,11 @@ LedWallStudio::ModeOptions ModeOptions::readFromMode(LedWall::Mode::LedMode *mod
     auto gameOfLife = dynamic_cast<LedWall::Mode::GameOfLife*>(mode);
     if (gameOfLife) {
         return ModeOptions::read(gameOfLife);
+    }
+
+    auto bubbles = dynamic_cast<LedWall::Mode::Bubbles*>(mode);
+    if (bubbles) {
+        return ModeOptions::read(bubbles);
     }
 
     return LedWallStudio::ModeOptions();
@@ -224,6 +235,36 @@ LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::GameOfLife *gameOfLi
     LedWallStudio::ModeOptions options;
 
     options.insert("generationDelay", gameOfLife->getGenerationDelay());
+
+    return options;
+}
+
+bool ModeOptions::write(LedWall::Mode::Bubbles *bubbles)
+{
+    if (m_options.contains("numberOfBubbles")) {
+        bubbles->setNumberOfBubbles(m_options.value("numberOfBubbles").toInt());
+    }
+    if (m_options.contains("maximumBubbleSize")) {
+        bubbles->setMaximumBubbleSize(m_options.value("maximumBubbleSize").toInt());
+    }
+    if (m_options.contains("speed")) {
+        bubbles->setSpeed(m_options.value("speed").toInt());
+    }
+    if (m_options.contains("maximumFrameDelay")) {
+        bubbles->setMaximumFrameDelay(m_options.value("maximumFrameDelay").toInt());
+    }
+
+    return true;
+}
+
+LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::Bubbles *bubbles)
+{
+    LedWallStudio::ModeOptions options;
+
+    options.insert("numberOfBubbles", bubbles->getNumberOfBubbles());
+    options.insert("maximumBubbleSize", bubbles->getMaximumBubbleSize());
+    options.insert("speed", bubbles->getSpeed());
+    options.insert("maximumFrameDelay", bubbles->getMaximumFrameDelay());
 
     return options;
 }

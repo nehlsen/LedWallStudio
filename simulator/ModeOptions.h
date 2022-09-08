@@ -10,6 +10,7 @@ class MultiBars;
 class ModeText;
 class ModeTime;
 class GameOfLife;
+class Bubbles;
 }
 
 class ModeOptions
@@ -36,6 +37,9 @@ protected:
 
     bool write(LedWall::Mode::GameOfLife *gameOfLife);
     static LedWallStudio::ModeOptions read(LedWall::Mode::GameOfLife *gameOfLife);
+
+    bool write(LedWall::Mode::Bubbles *bubbles);
+    static LedWallStudio::ModeOptions read(LedWall::Mode::Bubbles *bubbles);
 };
 
 #endif //LEDWALLSTUDIO_MODEOPTIONS_H

@@ -12,6 +12,7 @@ set(LedWallStudioLib_src
         LedWallModes/TimeOptionsWidget.cpp
         LedWallModes/WaveOptionsWidget.cpp
         LedWallModes/GameOfLifeOptionsWidget.cpp
+        LedWallModes/BubblesOptionsWidget.cpp
         WallController/Mode.cpp
         WallController/WallController.cpp
         )

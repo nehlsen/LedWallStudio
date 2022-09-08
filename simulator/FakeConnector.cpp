@@ -11,6 +11,7 @@
 #include <LedMode/Wave.h>
 #include <LedMode/FancyDemo.h>
 #include <LedMode/GameOfLife.h>
+#include <LedMode/Bubbles.h>
 
 FakeConnector::FakeConnector(Simulator *simulator, QObject *parent) :
     WallController(parent), m_simulator(simulator)
@@ -101,6 +102,10 @@ void FakeConnector::init()
 
     addMode("GameOfLife", [this](LedMatrix &matrix) {
         return new LedWall::Mode::GameOfLife(*m_simulator->getMatrix());
+    });
+
+    addMode("Bubbles", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::Bubbles(*m_simulator->getMatrix());
     });
 
     // breath, fireworks
