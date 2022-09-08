@@ -11,6 +11,7 @@
 #include <LedMode/Wave.h>
 #include <LedMode/FancyDemo.h>
 #include <LedMode/GameOfLife.h>
+#include <LedMode/Hypocycloid.h>
 #include <LedMode/Bubbles.h>
 
 FakeConnector::FakeConnector(Simulator *simulator, QObject *parent) :
@@ -102,6 +103,10 @@ void FakeConnector::init()
 
     addMode("GameOfLife", [this](LedMatrix &matrix) {
         return new LedWall::Mode::GameOfLife(*m_simulator->getMatrix());
+    });
+
+    addMode("Hypocycloid", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::Hypocycloid(*m_simulator->getMatrix());
     });
 
     addMode("Bubbles", [this](LedMatrix &matrix) {
