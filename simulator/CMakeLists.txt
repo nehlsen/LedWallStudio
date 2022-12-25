@@ -29,6 +29,7 @@ add_executable(Simulator
         ${LEDWALL_SRC_DIR}/main/LedMode/ModeText.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/MatesDemo.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/Wave.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/NewYearsEve.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FancyDemoPart.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FancyDemoPart3.cpp

@@ -2,11 +2,13 @@
 #include <QtCore/QTime>
 #include <QtCore/QRandomGenerator>
 
+/** 1.000th of a second (1 milli = 0.001s) */
 int millis()
 {
     return QTime::currentTime().msecsSinceStartOfDay();
 }
 
+/** 1.000.000th of a second (1 = 0.000001s) */
 int64_t esp_timer_get_time()
 {
     return (int64_t)millis() * 1000;

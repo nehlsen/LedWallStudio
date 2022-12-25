@@ -11,6 +11,7 @@
 #include <LedMode/MatesDemo.h>
 #include <LedMode/Wave.h>
 #include <LedMode/FancyDemo.h>
+#include <LedMode/NewYearsEve.h>
 #include <LedMode/GameOfLife.h>
 #include <LedMode/Hypocycloid.h>
 #include <LedMode/Bubbles.h>
@@ -100,6 +101,14 @@ void FakeConnector::init()
 
     addMode("FancyScript", [this](LedMatrix &matrix) {
         return new LedWall::Mode::FancyScript(*m_simulator->getMatrix());
+    });
+
+    addMode("FancyDemo", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::FancyDemo(*m_simulator->getMatrix());
+    });
+
+    addMode("NewYearsEve", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::NewYearsEve(*m_simulator->getMatrix());
     });
 
     addMode("GameOfLife", [this](LedMatrix &matrix) {
