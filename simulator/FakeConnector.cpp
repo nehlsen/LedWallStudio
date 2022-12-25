@@ -1,6 +1,7 @@
 #include "FakeConnector.h"
 #include "Simulator.h"
 #include "ModeOptions.h"
+#include "LedMode/FancyScript.h"
 #include <QtCore/QDebug>
 #include <LedMode/LedModeStatus.h>
 #include <LedMode/Bars.h>
@@ -97,8 +98,8 @@ void FakeConnector::init()
         return new LedWall::Mode::ModeTime(*m_simulator->getMatrix());
     });
 
-    addMode("FancyDemo", [this](LedMatrix &matrix) {
-        return new LedWall::Mode::FancyDemo(*m_simulator->getMatrix());
+    addMode("FancyScript", [this](LedMatrix &matrix) {
+        return new LedWall::Mode::FancyScript(*m_simulator->getMatrix());
     });
 
     addMode("GameOfLife", [this](LedMatrix &matrix) {
