@@ -10,6 +10,7 @@
 #include "TimeOptionsWidget.h"
 #include "GameOfLifeOptionsWidget.h"
 #include "BubblesOptionsWidget.h"
+#include "FancyScriptOptionsWidget.h"
 
 ModeConfigWidget::ModeConfigWidget(WallController *wallController, QWidget *parent):
     QWidget(parent), m_wallController(wallController)
@@ -49,6 +50,8 @@ void ModeConfigWidget::onModeChanged()
         m_modeOptionsWidget = new GameOfLifeOptionsWidget(this);
     } else if (m_wallController->getMode().Name == "Bubbles") {
         m_modeOptionsWidget = new BubblesOptionsWidget(this);
+    } else if (m_wallController->getMode().Name == "FancyScript") {
+        m_modeOptionsWidget = new FancyScriptOptionsWidget(this);
     }
 
     if (m_modeOptionsWidget != nullptr) {

@@ -6,6 +6,7 @@
 #include <LedMode/ModeTime.h>
 #include <LedMode/GameOfLife.h>
 #include <LedMode/Bubbles.h>
+#include <LedMode/FancyScript.h>
 
 bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall::Mode::LedMode *mode)
 {
@@ -37,6 +38,11 @@ bool ModeOptions::writeToMode(const LedWallStudio::ModeOptions &options, LedWall
     auto bubbles = dynamic_cast<LedWall::Mode::Bubbles*>(mode);
     if (bubbles) {
         return ModeOptions(options).write(bubbles);
+    }
+
+    auto fancyScript = dynamic_cast<LedWall::Mode::FancyScript*>(mode);
+    if (fancyScript) {
+        return ModeOptions(options).write(fancyScript);
     }
 
     return false;
@@ -72,6 +78,11 @@ LedWallStudio::ModeOptions ModeOptions::readFromMode(LedWall::Mode::LedMode *mod
     auto bubbles = dynamic_cast<LedWall::Mode::Bubbles*>(mode);
     if (bubbles) {
         return ModeOptions::read(bubbles);
+    }
+
+    auto fancyScript = dynamic_cast<LedWall::Mode::FancyScript*>(mode);
+    if (fancyScript) {
+        return ModeOptions::read(fancyScript);
     }
 
     return LedWallStudio::ModeOptions();
@@ -265,6 +276,24 @@ LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::Bubbles *bubbles)
     options.insert("maximumBubbleSize", bubbles->getMaximumBubbleSize());
     options.insert("speed", bubbles->getSpeed());
     options.insert("maximumFrameDelay", bubbles->getMaximumFrameDelay());
+
+    return options;
+}
+
+bool ModeOptions::write(LedWall::Mode::FancyScript *fancyScript)
+{
+    if (m_options.contains("script")) {
+        fancyScript->setScript(m_options.value("script").toString().toStdString());
+    }
+
+    return true;
+}
+
+LedWallStudio::ModeOptions ModeOptions::read(LedWall::Mode::FancyScript *fancyScript)
+{
+    LedWallStudio::ModeOptions options;
+
+    options.insert("script", QString::fromStdString(fancyScript->getScript()));
 
     return options;
 }

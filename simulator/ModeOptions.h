@@ -11,6 +11,7 @@ class ModeText;
 class ModeTime;
 class GameOfLife;
 class Bubbles;
+class FancyScript;
 }
 
 class ModeOptions
@@ -40,6 +41,9 @@ protected:
 
     bool write(LedWall::Mode::Bubbles *bubbles);
     static LedWallStudio::ModeOptions read(LedWall::Mode::Bubbles *bubbles);
+
+    bool write(LedWall::Mode::FancyScript *fancyScript);
+    static LedWallStudio::ModeOptions read(LedWall::Mode::FancyScript *fancyScript);
 };
 
 #endif //LEDWALLSTUDIO_MODEOPTIONS_H
