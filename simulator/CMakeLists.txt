@@ -45,7 +45,9 @@ add_executable(Simulator
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyDemo/FdNHeartC.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyScript.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyParts/FancyPart.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/FancyParts/FancyPartFactory.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyParts/ExplodingLetters.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/FancyParts/Sprinkle.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyParts/Nothing.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife.cpp
 #        ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife/GameOfLife.cpp
