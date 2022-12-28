@@ -44,6 +44,8 @@ add_executable(Simulator
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyParts/CubeGrow.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyParts/CircleGrow.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/FancyParts/CN.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/FancyParts/FlashingLetters.cpp
+        ${LEDWALL_SRC_DIR}/main/LedMode/FancyParts/PartArguments.cpp
         ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife.cpp
 #        ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife/GameOfLife.cpp
 #        ${LEDWALL_SRC_DIR}/main/LedMode/GameOfLife/World.cpp
